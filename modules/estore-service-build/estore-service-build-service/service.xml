@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.3.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_3_0.dtd">
+
+<service-builder dependency-injector="ds" package-path="com.wz.testtask.estore" mvcc-enabled="true">
+	<author>wz</author>
+	<namespace>ESTORE</namespace>
+	<!--<entity data-source="sampleDataSource" local-service="true" name="Foo" remote-service="false" session-factory="sampleSessionFactory" table="foo" tx-manager="sampleTransactionManager uuid="true"">-->
+	<entity name="EmployeePosition" local-service="true" remote-service="true" uuid="true">
+		<!-- PK fields -->
+
+		<column name="positionId" primary="true" type="long" />
+
+		<column name="groupId" type="long" />
+
+		<column name="companyId" type="long" />
+
+		<column name="name" type="String" />
+
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+	</entity>
+	<entity name="PurchaseType" local-service="true" remote-service="true" uuid="true">
+
+		<column name="purchaseTypeId" primary="true" type="long" />
+
+		<column name="groupId" type="long" />
+
+		<column name="companyId" type="long" />
+
+		<column name="name" type="String" />
+
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+	</entity>
+	<entity name="DeviceType"  local-service="true" remote-service="true" uuid="true">
+		<column name="deviceTypeId" primary="true" type="long" />
+
+		<!-- Group instance -->
+
+		<column name="groupId" type="long" />
+
+		<column name="companyId" type="long" />
+
+		<column name="name" type="String" />
+
+		<column name="employeeId" type="Collection" entity="Employee" mapping-table="EmployeeDeviceCons"/>
+
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+	</entity>
+	<entity name="Employee" local-service="true" remote-service="true" uuid="true">
+
+		<!-- PK fields -->
+
+		<column name="employeeId" primary="true" type="long" />
+
+		<column name="groupId" type="long" />
+
+		<column name="companyId" type="long" />
+
+		<column name="lastName" type="String" />
+		<column name="firstName" type="String" />
+		<column name="patronymic" type="String" />
+		<column name="birthDate" type="Date" />
+		<column name="positionId" type="long" />
+		<column name="gender" type="int" />
+
+		<column name="deviceCons" type="Collection" entity="DeviceType" mapping-table="EmployeeDeviceCons"/>
+
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="GroupIdPositionId" return-type="Collection">
+			<finder-column name="groupId" />
+			<finder-column name="positionId" />
+		</finder>
+	</entity>
+	<entity name="Device" local-service="true" remote-service="true" uuid="true">
+		<column name="deviceId" primary="true" type="long" />
+
+		<column name="groupId" type="long" />
+
+		<column name="companyId" type="long" />
+
+		<column name="name" type="String" />
+		<column name="deviceTypeId" type="long" />
+		<column name="price" type="long" />
+		<column name="count" type="int" />
+		<column name="inStock" type="boolean" />
+		<column name="archive" type="boolean" />
+		<column name="description" type="String" />
+
+		<finder name="Name" return-type="Collection">
+			<finder-column name="groupId" />
+			<finder-column name="name" />
+		</finder>
+
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+	</entity>
+	<entity name="Purchase" local-service="true" remote-service="true" uuid="true">
+		<column name="purchaseId" primary="true" type="long" />
+
+		<column name="groupId" type="long" />
+
+		<column name="companyId" type="long" />
+
+		<column name="employeeId" type="long" />
+		<column name="deviceId" type="long" />
+		<column name="purchasedDate" type="Date" />
+		<column name="purchaseTypeId" type="long" />
+
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+
+		<finder name="GroupIdEmployeeId" return-type="Collection">
+			<finder-column name="groupId" />
+			<finder-column name="employeeId" />
+		</finder>
+	</entity>
+	<exceptions>
+		<exception>EmptyField</exception>
+		<exception>IllegalFieldValue</exception>
+		<exception>IllegalReference</exception>
+		<exception>ConsistencyViolation</exception>
+	</exceptions>
+</service-builder>

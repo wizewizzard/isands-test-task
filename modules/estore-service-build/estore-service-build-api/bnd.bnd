@@ -1,0 +1,10 @@
+Bundle-Name: estore-service-build-api
+Bundle-SymbolicName: com.wz.testtask.estore.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.wz.testtask.estore.exception,\
+	com.wz.testtask.estore.model,\
+	com.wz.testtask.estore.service,\
+	com.wz.testtask.estore.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../estore-service-build-service/service.xml
