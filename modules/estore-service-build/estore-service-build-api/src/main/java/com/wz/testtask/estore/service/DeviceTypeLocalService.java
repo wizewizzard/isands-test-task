@@ -274,6 +274,16 @@ public interface DeviceTypeLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<DeviceType> getDeviceTypes(int start, int end);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<DeviceType> getDeviceTypes(long groupId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<DeviceType> getDeviceTypes(long groupId, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<DeviceType> getDeviceTypes(
+		long groupId, int start, int end, OrderByComparator<DeviceType> obc);
+
 	/**
 	 * Returns all the device types matching the UUID and company.
 	 *
@@ -307,6 +317,9 @@ public interface DeviceTypeLocalService
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getDeviceTypesCount();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getDeviceTypesCount(long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<DeviceType> getEmployeeDeviceTypes(long employeeId);
@@ -351,19 +364,6 @@ public interface DeviceTypeLocalService
 		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<DeviceType> getPurchaseTypes(long groupId);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<DeviceType> getPurchaseTypes(long groupId, int start, int end);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<DeviceType> getPurchaseTypes(
-		long groupId, int start, int end, OrderByComparator<DeviceType> obc);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getPurchaseTypesCount(long groupId);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public boolean hasEmployeeDeviceType(long employeeId, long deviceTypeId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -384,7 +384,7 @@ public interface DeviceTypeLocalService
 	@Indexable(type = IndexableType.REINDEX)
 	public DeviceType updateDeviceType(DeviceType deviceType);
 
-	public DeviceType updatePurchaseType(
+	public DeviceType updateDeviceType(
 			long deviceTypeId, String name, ServiceContext serviceContext)
 		throws PortalException;
 

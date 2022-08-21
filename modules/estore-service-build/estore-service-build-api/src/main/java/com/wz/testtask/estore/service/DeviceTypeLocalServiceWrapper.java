@@ -376,6 +376,30 @@ public class DeviceTypeLocalServiceWrapper
 		return _deviceTypeLocalService.getDeviceTypes(start, end);
 	}
 
+	@Override
+	public java.util.List<com.wz.testtask.estore.model.DeviceType>
+		getDeviceTypes(long groupId) {
+
+		return _deviceTypeLocalService.getDeviceTypes(groupId);
+	}
+
+	@Override
+	public java.util.List<com.wz.testtask.estore.model.DeviceType>
+		getDeviceTypes(long groupId, int start, int end) {
+
+		return _deviceTypeLocalService.getDeviceTypes(groupId, start, end);
+	}
+
+	@Override
+	public java.util.List<com.wz.testtask.estore.model.DeviceType>
+		getDeviceTypes(
+			long groupId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<com.wz.testtask.estore.model.DeviceType> obc) {
+
+		return _deviceTypeLocalService.getDeviceTypes(groupId, start, end, obc);
+	}
+
 	/**
 	 * Returns all the device types matching the UUID and company.
 	 *
@@ -420,6 +444,11 @@ public class DeviceTypeLocalServiceWrapper
 	@Override
 	public int getDeviceTypesCount() {
 		return _deviceTypeLocalService.getDeviceTypesCount();
+	}
+
+	@Override
+	public int getDeviceTypesCount(long groupId) {
+		return _deviceTypeLocalService.getDeviceTypesCount(groupId);
 	}
 
 	@Override
@@ -493,36 +522,6 @@ public class DeviceTypeLocalServiceWrapper
 	}
 
 	@Override
-	public java.util.List<com.wz.testtask.estore.model.DeviceType>
-		getPurchaseTypes(long groupId) {
-
-		return _deviceTypeLocalService.getPurchaseTypes(groupId);
-	}
-
-	@Override
-	public java.util.List<com.wz.testtask.estore.model.DeviceType>
-		getPurchaseTypes(long groupId, int start, int end) {
-
-		return _deviceTypeLocalService.getPurchaseTypes(groupId, start, end);
-	}
-
-	@Override
-	public java.util.List<com.wz.testtask.estore.model.DeviceType>
-		getPurchaseTypes(
-			long groupId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator
-				<com.wz.testtask.estore.model.DeviceType> obc) {
-
-		return _deviceTypeLocalService.getPurchaseTypes(
-			groupId, start, end, obc);
-	}
-
-	@Override
-	public int getPurchaseTypesCount(long groupId) {
-		return _deviceTypeLocalService.getPurchaseTypesCount(groupId);
-	}
-
-	@Override
 	public boolean hasEmployeeDeviceType(long employeeId, long deviceTypeId) {
 		return _deviceTypeLocalService.hasEmployeeDeviceType(
 			employeeId, deviceTypeId);
@@ -557,12 +556,12 @@ public class DeviceTypeLocalServiceWrapper
 	}
 
 	@Override
-	public com.wz.testtask.estore.model.DeviceType updatePurchaseType(
+	public com.wz.testtask.estore.model.DeviceType updateDeviceType(
 			long deviceTypeId, String name,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _deviceTypeLocalService.updatePurchaseType(
+		return _deviceTypeLocalService.updateDeviceType(
 			deviceTypeId, name, serviceContext);
 	}
 

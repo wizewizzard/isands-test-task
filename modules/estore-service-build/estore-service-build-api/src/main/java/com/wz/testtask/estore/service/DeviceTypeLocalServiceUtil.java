@@ -335,6 +335,22 @@ public class DeviceTypeLocalServiceUtil {
 		return getService().getDeviceTypes(start, end);
 	}
 
+	public static List<DeviceType> getDeviceTypes(long groupId) {
+		return getService().getDeviceTypes(groupId);
+	}
+
+	public static List<DeviceType> getDeviceTypes(
+		long groupId, int start, int end) {
+
+		return getService().getDeviceTypes(groupId, start, end);
+	}
+
+	public static List<DeviceType> getDeviceTypes(
+		long groupId, int start, int end, OrderByComparator<DeviceType> obc) {
+
+		return getService().getDeviceTypes(groupId, start, end, obc);
+	}
+
 	/**
 	 * Returns all the device types matching the UUID and company.
 	 *
@@ -373,6 +389,10 @@ public class DeviceTypeLocalServiceUtil {
 	 */
 	public static int getDeviceTypesCount() {
 		return getService().getDeviceTypesCount();
+	}
+
+	public static int getDeviceTypesCount(long groupId) {
+		return getService().getDeviceTypesCount(groupId);
 	}
 
 	public static List<DeviceType> getEmployeeDeviceTypes(long employeeId) {
@@ -432,26 +452,6 @@ public class DeviceTypeLocalServiceUtil {
 		return getService().getPersistedModel(primaryKeyObj);
 	}
 
-	public static List<DeviceType> getPurchaseTypes(long groupId) {
-		return getService().getPurchaseTypes(groupId);
-	}
-
-	public static List<DeviceType> getPurchaseTypes(
-		long groupId, int start, int end) {
-
-		return getService().getPurchaseTypes(groupId, start, end);
-	}
-
-	public static List<DeviceType> getPurchaseTypes(
-		long groupId, int start, int end, OrderByComparator<DeviceType> obc) {
-
-		return getService().getPurchaseTypes(groupId, start, end, obc);
-	}
-
-	public static int getPurchaseTypesCount(long groupId) {
-		return getService().getPurchaseTypesCount(groupId);
-	}
-
 	public static boolean hasEmployeeDeviceType(
 		long employeeId, long deviceTypeId) {
 
@@ -482,12 +482,12 @@ public class DeviceTypeLocalServiceUtil {
 		return getService().updateDeviceType(deviceType);
 	}
 
-	public static DeviceType updatePurchaseType(
+	public static DeviceType updateDeviceType(
 			long deviceTypeId, String name,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws PortalException {
 
-		return getService().updatePurchaseType(
+		return getService().updateDeviceType(
 			deviceTypeId, name, serviceContext);
 	}
 
