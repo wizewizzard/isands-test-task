@@ -17,6 +17,7 @@
 			https://releases-cdn.liferay.com/portal/7.3.5-ga6/liferay-ce-portal-tomcat-7.3.5-ga6-20200930172312275.tar.gz
 		</liferay.workspace.bundle.url>
 		<liferay.workspace.target.platform.version>7.3.5</liferay.workspace.target.platform.version>
+		<liferay.workspace.environment>local</liferay.workspace.environment>
 	</properties>
 	<build>
 		<plugins>
@@ -33,15 +34,13 @@
 						<phase>clean</phase>
 					</execution>
 
-					<!--
-					<execution>
+					<!--<execution>
 						<id>init</id>
 						<goals>
 							<goal>init</goal>
 						</goals>
 						<phase>initialize</phase>
-					</execution>
-					-->
+					</execution>-->
 
 					<execution>
 						<id>deploy</id>
@@ -62,6 +61,20 @@
 					-->
 
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.liferay</groupId>
+				<artifactId>com.liferay.portal.tools.db.support</artifactId>
+				<version>1.0.6</version>
+				<configuration>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.postgresql</groupId>
+						<artifactId>postgresql</artifactId>
+						<version>42.3.5</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
