@@ -41,6 +41,7 @@ public class DeviceTypeLocalServiceImpl extends DeviceTypeLocalServiceBaseImpl {
         long deviceTypeId = counterLocalService.increment();
         DeviceType deviceType = deviceTypeLocalService.createDeviceType(deviceTypeId);
         deviceType.setGroupId(serviceContext.getScopeGroupId());
+        deviceType.setCompanyId(serviceContext.getCompanyId());
         deviceType.setName(name);
         deviceType.setCompanyId(serviceContext.getCompanyId());
         deviceType.setUuid(serviceContext.getUuid());

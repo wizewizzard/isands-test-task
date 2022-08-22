@@ -43,6 +43,7 @@ public class PurchaseTypeLocalServiceImpl
         purchaseType.setGroupId(serviceContext.getScopeGroupId());
         purchaseType.setName(name);
         purchaseType.setCompanyId(serviceContext.getCompanyId());
+        purchaseType.setCompanyId(serviceContext.getCompanyId());
         purchaseType.setUuid(serviceContext.getUuid());
         validate(purchaseType);
         return purchaseTypePersistence.update(purchaseType);
