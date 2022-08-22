@@ -11,6 +11,7 @@
 	<name>estore Modules</name>
 	<packaging>pom</packaging>
   <modules>
+    <module>estore-web</module>
     <module>estore-service-build</module>
   </modules>
 </project>
