@@ -4,13 +4,13 @@ create table ESTORE_Device (
 	deviceId LONG not null primary key,
 	groupId LONG,
 	companyId LONG,
-	name VARCHAR(75) null,
+	name VARCHAR(150) null,
 	deviceTypeId LONG,
 	price LONG,
 	count INTEGER,
 	inStock BOOLEAN,
 	archive BOOLEAN,
-	description VARCHAR(75) null
+	description TEXT null
 );
 
 create table ESTORE_DeviceType (
@@ -19,7 +19,7 @@ create table ESTORE_DeviceType (
 	deviceTypeId LONG not null primary key,
 	groupId LONG,
 	companyId LONG,
-	name VARCHAR(75) null
+	name VARCHAR(100) null
 );
 
 create table ESTORE_Employee (
@@ -28,9 +28,9 @@ create table ESTORE_Employee (
 	employeeId LONG not null primary key,
 	groupId LONG,
 	companyId LONG,
-	lastName VARCHAR(75) null,
-	firstName VARCHAR(75) null,
-	patronymic VARCHAR(75) null,
+	lastName VARCHAR(100) null,
+	firstName VARCHAR(100) null,
+	patronymic VARCHAR(100) null,
 	birthDate DATE null,
 	positionId LONG,
 	gender INTEGER
@@ -49,7 +49,7 @@ create table ESTORE_EmployeePosition (
 	positionId LONG not null primary key,
 	groupId LONG,
 	companyId LONG,
-	name VARCHAR(75) null
+	name VARCHAR(100) null
 );
 
 create table ESTORE_Purchase (
@@ -70,5 +70,5 @@ create table ESTORE_PurchaseType (
 	purchaseTypeId LONG not null primary key,
 	groupId LONG,
 	companyId LONG,
-	name VARCHAR(75) null
+	name VARCHAR(100) null
 );

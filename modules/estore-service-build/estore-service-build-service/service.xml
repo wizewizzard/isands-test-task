@@ -93,13 +93,18 @@
 		<column name="archive" type="boolean" />
 		<column name="description" type="String" />
 
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+
 		<finder name="Name" return-type="Collection">
 			<finder-column name="groupId" />
 			<finder-column name="name" />
 		</finder>
 
-		<finder name="GroupId" return-type="Collection">
+		<finder name="DeviceType" return-type="Collection">
 			<finder-column name="groupId" />
+			<finder-column name="deviceTypeId" />
 		</finder>
 	</entity>
 	<entity name="Purchase" local-service="true" remote-service="true" uuid="true">
@@ -121,6 +126,17 @@
 		<finder name="GroupIdEmployeeId" return-type="Collection">
 			<finder-column name="groupId" />
 			<finder-column name="employeeId" />
+		</finder>
+
+		<finder name="GroupIdDeviceId" return-type="Collection">
+			<finder-column name="groupId" />
+			<finder-column name="deviceId" />
+		</finder>
+
+		<finder name="GroupIdEmployeeIdDeviceId" return-type="Collection">
+			<finder-column name="groupId" />
+			<finder-column name="employeeId" />
+			<finder-column name="deviceId" />
 		</finder>
 	</entity>
 	<exceptions>
