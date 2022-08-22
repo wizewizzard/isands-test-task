@@ -87,7 +87,7 @@ public class EmployeeLocalServiceWrapper
 	@Override
 	public com.wz.testtask.estore.model.Employee addEmployee(
 			String firstName, String lastName, String patronymic,
-			java.time.LocalDate birthDate, String gender, long positionId,
+			java.util.Date birthDate, String gender, long positionId,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
@@ -503,6 +503,16 @@ public class EmployeeLocalServiceWrapper
 	}
 
 	@Override
+	public String getGenderById(int genderId) {
+		return _employeeLocalService.getGenderById(genderId);
+	}
+
+	@Override
+	public java.util.List<String> getGenderList() {
+		return _employeeLocalService.getGenderList();
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
 		getIndexableActionableDynamicQuery() {
 
@@ -576,7 +586,7 @@ public class EmployeeLocalServiceWrapper
 	@Override
 	public com.wz.testtask.estore.model.Employee updateEmployee(
 			long employeeId, String firstName, String lastName,
-			String patronymic, java.time.LocalDate birthDate, String gender,
+			String patronymic, java.util.Date birthDate, String gender,
 			long positionId,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {

@@ -98,7 +98,7 @@ public class EmployeeModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table ESTORE_Employee (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,employeeId LONG not null primary key,groupId LONG,companyId LONG,lastName VARCHAR(75) null,firstName VARCHAR(75) null,patronymic VARCHAR(75) null,birthDate DATE null,positionId LONG,gender INTEGER)";
+		"create table ESTORE_Employee (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,employeeId LONG not null primary key,groupId LONG,companyId LONG,lastName VARCHAR(100) null,firstName VARCHAR(100) null,patronymic VARCHAR(100) null,birthDate DATE null,positionId LONG,gender INTEGER)";
 
 	public static final String TABLE_SQL_DROP = "drop table ESTORE_Employee";
 

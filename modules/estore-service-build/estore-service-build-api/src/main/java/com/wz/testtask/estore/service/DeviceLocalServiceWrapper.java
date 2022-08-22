@@ -48,6 +48,57 @@ public class DeviceLocalServiceWrapper
 	}
 
 	/**
+	 * Creates new record of device
+	 *
+	 * @param name
+	 * @param price
+	 * @param deviceTypeId
+	 * @param count
+	 * @param inStock
+	 * @param archive
+	 * @param description
+	 * @param serviceContext
+	 * @return
+	 * @throws PortalException if device type with given id does not exist or when validation fails
+	 */
+	@Override
+	public com.wz.testtask.estore.model.Device addDevice(
+			String name, long price, long deviceTypeId, int count,
+			boolean inStock, boolean archive, String description,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _deviceLocalService.addDevice(
+			name, price, deviceTypeId, count, inStock, archive, description,
+			serviceContext);
+	}
+
+	/**
+	 * Creates new record of device, set inStock state true if count is greater than 0
+	 *
+	 * @param name
+	 * @param price
+	 * @param deviceTypeId
+	 * @param count
+	 * @param archive
+	 * @param description
+	 * @param serviceContext
+	 * @return
+	 * @throws PortalException
+	 */
+	@Override
+	public com.wz.testtask.estore.model.Device addDevice(
+			String name, long price, long deviceTypeId, int count,
+			boolean archive, String description,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _deviceLocalService.addDevice(
+			name, price, deviceTypeId, count, archive, description,
+			serviceContext);
+	}
+
+	/**
 	 * Creates a new device with the primary key. Does not add the device to the database.
 	 *
 	 * @param deviceId the primary key for the new device
@@ -67,6 +118,24 @@ public class DeviceLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _deviceLocalService.createPersistedModel(primaryKeyObj);
+	}
+
+	@Override
+	public com.wz.testtask.estore.model.Device delete(
+			com.wz.testtask.estore.model.Device device,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _deviceLocalService.delete(device, serviceContext);
+	}
+
+	@Override
+	public com.wz.testtask.estore.model.Device deleteById(
+			long deviceId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _deviceLocalService.deleteById(deviceId, serviceContext);
 	}
 
 	/**
@@ -278,6 +347,29 @@ public class DeviceLocalServiceWrapper
 		return _deviceLocalService.getDevices(start, end);
 	}
 
+	@Override
+	public java.util.List<com.wz.testtask.estore.model.Device> getDevices(
+		long groupId) {
+
+		return _deviceLocalService.getDevices(groupId);
+	}
+
+	@Override
+	public java.util.List<com.wz.testtask.estore.model.Device> getDevices(
+		long groupId, int start, int end) {
+
+		return _deviceLocalService.getDevices(groupId, start, end);
+	}
+
+	@Override
+	public java.util.List<com.wz.testtask.estore.model.Device> getDevices(
+		long groupId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator
+			<com.wz.testtask.estore.model.Device> obc) {
+
+		return _deviceLocalService.getDevices(groupId, start, end, obc);
+	}
+
 	/**
 	 * Returns all the devices matching the UUID and company.
 	 *
@@ -325,6 +417,11 @@ public class DeviceLocalServiceWrapper
 	}
 
 	@Override
+	public int getDevicesCount(long groupId) {
+		return _deviceLocalService.getDevicesCount(groupId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
 		getIndexableActionableDynamicQuery() {
 
@@ -353,6 +450,43 @@ public class DeviceLocalServiceWrapper
 	}
 
 	/**
+	 * Checks if given amount of devices is available to purchase
+	 *
+	 * @param deviceId       - device id
+	 * @param count          - number of devices
+	 * @param serviceContext
+	 * @return
+	 * @throws PortalException
+	 */
+	@Override
+	public boolean isAvailable(
+			long deviceId, int count,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _deviceLocalService.isAvailable(deviceId, count, serviceContext);
+	}
+
+	/**
+	 * Sets device's archived state.
+	 *
+	 * @param deviceId       - device Id
+	 * @param archive        - archived state false - not archived, true - archived
+	 * @param serviceContext - service context
+	 * @return updated device
+	 * @throws PortalException if device with given id does not exist
+	 */
+	@Override
+	public com.wz.testtask.estore.model.Device setArchiveState(
+			long deviceId, boolean archive,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _deviceLocalService.setArchiveState(
+			deviceId, archive, serviceContext);
+	}
+
+	/**
 	 * Updates the device in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -367,6 +501,43 @@ public class DeviceLocalServiceWrapper
 		com.wz.testtask.estore.model.Device device) {
 
 		return _deviceLocalService.updateDevice(device);
+	}
+
+	/**
+	 * @param deviceId
+	 * @param name
+	 * @param price
+	 * @param deviceTypeId
+	 * @param count
+	 * @param inStock
+	 * @param archive
+	 * @param description
+	 * @param serviceContext
+	 * @return
+	 * @throws PortalException if device or device type with given id does not exist
+	 */
+	@Override
+	public com.wz.testtask.estore.model.Device updateDevice(
+			long deviceId, String name, long price, long deviceTypeId,
+			int count, boolean inStock, boolean archive, String description,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _deviceLocalService.updateDevice(
+			deviceId, name, price, deviceTypeId, count, inStock, archive,
+			description, serviceContext);
+	}
+
+	@Override
+	public com.wz.testtask.estore.model.Device updateDevice(
+			long deviceId, String name, long price, long deviceTypeId,
+			int count, boolean archive, String description,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _deviceLocalService.updateDevice(
+			deviceId, name, price, deviceTypeId, count, archive, description,
+			serviceContext);
 	}
 
 	@Override

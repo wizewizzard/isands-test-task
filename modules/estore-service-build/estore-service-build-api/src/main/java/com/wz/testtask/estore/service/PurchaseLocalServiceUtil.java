@@ -338,6 +338,16 @@ public class PurchaseLocalServiceUtil {
 		return getService().getPurchasesForEmployeeCount(groupId, employeeId);
 	}
 
+	public static List<Purchase> getPurchasesOfDevice(
+		long groupId, long deviceId) {
+
+		return getService().getPurchasesOfDevice(groupId, deviceId);
+	}
+
+	public static int getPurchasesOfDeviceCount(long groupId, long deviceId) {
+		return getService().getPurchasesOfDeviceCount(groupId, deviceId);
+	}
+
 	/**
 	 * Updates the purchase in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *

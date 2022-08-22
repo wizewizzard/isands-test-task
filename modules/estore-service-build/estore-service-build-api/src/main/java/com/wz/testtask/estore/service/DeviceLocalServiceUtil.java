@@ -60,6 +60,55 @@ public class DeviceLocalServiceUtil {
 	}
 
 	/**
+	 * Creates new record of device
+	 *
+	 * @param name
+	 * @param price
+	 * @param deviceTypeId
+	 * @param count
+	 * @param inStock
+	 * @param archive
+	 * @param description
+	 * @param serviceContext
+	 * @return
+	 * @throws PortalException if device type with given id does not exist or when validation fails
+	 */
+	public static Device addDevice(
+			String name, long price, long deviceTypeId, int count,
+			boolean inStock, boolean archive, String description,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addDevice(
+			name, price, deviceTypeId, count, inStock, archive, description,
+			serviceContext);
+	}
+
+	/**
+	 * Creates new record of device, set inStock state true if count is greater than 0
+	 *
+	 * @param name
+	 * @param price
+	 * @param deviceTypeId
+	 * @param count
+	 * @param archive
+	 * @param description
+	 * @param serviceContext
+	 * @return
+	 * @throws PortalException
+	 */
+	public static Device addDevice(
+			String name, long price, long deviceTypeId, int count,
+			boolean archive, String description,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addDevice(
+			name, price, deviceTypeId, count, archive, description,
+			serviceContext);
+	}
+
+	/**
 	 * Creates a new device with the primary key. Does not add the device to the database.
 	 *
 	 * @param deviceId the primary key for the new device
@@ -77,6 +126,22 @@ public class DeviceLocalServiceUtil {
 		throws PortalException {
 
 		return getService().createPersistedModel(primaryKeyObj);
+	}
+
+	public static Device delete(
+			Device device,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().delete(device, serviceContext);
+	}
+
+	public static Device deleteById(
+			long deviceId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().deleteById(deviceId, serviceContext);
 	}
 
 	/**
@@ -258,6 +323,20 @@ public class DeviceLocalServiceUtil {
 		return getService().getDevices(start, end);
 	}
 
+	public static List<Device> getDevices(long groupId) {
+		return getService().getDevices(groupId);
+	}
+
+	public static List<Device> getDevices(long groupId, int start, int end) {
+		return getService().getDevices(groupId, start, end);
+	}
+
+	public static List<Device> getDevices(
+		long groupId, int start, int end, OrderByComparator<Device> obc) {
+
+		return getService().getDevices(groupId, start, end, obc);
+	}
+
 	/**
 	 * Returns all the devices matching the UUID and company.
 	 *
@@ -298,6 +377,10 @@ public class DeviceLocalServiceUtil {
 		return getService().getDevicesCount();
 	}
 
+	public static int getDevicesCount(long groupId) {
+		return getService().getDevicesCount(groupId);
+	}
+
 	public static
 		com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
 			getIndexableActionableDynamicQuery() {
@@ -324,6 +407,40 @@ public class DeviceLocalServiceUtil {
 	}
 
 	/**
+	 * Checks if given amount of devices is available to purchase
+	 *
+	 * @param deviceId       - device id
+	 * @param count          - number of devices
+	 * @param serviceContext
+	 * @return
+	 * @throws PortalException
+	 */
+	public static boolean isAvailable(
+			long deviceId, int count,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().isAvailable(deviceId, count, serviceContext);
+	}
+
+	/**
+	 * Sets device's archived state.
+	 *
+	 * @param deviceId       - device Id
+	 * @param archive        - archived state false - not archived, true - archived
+	 * @param serviceContext - service context
+	 * @return updated device
+	 * @throws PortalException if device with given id does not exist
+	 */
+	public static Device setArchiveState(
+			long deviceId, boolean archive,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().setArchiveState(deviceId, archive, serviceContext);
+	}
+
+	/**
 	 * Updates the device in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -335,6 +452,41 @@ public class DeviceLocalServiceUtil {
 	 */
 	public static Device updateDevice(Device device) {
 		return getService().updateDevice(device);
+	}
+
+	/**
+	 * @param deviceId
+	 * @param name
+	 * @param price
+	 * @param deviceTypeId
+	 * @param count
+	 * @param inStock
+	 * @param archive
+	 * @param description
+	 * @param serviceContext
+	 * @return
+	 * @throws PortalException if device or device type with given id does not exist
+	 */
+	public static Device updateDevice(
+			long deviceId, String name, long price, long deviceTypeId,
+			int count, boolean inStock, boolean archive, String description,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().updateDevice(
+			deviceId, name, price, deviceTypeId, count, inStock, archive,
+			description, serviceContext);
+	}
+
+	public static Device updateDevice(
+			long deviceId, String name, long price, long deviceTypeId,
+			int count, boolean archive, String description,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().updateDevice(
+			deviceId, name, price, deviceTypeId, count, archive, description,
+			serviceContext);
 	}
 
 	public static DeviceLocalService getService() {

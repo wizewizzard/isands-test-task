@@ -199,6 +199,13 @@ public class DevicePersistenceTest {
 	}
 
 	@Test
+	public void testCountByGroupId() throws Exception {
+		_persistence.countByGroupId(RandomTestUtil.nextLong());
+
+		_persistence.countByGroupId(0L);
+	}
+
+	@Test
 	public void testCountByName() throws Exception {
 		_persistence.countByName(RandomTestUtil.nextLong(), "");
 
@@ -208,10 +215,11 @@ public class DevicePersistenceTest {
 	}
 
 	@Test
-	public void testCountByGroupId() throws Exception {
-		_persistence.countByGroupId(RandomTestUtil.nextLong());
+	public void testCountByDeviceType() throws Exception {
+		_persistence.countByDeviceType(
+			RandomTestUtil.nextLong(), RandomTestUtil.nextLong());
 
-		_persistence.countByGroupId(0L);
+		_persistence.countByDeviceType(0L, 0L);
 	}
 
 	@Test

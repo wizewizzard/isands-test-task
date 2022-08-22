@@ -210,6 +210,23 @@ public class PurchasePersistenceTest {
 	}
 
 	@Test
+	public void testCountByGroupIdDeviceId() throws Exception {
+		_persistence.countByGroupIdDeviceId(
+			RandomTestUtil.nextLong(), RandomTestUtil.nextLong());
+
+		_persistence.countByGroupIdDeviceId(0L, 0L);
+	}
+
+	@Test
+	public void testCountByGroupIdEmployeeIdDeviceId() throws Exception {
+		_persistence.countByGroupIdEmployeeIdDeviceId(
+			RandomTestUtil.nextLong(), RandomTestUtil.nextLong(),
+			RandomTestUtil.nextLong());
+
+		_persistence.countByGroupIdEmployeeIdDeviceId(0L, 0L, 0L);
+	}
+
+	@Test
 	public void testFindByPrimaryKeyExisting() throws Exception {
 		Purchase newPurchase = addPurchase();
 

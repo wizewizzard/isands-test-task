@@ -35,8 +35,7 @@ import com.wz.testtask.estore.model.Employee;
 
 import java.io.Serializable;
 
-import java.time.LocalDate;
-
+import java.util.Date;
 import java.util.List;
 
 import org.osgi.annotation.versioning.ProviderType;
@@ -98,7 +97,7 @@ public interface EmployeeLocalService
 	 */
 	public Employee addEmployee(
 			String firstName, String lastName, String patronymic,
-			LocalDate birthDate, String gender, long positionId,
+			Date birthDate, String gender, long positionId,
 			ServiceContext serviceContext)
 		throws PortalException;
 
@@ -359,6 +358,12 @@ public interface EmployeeLocalService
 	public int getEmployeesCount(long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public String getGenderById(int genderId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<String> getGenderList();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
 
 	/**
@@ -403,8 +408,8 @@ public interface EmployeeLocalService
 
 	public Employee updateEmployee(
 			long employeeId, String firstName, String lastName,
-			String patronymic, LocalDate birthDate, String gender,
-			long positionId, ServiceContext serviceContext)
+			String patronymic, Date birthDate, String gender, long positionId,
+			ServiceContext serviceContext)
 		throws PortalException;
 
 }

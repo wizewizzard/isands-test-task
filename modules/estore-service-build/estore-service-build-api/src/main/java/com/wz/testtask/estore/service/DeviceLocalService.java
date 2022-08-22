@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -76,6 +77,44 @@ public interface DeviceLocalService
 	public Device addDevice(Device device);
 
 	/**
+	 * Creates new record of device
+	 *
+	 * @param name
+	 * @param price
+	 * @param deviceTypeId
+	 * @param count
+	 * @param inStock
+	 * @param archive
+	 * @param description
+	 * @param serviceContext
+	 * @return
+	 * @throws PortalException if device type with given id does not exist or when validation fails
+	 */
+	public Device addDevice(
+			String name, long price, long deviceTypeId, int count,
+			boolean inStock, boolean archive, String description,
+			ServiceContext serviceContext)
+		throws PortalException;
+
+	/**
+	 * Creates new record of device, set inStock state true if count is greater than 0
+	 *
+	 * @param name
+	 * @param price
+	 * @param deviceTypeId
+	 * @param count
+	 * @param archive
+	 * @param description
+	 * @param serviceContext
+	 * @return
+	 * @throws PortalException
+	 */
+	public Device addDevice(
+			String name, long price, long deviceTypeId, int count,
+			boolean archive, String description, ServiceContext serviceContext)
+		throws PortalException;
+
+	/**
 	 * Creates a new device with the primary key. Does not add the device to the database.
 	 *
 	 * @param deviceId the primary key for the new device
@@ -88,6 +127,12 @@ public interface DeviceLocalService
 	 * @throws PortalException
 	 */
 	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException;
+
+	public Device delete(Device device, ServiceContext serviceContext)
+		throws PortalException;
+
+	public Device deleteById(long deviceId, ServiceContext serviceContext)
 		throws PortalException;
 
 	/**
@@ -242,6 +287,16 @@ public interface DeviceLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Device> getDevices(int start, int end);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Device> getDevices(long groupId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Device> getDevices(long groupId, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Device> getDevices(
+		long groupId, int start, int end, OrderByComparator<Device> obc);
+
 	/**
 	 * Returns all the devices matching the UUID and company.
 	 *
@@ -277,6 +332,9 @@ public interface DeviceLocalService
 	public int getDevicesCount();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getDevicesCount(long groupId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
 
 	/**
@@ -295,6 +353,33 @@ public interface DeviceLocalService
 		throws PortalException;
 
 	/**
+	 * Checks if given amount of devices is available to purchase
+	 *
+	 * @param deviceId       - device id
+	 * @param count          - number of devices
+	 * @param serviceContext
+	 * @return
+	 * @throws PortalException
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean isAvailable(
+			long deviceId, int count, ServiceContext serviceContext)
+		throws PortalException;
+
+	/**
+	 * Sets device's archived state.
+	 *
+	 * @param deviceId       - device Id
+	 * @param archive        - archived state false - not archived, true - archived
+	 * @param serviceContext - service context
+	 * @return updated device
+	 * @throws PortalException if device with given id does not exist
+	 */
+	public Device setArchiveState(
+			long deviceId, boolean archive, ServiceContext serviceContext)
+		throws PortalException;
+
+	/**
 	 * Updates the device in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
 	 * <p>
@@ -306,5 +391,30 @@ public interface DeviceLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public Device updateDevice(Device device);
+
+	/**
+	 * @param deviceId
+	 * @param name
+	 * @param price
+	 * @param deviceTypeId
+	 * @param count
+	 * @param inStock
+	 * @param archive
+	 * @param description
+	 * @param serviceContext
+	 * @return
+	 * @throws PortalException if device or device type with given id does not exist
+	 */
+	public Device updateDevice(
+			long deviceId, String name, long price, long deviceTypeId,
+			int count, boolean inStock, boolean archive, String description,
+			ServiceContext serviceContext)
+		throws PortalException;
+
+	public Device updateDevice(
+			long deviceId, String name, long price, long deviceTypeId,
+			int count, boolean archive, String description,
+			ServiceContext serviceContext)
+		throws PortalException;
 
 }

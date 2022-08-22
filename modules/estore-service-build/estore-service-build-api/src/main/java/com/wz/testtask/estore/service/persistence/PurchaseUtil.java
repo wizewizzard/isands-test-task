@@ -881,6 +881,397 @@ public class PurchaseUtil {
 	}
 
 	/**
+	 * Returns all the purchases where groupId = &#63; and deviceId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param deviceId the device ID
+	 * @return the matching purchases
+	 */
+	public static List<Purchase> findByGroupIdDeviceId(
+		long groupId, long deviceId) {
+
+		return getPersistence().findByGroupIdDeviceId(groupId, deviceId);
+	}
+
+	/**
+	 * Returns a range of all the purchases where groupId = &#63; and deviceId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PurchaseModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param deviceId the device ID
+	 * @param start the lower bound of the range of purchases
+	 * @param end the upper bound of the range of purchases (not inclusive)
+	 * @return the range of matching purchases
+	 */
+	public static List<Purchase> findByGroupIdDeviceId(
+		long groupId, long deviceId, int start, int end) {
+
+		return getPersistence().findByGroupIdDeviceId(
+			groupId, deviceId, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the purchases where groupId = &#63; and deviceId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PurchaseModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param deviceId the device ID
+	 * @param start the lower bound of the range of purchases
+	 * @param end the upper bound of the range of purchases (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching purchases
+	 */
+	public static List<Purchase> findByGroupIdDeviceId(
+		long groupId, long deviceId, int start, int end,
+		OrderByComparator<Purchase> orderByComparator) {
+
+		return getPersistence().findByGroupIdDeviceId(
+			groupId, deviceId, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the purchases where groupId = &#63; and deviceId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PurchaseModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param deviceId the device ID
+	 * @param start the lower bound of the range of purchases
+	 * @param end the upper bound of the range of purchases (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching purchases
+	 */
+	public static List<Purchase> findByGroupIdDeviceId(
+		long groupId, long deviceId, int start, int end,
+		OrderByComparator<Purchase> orderByComparator, boolean useFinderCache) {
+
+		return getPersistence().findByGroupIdDeviceId(
+			groupId, deviceId, start, end, orderByComparator, useFinderCache);
+	}
+
+	/**
+	 * Returns the first purchase in the ordered set where groupId = &#63; and deviceId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param deviceId the device ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching purchase
+	 * @throws NoSuchPurchaseException if a matching purchase could not be found
+	 */
+	public static Purchase findByGroupIdDeviceId_First(
+			long groupId, long deviceId,
+			OrderByComparator<Purchase> orderByComparator)
+		throws com.wz.testtask.estore.exception.NoSuchPurchaseException {
+
+		return getPersistence().findByGroupIdDeviceId_First(
+			groupId, deviceId, orderByComparator);
+	}
+
+	/**
+	 * Returns the first purchase in the ordered set where groupId = &#63; and deviceId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param deviceId the device ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching purchase, or <code>null</code> if a matching purchase could not be found
+	 */
+	public static Purchase fetchByGroupIdDeviceId_First(
+		long groupId, long deviceId,
+		OrderByComparator<Purchase> orderByComparator) {
+
+		return getPersistence().fetchByGroupIdDeviceId_First(
+			groupId, deviceId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last purchase in the ordered set where groupId = &#63; and deviceId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param deviceId the device ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching purchase
+	 * @throws NoSuchPurchaseException if a matching purchase could not be found
+	 */
+	public static Purchase findByGroupIdDeviceId_Last(
+			long groupId, long deviceId,
+			OrderByComparator<Purchase> orderByComparator)
+		throws com.wz.testtask.estore.exception.NoSuchPurchaseException {
+
+		return getPersistence().findByGroupIdDeviceId_Last(
+			groupId, deviceId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last purchase in the ordered set where groupId = &#63; and deviceId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param deviceId the device ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching purchase, or <code>null</code> if a matching purchase could not be found
+	 */
+	public static Purchase fetchByGroupIdDeviceId_Last(
+		long groupId, long deviceId,
+		OrderByComparator<Purchase> orderByComparator) {
+
+		return getPersistence().fetchByGroupIdDeviceId_Last(
+			groupId, deviceId, orderByComparator);
+	}
+
+	/**
+	 * Returns the purchases before and after the current purchase in the ordered set where groupId = &#63; and deviceId = &#63;.
+	 *
+	 * @param purchaseId the primary key of the current purchase
+	 * @param groupId the group ID
+	 * @param deviceId the device ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next purchase
+	 * @throws NoSuchPurchaseException if a purchase with the primary key could not be found
+	 */
+	public static Purchase[] findByGroupIdDeviceId_PrevAndNext(
+			long purchaseId, long groupId, long deviceId,
+			OrderByComparator<Purchase> orderByComparator)
+		throws com.wz.testtask.estore.exception.NoSuchPurchaseException {
+
+		return getPersistence().findByGroupIdDeviceId_PrevAndNext(
+			purchaseId, groupId, deviceId, orderByComparator);
+	}
+
+	/**
+	 * Removes all the purchases where groupId = &#63; and deviceId = &#63; from the database.
+	 *
+	 * @param groupId the group ID
+	 * @param deviceId the device ID
+	 */
+	public static void removeByGroupIdDeviceId(long groupId, long deviceId) {
+		getPersistence().removeByGroupIdDeviceId(groupId, deviceId);
+	}
+
+	/**
+	 * Returns the number of purchases where groupId = &#63; and deviceId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param deviceId the device ID
+	 * @return the number of matching purchases
+	 */
+	public static int countByGroupIdDeviceId(long groupId, long deviceId) {
+		return getPersistence().countByGroupIdDeviceId(groupId, deviceId);
+	}
+
+	/**
+	 * Returns all the purchases where groupId = &#63; and employeeId = &#63; and deviceId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param employeeId the employee ID
+	 * @param deviceId the device ID
+	 * @return the matching purchases
+	 */
+	public static List<Purchase> findByGroupIdEmployeeIdDeviceId(
+		long groupId, long employeeId, long deviceId) {
+
+		return getPersistence().findByGroupIdEmployeeIdDeviceId(
+			groupId, employeeId, deviceId);
+	}
+
+	/**
+	 * Returns a range of all the purchases where groupId = &#63; and employeeId = &#63; and deviceId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PurchaseModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param employeeId the employee ID
+	 * @param deviceId the device ID
+	 * @param start the lower bound of the range of purchases
+	 * @param end the upper bound of the range of purchases (not inclusive)
+	 * @return the range of matching purchases
+	 */
+	public static List<Purchase> findByGroupIdEmployeeIdDeviceId(
+		long groupId, long employeeId, long deviceId, int start, int end) {
+
+		return getPersistence().findByGroupIdEmployeeIdDeviceId(
+			groupId, employeeId, deviceId, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the purchases where groupId = &#63; and employeeId = &#63; and deviceId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PurchaseModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param employeeId the employee ID
+	 * @param deviceId the device ID
+	 * @param start the lower bound of the range of purchases
+	 * @param end the upper bound of the range of purchases (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching purchases
+	 */
+	public static List<Purchase> findByGroupIdEmployeeIdDeviceId(
+		long groupId, long employeeId, long deviceId, int start, int end,
+		OrderByComparator<Purchase> orderByComparator) {
+
+		return getPersistence().findByGroupIdEmployeeIdDeviceId(
+			groupId, employeeId, deviceId, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the purchases where groupId = &#63; and employeeId = &#63; and deviceId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PurchaseModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param employeeId the employee ID
+	 * @param deviceId the device ID
+	 * @param start the lower bound of the range of purchases
+	 * @param end the upper bound of the range of purchases (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching purchases
+	 */
+	public static List<Purchase> findByGroupIdEmployeeIdDeviceId(
+		long groupId, long employeeId, long deviceId, int start, int end,
+		OrderByComparator<Purchase> orderByComparator, boolean useFinderCache) {
+
+		return getPersistence().findByGroupIdEmployeeIdDeviceId(
+			groupId, employeeId, deviceId, start, end, orderByComparator,
+			useFinderCache);
+	}
+
+	/**
+	 * Returns the first purchase in the ordered set where groupId = &#63; and employeeId = &#63; and deviceId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param employeeId the employee ID
+	 * @param deviceId the device ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching purchase
+	 * @throws NoSuchPurchaseException if a matching purchase could not be found
+	 */
+	public static Purchase findByGroupIdEmployeeIdDeviceId_First(
+			long groupId, long employeeId, long deviceId,
+			OrderByComparator<Purchase> orderByComparator)
+		throws com.wz.testtask.estore.exception.NoSuchPurchaseException {
+
+		return getPersistence().findByGroupIdEmployeeIdDeviceId_First(
+			groupId, employeeId, deviceId, orderByComparator);
+	}
+
+	/**
+	 * Returns the first purchase in the ordered set where groupId = &#63; and employeeId = &#63; and deviceId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param employeeId the employee ID
+	 * @param deviceId the device ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching purchase, or <code>null</code> if a matching purchase could not be found
+	 */
+	public static Purchase fetchByGroupIdEmployeeIdDeviceId_First(
+		long groupId, long employeeId, long deviceId,
+		OrderByComparator<Purchase> orderByComparator) {
+
+		return getPersistence().fetchByGroupIdEmployeeIdDeviceId_First(
+			groupId, employeeId, deviceId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last purchase in the ordered set where groupId = &#63; and employeeId = &#63; and deviceId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param employeeId the employee ID
+	 * @param deviceId the device ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching purchase
+	 * @throws NoSuchPurchaseException if a matching purchase could not be found
+	 */
+	public static Purchase findByGroupIdEmployeeIdDeviceId_Last(
+			long groupId, long employeeId, long deviceId,
+			OrderByComparator<Purchase> orderByComparator)
+		throws com.wz.testtask.estore.exception.NoSuchPurchaseException {
+
+		return getPersistence().findByGroupIdEmployeeIdDeviceId_Last(
+			groupId, employeeId, deviceId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last purchase in the ordered set where groupId = &#63; and employeeId = &#63; and deviceId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param employeeId the employee ID
+	 * @param deviceId the device ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching purchase, or <code>null</code> if a matching purchase could not be found
+	 */
+	public static Purchase fetchByGroupIdEmployeeIdDeviceId_Last(
+		long groupId, long employeeId, long deviceId,
+		OrderByComparator<Purchase> orderByComparator) {
+
+		return getPersistence().fetchByGroupIdEmployeeIdDeviceId_Last(
+			groupId, employeeId, deviceId, orderByComparator);
+	}
+
+	/**
+	 * Returns the purchases before and after the current purchase in the ordered set where groupId = &#63; and employeeId = &#63; and deviceId = &#63;.
+	 *
+	 * @param purchaseId the primary key of the current purchase
+	 * @param groupId the group ID
+	 * @param employeeId the employee ID
+	 * @param deviceId the device ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next purchase
+	 * @throws NoSuchPurchaseException if a purchase with the primary key could not be found
+	 */
+	public static Purchase[] findByGroupIdEmployeeIdDeviceId_PrevAndNext(
+			long purchaseId, long groupId, long employeeId, long deviceId,
+			OrderByComparator<Purchase> orderByComparator)
+		throws com.wz.testtask.estore.exception.NoSuchPurchaseException {
+
+		return getPersistence().findByGroupIdEmployeeIdDeviceId_PrevAndNext(
+			purchaseId, groupId, employeeId, deviceId, orderByComparator);
+	}
+
+	/**
+	 * Removes all the purchases where groupId = &#63; and employeeId = &#63; and deviceId = &#63; from the database.
+	 *
+	 * @param groupId the group ID
+	 * @param employeeId the employee ID
+	 * @param deviceId the device ID
+	 */
+	public static void removeByGroupIdEmployeeIdDeviceId(
+		long groupId, long employeeId, long deviceId) {
+
+		getPersistence().removeByGroupIdEmployeeIdDeviceId(
+			groupId, employeeId, deviceId);
+	}
+
+	/**
+	 * Returns the number of purchases where groupId = &#63; and employeeId = &#63; and deviceId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param employeeId the employee ID
+	 * @param deviceId the device ID
+	 * @return the number of matching purchases
+	 */
+	public static int countByGroupIdEmployeeIdDeviceId(
+		long groupId, long employeeId, long deviceId) {
+
+		return getPersistence().countByGroupIdEmployeeIdDeviceId(
+			groupId, employeeId, deviceId);
+	}
+
+	/**
 	 * Caches the purchase in the entity cache if it is enabled.
 	 *
 	 * @param purchase the purchase

@@ -301,6 +301,12 @@ public interface PurchaseLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getPurchasesForEmployeeCount(long groupId, long employeeId);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Purchase> getPurchasesOfDevice(long groupId, long deviceId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getPurchasesOfDeviceCount(long groupId, long deviceId);
+
 	/**
 	 * Updates the purchase in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *

@@ -94,7 +94,7 @@ public class EmployeeLocalServiceUtil {
 	 */
 	public static Employee addEmployee(
 			String firstName, String lastName, String patronymic,
-			java.time.LocalDate birthDate, String gender, long positionId,
+			java.util.Date birthDate, String gender, long positionId,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws PortalException {
 
@@ -441,6 +441,14 @@ public class EmployeeLocalServiceUtil {
 		return getService().getEmployeesCount(groupId);
 	}
 
+	public static String getGenderById(int genderId) {
+		return getService().getGenderById(genderId);
+	}
+
+	public static List<String> getGenderList() {
+		return getService().getGenderList();
+	}
+
 	public static
 		com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
 			getIndexableActionableDynamicQuery() {
@@ -507,7 +515,7 @@ public class EmployeeLocalServiceUtil {
 
 	public static Employee updateEmployee(
 			long employeeId, String firstName, String lastName,
-			String patronymic, java.time.LocalDate birthDate, String gender,
+			String patronymic, java.util.Date birthDate, String gender,
 			long positionId,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws PortalException {

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<custom-sql>
+    <!--<sql id="com.wz.testtask.estore.service.persistence.EmployeeFinder.getEmployeesJoinedWithPosition">
+        <![CDATA[
+            SELECT GB_Entry.*
+            FROM ESTORE_EMPLOYEE
+            LEFT JOIN
+                ESTORE_EmployeePosition ON ESTORE_EMPLOYEE.positionId = ESTORE_EmployeePosition.positionId
+            LEFT JOIN
+                ESTORE_EmployeePosition ON ESTORE_EMPLOYEE.positionId = ESTORE_EmployeePosition.positionId
+            WHERE
+                (ESTORE_EMPLOYEE.groupId = ?)
+        ]]>
+    </sql>-->
+</custom-sql>

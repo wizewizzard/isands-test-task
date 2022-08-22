@@ -374,6 +374,19 @@ public class PurchaseLocalServiceWrapper
 			groupId, employeeId);
 	}
 
+	@Override
+	public java.util.List<com.wz.testtask.estore.model.Purchase>
+		getPurchasesOfDevice(long groupId, long deviceId) {
+
+		return _purchaseLocalService.getPurchasesOfDevice(groupId, deviceId);
+	}
+
+	@Override
+	public int getPurchasesOfDeviceCount(long groupId, long deviceId) {
+		return _purchaseLocalService.getPurchasesOfDeviceCount(
+			groupId, deviceId);
+	}
+
 	/**
 	 * Updates the purchase in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
