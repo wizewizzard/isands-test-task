@@ -192,6 +192,15 @@ public class EmployeePositionPersistenceTest {
 	}
 
 	@Test
+	public void testCountByGroupIdName() throws Exception {
+		_persistence.countByGroupIdName(RandomTestUtil.nextLong(), "");
+
+		_persistence.countByGroupIdName(0L, "null");
+
+		_persistence.countByGroupIdName(0L, (String)null);
+	}
+
+	@Test
 	public void testFindByPrimaryKeyExisting() throws Exception {
 		EmployeePosition newEmployeePosition = addEmployeePosition();
 

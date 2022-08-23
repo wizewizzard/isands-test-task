@@ -532,6 +532,161 @@ public interface DeviceTypePersistence extends BasePersistence<DeviceType> {
 	public int countByGroupId(long groupId);
 
 	/**
+	 * Returns all the device types where groupId = &#63; and name = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param name the name
+	 * @return the matching device types
+	 */
+	public java.util.List<DeviceType> findByGroupIdName(
+		long groupId, String name);
+
+	/**
+	 * Returns a range of all the device types where groupId = &#63; and name = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>DeviceTypeModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param name the name
+	 * @param start the lower bound of the range of device types
+	 * @param end the upper bound of the range of device types (not inclusive)
+	 * @return the range of matching device types
+	 */
+	public java.util.List<DeviceType> findByGroupIdName(
+		long groupId, String name, int start, int end);
+
+	/**
+	 * Returns an ordered range of all the device types where groupId = &#63; and name = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>DeviceTypeModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param name the name
+	 * @param start the lower bound of the range of device types
+	 * @param end the upper bound of the range of device types (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching device types
+	 */
+	public java.util.List<DeviceType> findByGroupIdName(
+		long groupId, String name, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<DeviceType>
+			orderByComparator);
+
+	/**
+	 * Returns an ordered range of all the device types where groupId = &#63; and name = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>DeviceTypeModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param name the name
+	 * @param start the lower bound of the range of device types
+	 * @param end the upper bound of the range of device types (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching device types
+	 */
+	public java.util.List<DeviceType> findByGroupIdName(
+		long groupId, String name, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<DeviceType>
+			orderByComparator,
+		boolean useFinderCache);
+
+	/**
+	 * Returns the first device type in the ordered set where groupId = &#63; and name = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param name the name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching device type
+	 * @throws NoSuchDeviceTypeException if a matching device type could not be found
+	 */
+	public DeviceType findByGroupIdName_First(
+			long groupId, String name,
+			com.liferay.portal.kernel.util.OrderByComparator<DeviceType>
+				orderByComparator)
+		throws NoSuchDeviceTypeException;
+
+	/**
+	 * Returns the first device type in the ordered set where groupId = &#63; and name = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param name the name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching device type, or <code>null</code> if a matching device type could not be found
+	 */
+	public DeviceType fetchByGroupIdName_First(
+		long groupId, String name,
+		com.liferay.portal.kernel.util.OrderByComparator<DeviceType>
+			orderByComparator);
+
+	/**
+	 * Returns the last device type in the ordered set where groupId = &#63; and name = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param name the name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching device type
+	 * @throws NoSuchDeviceTypeException if a matching device type could not be found
+	 */
+	public DeviceType findByGroupIdName_Last(
+			long groupId, String name,
+			com.liferay.portal.kernel.util.OrderByComparator<DeviceType>
+				orderByComparator)
+		throws NoSuchDeviceTypeException;
+
+	/**
+	 * Returns the last device type in the ordered set where groupId = &#63; and name = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param name the name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching device type, or <code>null</code> if a matching device type could not be found
+	 */
+	public DeviceType fetchByGroupIdName_Last(
+		long groupId, String name,
+		com.liferay.portal.kernel.util.OrderByComparator<DeviceType>
+			orderByComparator);
+
+	/**
+	 * Returns the device types before and after the current device type in the ordered set where groupId = &#63; and name = &#63;.
+	 *
+	 * @param deviceTypeId the primary key of the current device type
+	 * @param groupId the group ID
+	 * @param name the name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next device type
+	 * @throws NoSuchDeviceTypeException if a device type with the primary key could not be found
+	 */
+	public DeviceType[] findByGroupIdName_PrevAndNext(
+			long deviceTypeId, long groupId, String name,
+			com.liferay.portal.kernel.util.OrderByComparator<DeviceType>
+				orderByComparator)
+		throws NoSuchDeviceTypeException;
+
+	/**
+	 * Removes all the device types where groupId = &#63; and name = &#63; from the database.
+	 *
+	 * @param groupId the group ID
+	 * @param name the name
+	 */
+	public void removeByGroupIdName(long groupId, String name);
+
+	/**
+	 * Returns the number of device types where groupId = &#63; and name = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param name the name
+	 * @return the number of matching device types
+	 */
+	public int countByGroupIdName(long groupId, String name);
+
+	/**
 	 * Caches the device type in the entity cache if it is enabled.
 	 *
 	 * @param deviceType the device type
