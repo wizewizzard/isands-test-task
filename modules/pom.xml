@@ -13,5 +13,6 @@
   <modules>
     <module>estore-web</module>
     <module>estore-service-build</module>
+    <module>estore-csv-portlet</module>
   </modules>
 </project>
