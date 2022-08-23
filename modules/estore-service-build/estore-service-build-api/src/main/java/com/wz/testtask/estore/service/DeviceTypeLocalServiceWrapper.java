@@ -341,6 +341,13 @@ public class DeviceTypeLocalServiceWrapper
 		return _deviceTypeLocalService.getDeviceType(deviceTypeId);
 	}
 
+	@Override
+	public com.wz.testtask.estore.model.DeviceType getDeviceTypeByName(
+		long groupId, String name) {
+
+		return _deviceTypeLocalService.getDeviceTypeByName(groupId, name);
+	}
+
 	/**
 	 * Returns the device type matching the UUID and group.
 	 *

@@ -505,6 +505,17 @@ public class EmployeePositionPersistenceTest {
 			ReflectionTestUtil.<Long>invoke(
 				employeePosition, "getColumnOriginalValue",
 				new Class<?>[] {String.class}, "groupId"));
+
+		Assert.assertEquals(
+			Long.valueOf(employeePosition.getGroupId()),
+			ReflectionTestUtil.<Long>invoke(
+				employeePosition, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
+		Assert.assertEquals(
+			employeePosition.getName(),
+			ReflectionTestUtil.invoke(
+				employeePosition, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "name"));
 	}
 
 	protected EmployeePosition addEmployeePosition() throws Exception {

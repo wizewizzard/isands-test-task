@@ -50,8 +50,8 @@ public class DeviceTypeLocalServiceImpl extends DeviceTypeLocalServiceBaseImpl {
     }
     
     public DeviceType updateDeviceType(long deviceTypeId,
-                                         String name,
-                                         ServiceContext serviceContext) throws PortalException {
+                                       String name,
+                                       ServiceContext serviceContext) throws PortalException {
         DeviceType deviceType = deviceTypePersistence.findByPrimaryKey(deviceTypeId);
         deviceType.setName(name);
         validate(deviceType);
@@ -75,7 +75,7 @@ public class DeviceTypeLocalServiceImpl extends DeviceTypeLocalServiceBaseImpl {
     }
     
     public List<DeviceType> getDeviceTypes(long groupId, int start, int end,
-                                             OrderByComparator<DeviceType> obc) {
+                                           OrderByComparator<DeviceType> obc) {
         return deviceTypePersistence.findByGroupId(groupId, start, end, obc);
     }
     
@@ -85,6 +85,11 @@ public class DeviceTypeLocalServiceImpl extends DeviceTypeLocalServiceBaseImpl {
     
     public int getDeviceTypesCount(long groupId) {
         return deviceTypePersistence.countByGroupId(groupId);
+    }
+    
+    public DeviceType getDeviceTypeByName(long groupId, String name) {
+        
+        return deviceTypePersistence.fetchByGroupIdName(groupId, name);
     }
     
     protected void validate(DeviceType deviceType)

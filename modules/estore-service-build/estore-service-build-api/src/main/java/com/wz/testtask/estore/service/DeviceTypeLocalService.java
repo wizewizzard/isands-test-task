@@ -248,6 +248,9 @@ public interface DeviceTypeLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DeviceType getDeviceType(long deviceTypeId) throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public DeviceType getDeviceTypeByName(long groupId, String name);
+
 	/**
 	 * Returns the device type matching the UUID and group.
 	 *

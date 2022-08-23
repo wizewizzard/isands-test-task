@@ -20,7 +20,7 @@
 			<finder-column name="groupId" />
 		</finder>
 
-		<finder name="GroupIdName" return-type="Collection">
+		<finder name="GroupIdName" return-type="EmployeePosition">
 			<finder-column name="groupId" />
 			<finder-column name="name" />
 		</finder>
@@ -39,7 +39,7 @@
 			<finder-column name="groupId" />
 		</finder>
 
-		<finder name="GroupIdName" return-type="Collection">
+		<finder name="GroupIdName" return-type="PurchaseType">
 			<finder-column name="groupId" />
 			<finder-column name="name" />
 		</finder>
@@ -61,7 +61,7 @@
 			<finder-column name="groupId" />
 		</finder>
 
-		<finder name="GroupIdName" return-type="Collection">
+		<finder name="GroupIdName" return-type="DeviceType">
 			<finder-column name="groupId" />
 			<finder-column name="name" />
 		</finder>

@@ -278,6 +278,12 @@ public class PurchaseTypeLocalServiceUtil {
 		return getService().getPurchaseType(purchaseTypeId);
 	}
 
+	public static PurchaseType getPurchaseTypeByName(
+		long groupId, String name) {
+
+		return getService().getPurchaseTypeByName(groupId, name);
+	}
+
 	/**
 	 * Returns the purchase type matching the UUID and group.
 	 *

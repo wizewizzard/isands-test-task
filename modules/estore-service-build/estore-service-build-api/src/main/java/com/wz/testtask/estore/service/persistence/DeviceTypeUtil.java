@@ -696,178 +696,56 @@ public class DeviceTypeUtil {
 	}
 
 	/**
-	 * Returns all the device types where groupId = &#63; and name = &#63;.
+	 * Returns the device type where groupId = &#63; and name = &#63; or throws a <code>NoSuchDeviceTypeException</code> if it could not be found.
 	 *
 	 * @param groupId the group ID
 	 * @param name the name
-	 * @return the matching device types
+	 * @return the matching device type
+	 * @throws NoSuchDeviceTypeException if a matching device type could not be found
 	 */
-	public static List<DeviceType> findByGroupIdName(
-		long groupId, String name) {
+	public static DeviceType findByGroupIdName(long groupId, String name)
+		throws com.wz.testtask.estore.exception.NoSuchDeviceTypeException {
 
 		return getPersistence().findByGroupIdName(groupId, name);
 	}
 
 	/**
-	 * Returns a range of all the device types where groupId = &#63; and name = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>DeviceTypeModelImpl</code>.
-	 * </p>
+	 * Returns the device type where groupId = &#63; and name = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
 	 * @param groupId the group ID
 	 * @param name the name
-	 * @param start the lower bound of the range of device types
-	 * @param end the upper bound of the range of device types (not inclusive)
-	 * @return the range of matching device types
+	 * @return the matching device type, or <code>null</code> if a matching device type could not be found
 	 */
-	public static List<DeviceType> findByGroupIdName(
-		long groupId, String name, int start, int end) {
-
-		return getPersistence().findByGroupIdName(groupId, name, start, end);
+	public static DeviceType fetchByGroupIdName(long groupId, String name) {
+		return getPersistence().fetchByGroupIdName(groupId, name);
 	}
 
 	/**
-	 * Returns an ordered range of all the device types where groupId = &#63; and name = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>DeviceTypeModelImpl</code>.
-	 * </p>
+	 * Returns the device type where groupId = &#63; and name = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
 	 * @param groupId the group ID
 	 * @param name the name
-	 * @param start the lower bound of the range of device types
-	 * @param end the upper bound of the range of device types (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching device types
-	 */
-	public static List<DeviceType> findByGroupIdName(
-		long groupId, String name, int start, int end,
-		OrderByComparator<DeviceType> orderByComparator) {
-
-		return getPersistence().findByGroupIdName(
-			groupId, name, start, end, orderByComparator);
-	}
-
-	/**
-	 * Returns an ordered range of all the device types where groupId = &#63; and name = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>DeviceTypeModelImpl</code>.
-	 * </p>
-	 *
-	 * @param groupId the group ID
-	 * @param name the name
-	 * @param start the lower bound of the range of device types
-	 * @param end the upper bound of the range of device types (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param useFinderCache whether to use the finder cache
-	 * @return the ordered range of matching device types
+	 * @return the matching device type, or <code>null</code> if a matching device type could not be found
 	 */
-	public static List<DeviceType> findByGroupIdName(
-		long groupId, String name, int start, int end,
-		OrderByComparator<DeviceType> orderByComparator,
-		boolean useFinderCache) {
+	public static DeviceType fetchByGroupIdName(
+		long groupId, String name, boolean useFinderCache) {
 
-		return getPersistence().findByGroupIdName(
-			groupId, name, start, end, orderByComparator, useFinderCache);
+		return getPersistence().fetchByGroupIdName(
+			groupId, name, useFinderCache);
 	}
 
 	/**
-	 * Returns the first device type in the ordered set where groupId = &#63; and name = &#63;.
+	 * Removes the device type where groupId = &#63; and name = &#63; from the database.
 	 *
 	 * @param groupId the group ID
 	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching device type
-	 * @throws NoSuchDeviceTypeException if a matching device type could not be found
+	 * @return the device type that was removed
 	 */
-	public static DeviceType findByGroupIdName_First(
-			long groupId, String name,
-			OrderByComparator<DeviceType> orderByComparator)
+	public static DeviceType removeByGroupIdName(long groupId, String name)
 		throws com.wz.testtask.estore.exception.NoSuchDeviceTypeException {
 
-		return getPersistence().findByGroupIdName_First(
-			groupId, name, orderByComparator);
-	}
-
-	/**
-	 * Returns the first device type in the ordered set where groupId = &#63; and name = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching device type, or <code>null</code> if a matching device type could not be found
-	 */
-	public static DeviceType fetchByGroupIdName_First(
-		long groupId, String name,
-		OrderByComparator<DeviceType> orderByComparator) {
-
-		return getPersistence().fetchByGroupIdName_First(
-			groupId, name, orderByComparator);
-	}
-
-	/**
-	 * Returns the last device type in the ordered set where groupId = &#63; and name = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching device type
-	 * @throws NoSuchDeviceTypeException if a matching device type could not be found
-	 */
-	public static DeviceType findByGroupIdName_Last(
-			long groupId, String name,
-			OrderByComparator<DeviceType> orderByComparator)
-		throws com.wz.testtask.estore.exception.NoSuchDeviceTypeException {
-
-		return getPersistence().findByGroupIdName_Last(
-			groupId, name, orderByComparator);
-	}
-
-	/**
-	 * Returns the last device type in the ordered set where groupId = &#63; and name = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching device type, or <code>null</code> if a matching device type could not be found
-	 */
-	public static DeviceType fetchByGroupIdName_Last(
-		long groupId, String name,
-		OrderByComparator<DeviceType> orderByComparator) {
-
-		return getPersistence().fetchByGroupIdName_Last(
-			groupId, name, orderByComparator);
-	}
-
-	/**
-	 * Returns the device types before and after the current device type in the ordered set where groupId = &#63; and name = &#63;.
-	 *
-	 * @param deviceTypeId the primary key of the current device type
-	 * @param groupId the group ID
-	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next device type
-	 * @throws NoSuchDeviceTypeException if a device type with the primary key could not be found
-	 */
-	public static DeviceType[] findByGroupIdName_PrevAndNext(
-			long deviceTypeId, long groupId, String name,
-			OrderByComparator<DeviceType> orderByComparator)
-		throws com.wz.testtask.estore.exception.NoSuchDeviceTypeException {
-
-		return getPersistence().findByGroupIdName_PrevAndNext(
-			deviceTypeId, groupId, name, orderByComparator);
-	}
-
-	/**
-	 * Removes all the device types where groupId = &#63; and name = &#63; from the database.
-	 *
-	 * @param groupId the group ID
-	 * @param name the name
-	 */
-	public static void removeByGroupIdName(long groupId, String name) {
-		getPersistence().removeByGroupIdName(groupId, name);
+		return getPersistence().removeByGroupIdName(groupId, name);
 	}
 
 	/**

@@ -305,6 +305,10 @@ public class DeviceTypeLocalServiceUtil {
 		return getService().getDeviceType(deviceTypeId);
 	}
 
+	public static DeviceType getDeviceTypeByName(long groupId, String name) {
+		return getService().getDeviceTypeByName(groupId, name);
+	}
+
 	/**
 	 * Returns the device type matching the UUID and group.
 	 *

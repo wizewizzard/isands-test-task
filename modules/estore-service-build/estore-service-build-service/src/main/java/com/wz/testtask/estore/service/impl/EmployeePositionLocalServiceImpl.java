@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.Validator;
 import com.wz.testtask.estore.exception.EmptyFieldException;
 import com.wz.testtask.estore.exception.IllegalReferenceException;
+import com.wz.testtask.estore.exception.NoSuchPurchaseTypeException;
 import com.wz.testtask.estore.model.EmployeePosition;
 import com.wz.testtask.estore.service.base.EmployeePositionLocalServiceBaseImpl;
 import org.osgi.service.component.annotations.Component;
@@ -83,6 +84,11 @@ public class EmployeePositionLocalServiceImpl
     public int getEmployeePositionsCount(long groupId) {
         
         return employeePositionPersistence.countByGroupId(groupId);
+    }
+    
+    public EmployeePosition getEmployeePositionByName(long groupId, String name) throws NoSuchPurchaseTypeException {
+        
+        return employeePositionPersistence.fetchByGroupIdName(groupId, name);
     }
     
     protected void validate(EmployeePosition employeePosition)

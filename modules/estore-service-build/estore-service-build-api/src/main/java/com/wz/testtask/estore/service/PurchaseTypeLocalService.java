@@ -247,6 +247,9 @@ public interface PurchaseTypeLocalService
 	public PurchaseType getPurchaseType(long purchaseTypeId)
 		throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public PurchaseType getPurchaseTypeByName(long groupId, String name);
+
 	/**
 	 * Returns the purchase type matching the UUID and group.
 	 *

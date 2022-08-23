@@ -286,6 +286,15 @@ public class EmployeePositionLocalServiceWrapper
 		return _employeePositionLocalService.getEmployeePosition(positionId);
 	}
 
+	@Override
+	public com.wz.testtask.estore.model.EmployeePosition
+			getEmployeePositionByName(long groupId, String name)
+		throws com.wz.testtask.estore.exception.NoSuchPurchaseTypeException {
+
+		return _employeePositionLocalService.getEmployeePositionByName(
+			groupId, name);
+	}
+
 	/**
 	 * Returns the employee position matching the UUID and group.
 	 *

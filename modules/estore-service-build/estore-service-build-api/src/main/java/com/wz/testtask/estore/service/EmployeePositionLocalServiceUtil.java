@@ -258,6 +258,13 @@ public class EmployeePositionLocalServiceUtil {
 		return getService().getEmployeePosition(positionId);
 	}
 
+	public static EmployeePosition getEmployeePositionByName(
+			long groupId, String name)
+		throws com.wz.testtask.estore.exception.NoSuchPurchaseTypeException {
+
+		return getService().getEmployeePositionByName(groupId, name);
+	}
+
 	/**
 	 * Returns the employee position matching the UUID and group.
 	 *

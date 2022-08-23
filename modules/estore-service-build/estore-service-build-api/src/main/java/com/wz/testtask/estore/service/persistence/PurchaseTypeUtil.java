@@ -698,178 +698,56 @@ public class PurchaseTypeUtil {
 	}
 
 	/**
-	 * Returns all the purchase types where groupId = &#63; and name = &#63;.
+	 * Returns the purchase type where groupId = &#63; and name = &#63; or throws a <code>NoSuchPurchaseTypeException</code> if it could not be found.
 	 *
 	 * @param groupId the group ID
 	 * @param name the name
-	 * @return the matching purchase types
+	 * @return the matching purchase type
+	 * @throws NoSuchPurchaseTypeException if a matching purchase type could not be found
 	 */
-	public static List<PurchaseType> findByGroupIdName(
-		long groupId, String name) {
+	public static PurchaseType findByGroupIdName(long groupId, String name)
+		throws com.wz.testtask.estore.exception.NoSuchPurchaseTypeException {
 
 		return getPersistence().findByGroupIdName(groupId, name);
 	}
 
 	/**
-	 * Returns a range of all the purchase types where groupId = &#63; and name = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PurchaseTypeModelImpl</code>.
-	 * </p>
+	 * Returns the purchase type where groupId = &#63; and name = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
 	 * @param groupId the group ID
 	 * @param name the name
-	 * @param start the lower bound of the range of purchase types
-	 * @param end the upper bound of the range of purchase types (not inclusive)
-	 * @return the range of matching purchase types
+	 * @return the matching purchase type, or <code>null</code> if a matching purchase type could not be found
 	 */
-	public static List<PurchaseType> findByGroupIdName(
-		long groupId, String name, int start, int end) {
-
-		return getPersistence().findByGroupIdName(groupId, name, start, end);
+	public static PurchaseType fetchByGroupIdName(long groupId, String name) {
+		return getPersistence().fetchByGroupIdName(groupId, name);
 	}
 
 	/**
-	 * Returns an ordered range of all the purchase types where groupId = &#63; and name = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PurchaseTypeModelImpl</code>.
-	 * </p>
+	 * Returns the purchase type where groupId = &#63; and name = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
 	 * @param groupId the group ID
 	 * @param name the name
-	 * @param start the lower bound of the range of purchase types
-	 * @param end the upper bound of the range of purchase types (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching purchase types
-	 */
-	public static List<PurchaseType> findByGroupIdName(
-		long groupId, String name, int start, int end,
-		OrderByComparator<PurchaseType> orderByComparator) {
-
-		return getPersistence().findByGroupIdName(
-			groupId, name, start, end, orderByComparator);
-	}
-
-	/**
-	 * Returns an ordered range of all the purchase types where groupId = &#63; and name = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PurchaseTypeModelImpl</code>.
-	 * </p>
-	 *
-	 * @param groupId the group ID
-	 * @param name the name
-	 * @param start the lower bound of the range of purchase types
-	 * @param end the upper bound of the range of purchase types (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param useFinderCache whether to use the finder cache
-	 * @return the ordered range of matching purchase types
+	 * @return the matching purchase type, or <code>null</code> if a matching purchase type could not be found
 	 */
-	public static List<PurchaseType> findByGroupIdName(
-		long groupId, String name, int start, int end,
-		OrderByComparator<PurchaseType> orderByComparator,
-		boolean useFinderCache) {
+	public static PurchaseType fetchByGroupIdName(
+		long groupId, String name, boolean useFinderCache) {
 
-		return getPersistence().findByGroupIdName(
-			groupId, name, start, end, orderByComparator, useFinderCache);
+		return getPersistence().fetchByGroupIdName(
+			groupId, name, useFinderCache);
 	}
 
 	/**
-	 * Returns the first purchase type in the ordered set where groupId = &#63; and name = &#63;.
+	 * Removes the purchase type where groupId = &#63; and name = &#63; from the database.
 	 *
 	 * @param groupId the group ID
 	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching purchase type
-	 * @throws NoSuchPurchaseTypeException if a matching purchase type could not be found
+	 * @return the purchase type that was removed
 	 */
-	public static PurchaseType findByGroupIdName_First(
-			long groupId, String name,
-			OrderByComparator<PurchaseType> orderByComparator)
+	public static PurchaseType removeByGroupIdName(long groupId, String name)
 		throws com.wz.testtask.estore.exception.NoSuchPurchaseTypeException {
 
-		return getPersistence().findByGroupIdName_First(
-			groupId, name, orderByComparator);
-	}
-
-	/**
-	 * Returns the first purchase type in the ordered set where groupId = &#63; and name = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching purchase type, or <code>null</code> if a matching purchase type could not be found
-	 */
-	public static PurchaseType fetchByGroupIdName_First(
-		long groupId, String name,
-		OrderByComparator<PurchaseType> orderByComparator) {
-
-		return getPersistence().fetchByGroupIdName_First(
-			groupId, name, orderByComparator);
-	}
-
-	/**
-	 * Returns the last purchase type in the ordered set where groupId = &#63; and name = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching purchase type
-	 * @throws NoSuchPurchaseTypeException if a matching purchase type could not be found
-	 */
-	public static PurchaseType findByGroupIdName_Last(
-			long groupId, String name,
-			OrderByComparator<PurchaseType> orderByComparator)
-		throws com.wz.testtask.estore.exception.NoSuchPurchaseTypeException {
-
-		return getPersistence().findByGroupIdName_Last(
-			groupId, name, orderByComparator);
-	}
-
-	/**
-	 * Returns the last purchase type in the ordered set where groupId = &#63; and name = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching purchase type, or <code>null</code> if a matching purchase type could not be found
-	 */
-	public static PurchaseType fetchByGroupIdName_Last(
-		long groupId, String name,
-		OrderByComparator<PurchaseType> orderByComparator) {
-
-		return getPersistence().fetchByGroupIdName_Last(
-			groupId, name, orderByComparator);
-	}
-
-	/**
-	 * Returns the purchase types before and after the current purchase type in the ordered set where groupId = &#63; and name = &#63;.
-	 *
-	 * @param purchaseTypeId the primary key of the current purchase type
-	 * @param groupId the group ID
-	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next purchase type
-	 * @throws NoSuchPurchaseTypeException if a purchase type with the primary key could not be found
-	 */
-	public static PurchaseType[] findByGroupIdName_PrevAndNext(
-			long purchaseTypeId, long groupId, String name,
-			OrderByComparator<PurchaseType> orderByComparator)
-		throws com.wz.testtask.estore.exception.NoSuchPurchaseTypeException {
-
-		return getPersistence().findByGroupIdName_PrevAndNext(
-			purchaseTypeId, groupId, name, orderByComparator);
-	}
-
-	/**
-	 * Removes all the purchase types where groupId = &#63; and name = &#63; from the database.
-	 *
-	 * @param groupId the group ID
-	 * @param name the name
-	 */
-	public static void removeByGroupIdName(long groupId, String name) {
-		getPersistence().removeByGroupIdName(groupId, name);
+		return getPersistence().removeByGroupIdName(groupId, name);
 	}
 
 	/**

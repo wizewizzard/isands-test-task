@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
+import com.wz.testtask.estore.exception.NoSuchPurchaseTypeException;
 import com.wz.testtask.estore.model.EmployeePosition;
 
 import java.io.Serializable;
@@ -230,6 +231,10 @@ public interface EmployeePositionLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public EmployeePosition getEmployeePosition(long positionId)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public EmployeePosition getEmployeePositionByName(long groupId, String name)
+		throws NoSuchPurchaseTypeException;
 
 	/**
 	 * Returns the employee position matching the UUID and group.

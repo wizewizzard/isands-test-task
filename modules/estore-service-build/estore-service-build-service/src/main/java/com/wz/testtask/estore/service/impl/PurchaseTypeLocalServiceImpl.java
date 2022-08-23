@@ -87,6 +87,11 @@ public class PurchaseTypeLocalServiceImpl
         return purchaseTypePersistence.countByGroupId(groupId);
     }
     
+    public PurchaseType getPurchaseTypeByName(long groupId, String name) {
+        
+        return purchaseTypePersistence.fetchByGroupIdName(groupId, name);
+    }
+    
     protected void validate(PurchaseType purchaseType)
             throws PortalException {
         if (Validator.isNull(purchaseType)) {

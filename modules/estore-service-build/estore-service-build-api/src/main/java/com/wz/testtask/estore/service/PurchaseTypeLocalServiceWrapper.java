@@ -308,6 +308,13 @@ public class PurchaseTypeLocalServiceWrapper
 		return _purchaseTypeLocalService.getPurchaseType(purchaseTypeId);
 	}
 
+	@Override
+	public com.wz.testtask.estore.model.PurchaseType getPurchaseTypeByName(
+		long groupId, String name) {
+
+		return _purchaseTypeLocalService.getPurchaseTypeByName(groupId, name);
+	}
+
 	/**
 	 * Returns the purchase type matching the UUID and group.
 	 *

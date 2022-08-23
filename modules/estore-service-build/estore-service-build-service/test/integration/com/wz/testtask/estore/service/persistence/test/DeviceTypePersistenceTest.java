@@ -498,6 +498,17 @@ public class DeviceTypePersistenceTest {
 			ReflectionTestUtil.<Long>invoke(
 				deviceType, "getColumnOriginalValue",
 				new Class<?>[] {String.class}, "groupId"));
+
+		Assert.assertEquals(
+			Long.valueOf(deviceType.getGroupId()),
+			ReflectionTestUtil.<Long>invoke(
+				deviceType, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
+		Assert.assertEquals(
+			deviceType.getName(),
+			ReflectionTestUtil.invoke(
+				deviceType, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "name"));
 	}
 
 	protected DeviceType addDeviceType() throws Exception {

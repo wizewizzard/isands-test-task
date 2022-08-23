@@ -503,6 +503,17 @@ public class PurchaseTypePersistenceTest {
 			ReflectionTestUtil.<Long>invoke(
 				purchaseType, "getColumnOriginalValue",
 				new Class<?>[] {String.class}, "groupId"));
+
+		Assert.assertEquals(
+			Long.valueOf(purchaseType.getGroupId()),
+			ReflectionTestUtil.<Long>invoke(
+				purchaseType, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
+		Assert.assertEquals(
+			purchaseType.getName(),
+			ReflectionTestUtil.invoke(
+				purchaseType, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "name"));
 	}
 
 	protected PurchaseType addPurchaseType() throws Exception {
