@@ -10,8 +10,11 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.wz.testtask.estore.exception.ConsistencyViolationException;
+import com.wz.testtask.estore.model.DeviceType;
 import com.wz.testtask.estore.model.Employee;
+import com.wz.testtask.estore.service.DeviceTypeLocalServiceUtil;
 import com.wz.testtask.estore.service.EmployeeLocalServiceUtil;
+import com.wz.testtask.estore.service.EmployeePositionLocalServiceUtil;
 import com.wz.testtask.estore.web.constants.EmployeePortletKeys;
 import org.osgi.service.component.annotations.Component;
 
@@ -19,8 +22,11 @@ import javax.portlet.*;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author aleksei
@@ -43,13 +49,8 @@ import java.util.GregorianCalendar;
 public class EmployeeCRUDPortlet extends MVCPortlet {
     private static Log logger = LogFactoryUtil.getLog(EmployeeCRUDPortlet.class);
     
-    @Override
-    public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
-        
-        super.render(renderRequest, renderResponse);
-    }
-    
     public void addEmployee(ActionRequest request, ActionResponse response) throws PortalException {
+        //TODO: add error handling
         ServiceContext serviceContext = ServiceContextFactory.getInstance(request);
         String firstName = ParamUtil.getString(request, "firstName");
         String lastName = ParamUtil.getString(request, "lastName");
@@ -59,20 +60,27 @@ public class EmployeeCRUDPortlet extends MVCPortlet {
         int dayParam = ParamUtil.getInteger(request, "dayParam");
         int monthParam = ParamUtil.getInteger(request, "monthParam");
         int yearParam = ParamUtil.getInteger(request, "yearParam");
-
+        //DeviceTypeLocalServiceUtil.getDeviceType()
+        List<Long> consultedDeviceTypeIds = Arrays
+                .stream(ParamUtil.getLongValues(request, "deviceTypes"))
+                .boxed()
+                .collect(Collectors.toList());
+    
         GregorianCalendar calendar = new GregorianCalendar(yearParam, monthParam, dayParam);
         Date birthDate = calendar.getTime();
         logger.info(String.format("addEmployee params are: " +
-                        "firstName: %s, lastName: %s, patronymic: %s, gender: %s, positionId: %d, birthDate: %s",
-                firstName, lastName, patronymic, gender, positionId, birthDate));
+                        "firstName: %s, lastName: %s, patronymic: %s, gender: %s, positionId: %d, birthDate: %s. Type checks: %s",
+                firstName, lastName, patronymic, gender, positionId, birthDate, consultedDeviceTypeIds));
 
         try {
-            EmployeeLocalServiceUtil.addEmployee(firstName, lastName, patronymic,
+            Employee employee = EmployeeLocalServiceUtil.addEmployee(firstName, lastName, patronymic,
                     birthDate, gender, positionId, serviceContext);
+            for(Long deviceTypeId : consultedDeviceTypeIds )
+                DeviceTypeLocalServiceUtil.addEmployeeDeviceType(employee.getEmployeeId(), deviceTypeId);
             SessionMessages.add(request, "employee-added");
             logger.info("Employee was created");
-        } catch (PortalException t) {
-            logger.error("Error occurred!", t);
+        } catch (PortalException exception) {
+            logger.error("Error occurred!", exception);
             SessionErrors.add(request, "error-key");
         }
     }
@@ -88,6 +96,10 @@ public class EmployeeCRUDPortlet extends MVCPortlet {
         int dayParam = ParamUtil.getInteger(request, "dayParam");
         int monthParam = ParamUtil.getInteger(request, "monthParam");
         int yearParam = ParamUtil.getInteger(request, "yearParam");
+        List<Long> consultedDeviceTypeIds = Arrays
+                .stream(ParamUtil.getLongValues(request, "deviceTypes"))
+                .boxed()
+                .collect(Collectors.toList());
     
         GregorianCalendar calendar = new GregorianCalendar(yearParam, monthParam, dayParam);
         Date birthDate = calendar.getTime();
@@ -96,8 +108,18 @@ public class EmployeeCRUDPortlet extends MVCPortlet {
                 firstName, lastName, patronymic, gender, positionId, birthDate));
     
         try {
-            EmployeeLocalServiceUtil.updateEmployee(employeeId, firstName, lastName, patronymic,
+            Employee employee = EmployeeLocalServiceUtil.updateEmployee(employeeId, firstName, lastName, patronymic,
                     birthDate, gender, positionId, serviceContext);
+            List<DeviceType> consultedDeviceTypes = DeviceTypeLocalServiceUtil.getEmployeeDeviceTypes(employee.getEmployeeId());
+            for(Long deviceTypeId : consultedDeviceTypeIds ){
+                if(consultedDeviceTypes.stream().noneMatch(dt -> dt.getDeviceTypeId() == deviceTypeId))
+                    DeviceTypeLocalServiceUtil.addEmployeeDeviceType(employee.getEmployeeId(), deviceTypeId);
+                else
+                    consultedDeviceTypes.removeIf(dt -> dt.getDeviceTypeId() == deviceTypeId);
+            }
+            for(DeviceType deviceType : consultedDeviceTypes){
+                DeviceTypeLocalServiceUtil.deleteEmployeeDeviceType(employee.getEmployeeId(), deviceType.getDeviceTypeId());
+            }
             SessionMessages.add(request, "employee-updated");
             logger.info("Employee was updated");
         } catch (PortalException t) {

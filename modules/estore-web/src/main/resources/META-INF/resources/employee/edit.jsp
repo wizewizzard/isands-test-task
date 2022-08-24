@@ -7,11 +7,14 @@
     long employeeId = ParamUtil.getLong(request, "employeeId");
     int startDay, startMonth, startYear;
     Employee employee = null;
+    List<DeviceType> employeeConsultingDeviceTypes = null;
+    ;
     if (employeeId > 0) {
         employee = EmployeeLocalServiceUtil.getEmployee(employeeId);
         startDay = employee.getBirthDate().getDate();
         startMonth = employee.getBirthDate().getMonth();
         startYear = employee.getBirthDate().getYear() + 1900;
+        employeeConsultingDeviceTypes = DeviceTypeLocalServiceUtil.getEmployeeDeviceTypes(employeeId);
     } else {
         startDay = today.getDate();
         startMonth = today.getMonth();
@@ -25,11 +28,13 @@
 
 </portlet:renderURL>
 
-<portlet:actionURL name="<%= employee == null ? "addEmployee" : "updateEmployee"%>" var="editEmployeeURL"></portlet:actionURL>
+<portlet:actionURL name="<%= employee == null ? "addEmployee" : "updateEmployee"%>"
+                   var="editEmployeeURL"></portlet:actionURL>
 
 
 <aui:form action="<%= editEmployeeURL %>" name="<portlet:namespace />fm" method="post">
-    <h3><%= employee == null ? "Add new employee" : "Edit existing employee"%></h3>
+    <h3><%= employee == null ? "Add new employee" : "Edit existing employee"%>
+    </h3>
     <aui:fieldset>
         <aui:input name="employeeId" type="hidden" value='<%= employee == null ? "" : employee.getEmployeeId() %>'/>
 
@@ -49,6 +54,21 @@
                                yearValue="<%=startYear%>"
         >
         </liferay-ui:input-date>
+
+        <%
+            for (DeviceType deviceType : DeviceTypeLocalServiceUtil.getDeviceTypes(themeDisplay.getScopeGroupId())) {
+                boolean checked = false;
+                if (employeeConsultingDeviceTypes != null)
+                    checked = employeeConsultingDeviceTypes.stream().anyMatch(dt -> dt.getDeviceTypeId() == deviceType.getDeviceTypeId());
+        %>
+        <input type="checkbox" name="<portlet:namespace/>deviceTypes"
+               <%= checked ? "checked" : null %>
+               value="<%= deviceType.getDeviceTypeId()%>">
+        <%= deviceType.getName()%>
+        <br>
+        <%
+            }
+        %>
 
         <aui:select name="gender"
                     value='<%= employee == null ? "" : EmployeeLocalServiceUtil.getGenderById(employee.getGender()) %>'>

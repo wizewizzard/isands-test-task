@@ -68,6 +68,10 @@
                 value="<%= positionName %>" />
 
         <liferay-ui:search-container-column-jsp
+                name="Consults about"
+                path="/employee/consulting.jsp" />
+
+        <liferay-ui:search-container-column-jsp
                 name="Manage"
                 path="/employee/actions.jsp" />
     </liferay-ui:search-container-row>
