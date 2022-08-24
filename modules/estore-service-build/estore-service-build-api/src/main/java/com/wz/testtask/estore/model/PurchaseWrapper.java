@@ -50,6 +50,7 @@ public class PurchaseWrapper
 		attributes.put("employeeId", getEmployeeId());
 		attributes.put("deviceId", getDeviceId());
 		attributes.put("purchasedDate", getPurchasedDate());
+		attributes.put("count", getCount());
 		attributes.put("purchaseTypeId", getPurchaseTypeId());
 
 		return attributes;
@@ -105,6 +106,12 @@ public class PurchaseWrapper
 			setPurchasedDate(purchasedDate);
 		}
 
+		Integer count = (Integer)attributes.get("count");
+
+		if (count != null) {
+			setCount(count);
+		}
+
 		Long purchaseTypeId = (Long)attributes.get("purchaseTypeId");
 
 		if (purchaseTypeId != null) {
@@ -120,6 +127,16 @@ public class PurchaseWrapper
 	@Override
 	public long getCompanyId() {
 		return model.getCompanyId();
+	}
+
+	/**
+	 * Returns the count of this purchase.
+	 *
+	 * @return the count of this purchase
+	 */
+	@Override
+	public int getCount() {
+		return model.getCount();
 	}
 
 	/**
@@ -225,6 +242,16 @@ public class PurchaseWrapper
 	@Override
 	public void setCompanyId(long companyId) {
 		model.setCompanyId(companyId);
+	}
+
+	/**
+	 * Sets the count of this purchase.
+	 *
+	 * @param count the count of this purchase
+	 */
+	@Override
+	public void setCount(int count) {
+		model.setCount(count);
 	}
 
 	/**

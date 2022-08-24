@@ -450,24 +450,6 @@ public class DeviceLocalServiceWrapper
 	}
 
 	/**
-	 * Checks if given amount of devices is available to purchase
-	 *
-	 * @param deviceId       - device id
-	 * @param count          - number of devices
-	 * @param serviceContext
-	 * @return
-	 * @throws PortalException
-	 */
-	@Override
-	public boolean isAvailable(
-			long deviceId, int count,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _deviceLocalService.isAvailable(deviceId, count, serviceContext);
-	}
-
-	/**
 	 * Sets device's archived state.
 	 *
 	 * @param deviceId       - device Id

@@ -19,10 +19,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.Validator;
-import com.wz.testtask.estore.exception.ConsistencyViolationException;
-import com.wz.testtask.estore.exception.EmptyFieldException;
-import com.wz.testtask.estore.exception.IllegalFieldValueException;
-import com.wz.testtask.estore.exception.IllegalReferenceException;
+import com.wz.testtask.estore.exception.*;
 import com.wz.testtask.estore.model.Device;
 import com.wz.testtask.estore.model.DeviceType;
 import com.wz.testtask.estore.service.DeviceTypeLocalServiceUtil;
@@ -143,24 +140,6 @@ public class DeviceLocalServiceImpl extends DeviceLocalServiceBaseImpl {
         Device device = devicePersistence.findByPrimaryKey(deviceId);
         device.setArchive(archive);
         return devicePersistence.update(device);
-    }
-    
-    /**
-     * Checks if given amount of devices is available to purchase
-     *
-     * @param deviceId       - device id
-     * @param count          - number of devices
-     * @param serviceContext
-     * @return
-     * @throws PortalException
-     */
-    public boolean isAvailable(long deviceId, int count, ServiceContext serviceContext) throws PortalException {
-        Device device = devicePersistence.findByPrimaryKey(deviceId);
-        if (device.isArchive())
-            return false;
-        if (!device.getInStock() || device.getCount() < count)
-            return false;
-        return true;
     }
     
     public Device deleteById(long deviceId, ServiceContext serviceContext) throws PortalException {

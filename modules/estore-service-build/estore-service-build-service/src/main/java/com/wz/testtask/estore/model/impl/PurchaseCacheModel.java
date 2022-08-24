@@ -77,7 +77,7 @@ public class PurchaseCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(21);
 
 		sb.append("{mvccVersion=");
 		sb.append(mvccVersion);
@@ -95,6 +95,8 @@ public class PurchaseCacheModel
 		sb.append(deviceId);
 		sb.append(", purchasedDate=");
 		sb.append(purchasedDate);
+		sb.append(", count=");
+		sb.append(count);
 		sb.append(", purchaseTypeId=");
 		sb.append(purchaseTypeId);
 		sb.append("}");
@@ -128,6 +130,7 @@ public class PurchaseCacheModel
 			purchaseImpl.setPurchasedDate(new Date(purchasedDate));
 		}
 
+		purchaseImpl.setCount(count);
 		purchaseImpl.setPurchaseTypeId(purchaseTypeId);
 
 		purchaseImpl.resetOriginalValues();
@@ -150,6 +153,8 @@ public class PurchaseCacheModel
 
 		deviceId = objectInput.readLong();
 		purchasedDate = objectInput.readLong();
+
+		count = objectInput.readInt();
 
 		purchaseTypeId = objectInput.readLong();
 	}
@@ -176,6 +181,8 @@ public class PurchaseCacheModel
 		objectOutput.writeLong(deviceId);
 		objectOutput.writeLong(purchasedDate);
 
+		objectOutput.writeInt(count);
+
 		objectOutput.writeLong(purchaseTypeId);
 	}
 
@@ -187,6 +194,7 @@ public class PurchaseCacheModel
 	public long employeeId;
 	public long deviceId;
 	public long purchasedDate;
+	public int count;
 	public long purchaseTypeId;
 
 }

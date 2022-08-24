@@ -139,6 +139,8 @@ public class PurchasePersistenceTest {
 
 		newPurchase.setPurchasedDate(RandomTestUtil.nextDate());
 
+		newPurchase.setCount(RandomTestUtil.nextInt());
+
 		newPurchase.setPurchaseTypeId(RandomTestUtil.nextLong());
 
 		_purchases.add(_persistence.update(newPurchase));
@@ -162,6 +164,8 @@ public class PurchasePersistenceTest {
 		Assert.assertEquals(
 			Time.getShortTimestamp(existingPurchase.getPurchasedDate()),
 			Time.getShortTimestamp(newPurchase.getPurchasedDate()));
+		Assert.assertEquals(
+			existingPurchase.getCount(), newPurchase.getCount());
 		Assert.assertEquals(
 			existingPurchase.getPurchaseTypeId(),
 			newPurchase.getPurchaseTypeId());
@@ -253,7 +257,8 @@ public class PurchasePersistenceTest {
 		return OrderByComparatorFactoryUtil.create(
 			"ESTORE_Purchase", "mvccVersion", true, "uuid", true, "purchaseId",
 			true, "groupId", true, "companyId", true, "employeeId", true,
-			"deviceId", true, "purchasedDate", true, "purchaseTypeId", true);
+			"deviceId", true, "purchasedDate", true, "count", true,
+			"purchaseTypeId", true);
 	}
 
 	@Test
@@ -543,6 +548,8 @@ public class PurchasePersistenceTest {
 		purchase.setDeviceId(RandomTestUtil.nextLong());
 
 		purchase.setPurchasedDate(RandomTestUtil.nextDate());
+
+		purchase.setCount(RandomTestUtil.nextInt());
 
 		purchase.setPurchaseTypeId(RandomTestUtil.nextLong());
 

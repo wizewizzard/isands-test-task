@@ -176,6 +176,20 @@ public interface PurchaseModel
 	public void setPurchasedDate(Date purchasedDate);
 
 	/**
+	 * Returns the count of this purchase.
+	 *
+	 * @return the count of this purchase
+	 */
+	public int getCount();
+
+	/**
+	 * Sets the count of this purchase.
+	 *
+	 * @param count the count of this purchase
+	 */
+	public void setCount(int count);
+
+	/**
 	 * Returns the purchase type ID of this purchase.
 	 *
 	 * @return the purchase type ID of this purchase

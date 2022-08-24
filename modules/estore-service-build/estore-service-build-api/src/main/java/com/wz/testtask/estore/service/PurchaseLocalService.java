@@ -25,11 +25,13 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
+import com.wz.testtask.estore.exception.*;
 import com.wz.testtask.estore.model.Purchase;
 
 import java.io.Serializable;
@@ -260,6 +262,16 @@ public interface PurchaseLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Purchase> getPurchases(int start, int end);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Purchase> getPurchases(long groupId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Purchase> getPurchases(long groupId, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Purchase> getPurchases(
+		long groupId, int start, int end, OrderByComparator<Purchase> obc);
+
 	/**
 	 * Returns all the purchases matching the UUID and company.
 	 *
@@ -295,6 +307,9 @@ public interface PurchaseLocalService
 	public int getPurchasesCount();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getPurchasesCount(long groupId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Purchase> getPurchasesForEmployee(
 		long groupId, long employeeId);
 
@@ -306,6 +321,16 @@ public interface PurchaseLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getPurchasesOfDeviceCount(long groupId, long deviceId);
+
+	public void makePurchase(
+			long employeeId, long deviceId, int count, long purchaseTypeId,
+			ServiceContext serviceContext)
+		throws PortalException;
+
+	public void updatePurchase(
+			long purchaseId, long employeeId, long deviceId, int count,
+			long purchaseTypeId, ServiceContext serviceContext)
+		throws PortalException;
 
 	/**
 	 * Updates the purchase in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.

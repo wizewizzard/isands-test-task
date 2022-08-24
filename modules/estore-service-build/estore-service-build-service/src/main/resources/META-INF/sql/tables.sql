@@ -61,6 +61,7 @@ create table ESTORE_Purchase (
 	employeeId LONG,
 	deviceId LONG,
 	purchasedDate DATE null,
+	count INTEGER,
 	purchaseTypeId LONG
 );
 

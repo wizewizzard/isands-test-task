@@ -132,7 +132,12 @@
 		<column name="employeeId" type="long" />
 		<column name="deviceId" type="long" />
 		<column name="purchasedDate" type="Date" />
+		<column name="count" type="int" />
 		<column name="purchaseTypeId" type="long" />
+
+		<order >
+			<order-column name="purchasedDate" order-by="desc" />
+		</order>
 
 		<finder name="GroupId" return-type="Collection">
 			<finder-column name="groupId" />
@@ -159,5 +164,10 @@
 		<exception>IllegalFieldValue</exception>
 		<exception>IllegalReference</exception>
 		<exception>ConsistencyViolation</exception>
+		<exception>DeviceIsOutOfStock</exception>
+		<exception>DeviceIsArchived</exception>
+		<exception>EmployeeIsNotResponsible</exception>
+		<exception>UnsupportedPaymentType</exception>
+		<exception>WrongAmountOfDevices</exception>
 	</exceptions>
 </service-builder>

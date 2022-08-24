@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -76,7 +77,7 @@ public class PurchaseModelImpl
 		{"purchaseId", Types.BIGINT}, {"groupId", Types.BIGINT},
 		{"companyId", Types.BIGINT}, {"employeeId", Types.BIGINT},
 		{"deviceId", Types.BIGINT}, {"purchasedDate", Types.TIMESTAMP},
-		{"purchaseTypeId", Types.BIGINT}
+		{"count", Types.INTEGER}, {"purchaseTypeId", Types.BIGINT}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -91,19 +92,20 @@ public class PurchaseModelImpl
 		TABLE_COLUMNS_MAP.put("employeeId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("deviceId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("purchasedDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("count", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("purchaseTypeId", Types.BIGINT);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table ESTORE_Purchase (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,purchaseId LONG not null primary key,groupId LONG,companyId LONG,employeeId LONG,deviceId LONG,purchasedDate DATE null,purchaseTypeId LONG)";
+		"create table ESTORE_Purchase (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,purchaseId LONG not null primary key,groupId LONG,companyId LONG,employeeId LONG,deviceId LONG,purchasedDate DATE null,count INTEGER,purchaseTypeId LONG)";
 
 	public static final String TABLE_SQL_DROP = "drop table ESTORE_Purchase";
 
 	public static final String ORDER_BY_JPQL =
-		" ORDER BY purchase.purchaseId ASC";
+		" ORDER BY purchase.purchasedDate DESC";
 
 	public static final String ORDER_BY_SQL =
-		" ORDER BY ESTORE_Purchase.purchaseId ASC";
+		" ORDER BY ESTORE_Purchase.purchasedDate DESC";
 
 	public static final String DATA_SOURCE = "liferayDataSource";
 
@@ -146,7 +148,7 @@ public class PurchaseModelImpl
 	 *		#getColumnBitmask(String)}
 	 */
 	@Deprecated
-	public static final long PURCHASEID_COLUMN_BITMASK = 32L;
+	public static final long PURCHASEDDATE_COLUMN_BITMASK = 32L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -185,6 +187,7 @@ public class PurchaseModelImpl
 		model.setEmployeeId(soapModel.getEmployeeId());
 		model.setDeviceId(soapModel.getDeviceId());
 		model.setPurchasedDate(soapModel.getPurchasedDate());
+		model.setCount(soapModel.getCount());
 		model.setPurchaseTypeId(soapModel.getPurchaseTypeId());
 
 		return model;
@@ -334,6 +337,9 @@ public class PurchaseModelImpl
 		attributeSetterBiConsumers.put(
 			"purchasedDate",
 			(BiConsumer<Purchase, Date>)Purchase::setPurchasedDate);
+		attributeGetterFunctions.put("count", Purchase::getCount);
+		attributeSetterBiConsumers.put(
+			"count", (BiConsumer<Purchase, Integer>)Purchase::setCount);
 		attributeGetterFunctions.put(
 			"purchaseTypeId", Purchase::getPurchaseTypeId);
 		attributeSetterBiConsumers.put(
@@ -521,6 +527,21 @@ public class PurchaseModelImpl
 
 	@JSON
 	@Override
+	public int getCount() {
+		return _count;
+	}
+
+	@Override
+	public void setCount(int count) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_count = count;
+	}
+
+	@JSON
+	@Override
 	public long getPurchaseTypeId() {
 		return _purchaseTypeId;
 	}
@@ -598,6 +619,7 @@ public class PurchaseModelImpl
 		purchaseImpl.setEmployeeId(getEmployeeId());
 		purchaseImpl.setDeviceId(getDeviceId());
 		purchaseImpl.setPurchasedDate(getPurchasedDate());
+		purchaseImpl.setCount(getCount());
 		purchaseImpl.setPurchaseTypeId(getPurchaseTypeId());
 
 		purchaseImpl.resetOriginalValues();
@@ -607,17 +629,18 @@ public class PurchaseModelImpl
 
 	@Override
 	public int compareTo(Purchase purchase) {
-		long primaryKey = purchase.getPrimaryKey();
+		int value = 0;
 
-		if (getPrimaryKey() < primaryKey) {
-			return -1;
+		value = DateUtil.compareTo(
+			getPurchasedDate(), purchase.getPurchasedDate());
+
+		value = value * -1;
+
+		if (value != 0) {
+			return value;
 		}
-		else if (getPrimaryKey() > primaryKey) {
-			return 1;
-		}
-		else {
-			return 0;
-		}
+
+		return 0;
 	}
 
 	@Override
@@ -704,6 +727,8 @@ public class PurchaseModelImpl
 		else {
 			purchaseCacheModel.purchasedDate = Long.MIN_VALUE;
 		}
+
+		purchaseCacheModel.count = getCount();
 
 		purchaseCacheModel.purchaseTypeId = getPurchaseTypeId();
 
@@ -807,6 +832,7 @@ public class PurchaseModelImpl
 	private long _employeeId;
 	private long _deviceId;
 	private Date _purchasedDate;
+	private int _count;
 	private long _purchaseTypeId;
 
 	public <T> T getColumnValue(String columnName) {
@@ -846,6 +872,7 @@ public class PurchaseModelImpl
 		_columnOriginalValues.put("employeeId", _employeeId);
 		_columnOriginalValues.put("deviceId", _deviceId);
 		_columnOriginalValues.put("purchasedDate", _purchasedDate);
+		_columnOriginalValues.put("count", _count);
 		_columnOriginalValues.put("purchaseTypeId", _purchaseTypeId);
 	}
 
@@ -886,7 +913,9 @@ public class PurchaseModelImpl
 
 		columnBitmasks.put("purchasedDate", 128L);
 
-		columnBitmasks.put("purchaseTypeId", 256L);
+		columnBitmasks.put("count", 256L);
+
+		columnBitmasks.put("purchaseTypeId", 512L);
 
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}

@@ -78,6 +78,7 @@
 		<field name="purchasedDate" type="Date">
 			<hint name="year-range-future">false</hint>
 		</field>
+		<field name="count" type="int" />
 		<field name="purchaseTypeId" type="long" />
 	</model>
 	<model name="com.wz.testtask.estore.model.PurchaseType">

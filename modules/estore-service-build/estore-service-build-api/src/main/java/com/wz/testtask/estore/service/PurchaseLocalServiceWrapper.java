@@ -314,6 +314,29 @@ public class PurchaseLocalServiceWrapper
 		return _purchaseLocalService.getPurchases(start, end);
 	}
 
+	@Override
+	public java.util.List<com.wz.testtask.estore.model.Purchase> getPurchases(
+		long groupId) {
+
+		return _purchaseLocalService.getPurchases(groupId);
+	}
+
+	@Override
+	public java.util.List<com.wz.testtask.estore.model.Purchase> getPurchases(
+		long groupId, int start, int end) {
+
+		return _purchaseLocalService.getPurchases(groupId, start, end);
+	}
+
+	@Override
+	public java.util.List<com.wz.testtask.estore.model.Purchase> getPurchases(
+		long groupId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator
+			<com.wz.testtask.estore.model.Purchase> obc) {
+
+		return _purchaseLocalService.getPurchases(groupId, start, end, obc);
+	}
+
 	/**
 	 * Returns all the purchases matching the UUID and company.
 	 *
@@ -361,6 +384,11 @@ public class PurchaseLocalServiceWrapper
 	}
 
 	@Override
+	public int getPurchasesCount(long groupId) {
+		return _purchaseLocalService.getPurchasesCount(groupId);
+	}
+
+	@Override
 	public java.util.List<com.wz.testtask.estore.model.Purchase>
 		getPurchasesForEmployee(long groupId, long employeeId) {
 
@@ -385,6 +413,28 @@ public class PurchaseLocalServiceWrapper
 	public int getPurchasesOfDeviceCount(long groupId, long deviceId) {
 		return _purchaseLocalService.getPurchasesOfDeviceCount(
 			groupId, deviceId);
+	}
+
+	@Override
+	public void makePurchase(
+			long employeeId, long deviceId, int count, long purchaseTypeId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		_purchaseLocalService.makePurchase(
+			employeeId, deviceId, count, purchaseTypeId, serviceContext);
+	}
+
+	@Override
+	public void updatePurchase(
+			long purchaseId, long employeeId, long deviceId, int count,
+			long purchaseTypeId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		_purchaseLocalService.updatePurchase(
+			purchaseId, employeeId, deviceId, count, purchaseTypeId,
+			serviceContext);
 	}
 
 	/**

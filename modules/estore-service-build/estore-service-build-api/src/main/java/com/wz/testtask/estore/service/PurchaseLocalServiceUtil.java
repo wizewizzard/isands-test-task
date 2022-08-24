@@ -286,6 +286,22 @@ public class PurchaseLocalServiceUtil {
 		return getService().getPurchases(start, end);
 	}
 
+	public static List<Purchase> getPurchases(long groupId) {
+		return getService().getPurchases(groupId);
+	}
+
+	public static List<Purchase> getPurchases(
+		long groupId, int start, int end) {
+
+		return getService().getPurchases(groupId, start, end);
+	}
+
+	public static List<Purchase> getPurchases(
+		long groupId, int start, int end, OrderByComparator<Purchase> obc) {
+
+		return getService().getPurchases(groupId, start, end, obc);
+	}
+
 	/**
 	 * Returns all the purchases matching the UUID and company.
 	 *
@@ -326,6 +342,10 @@ public class PurchaseLocalServiceUtil {
 		return getService().getPurchasesCount();
 	}
 
+	public static int getPurchasesCount(long groupId) {
+		return getService().getPurchasesCount(groupId);
+	}
+
 	public static List<Purchase> getPurchasesForEmployee(
 		long groupId, long employeeId) {
 
@@ -346,6 +366,26 @@ public class PurchaseLocalServiceUtil {
 
 	public static int getPurchasesOfDeviceCount(long groupId, long deviceId) {
 		return getService().getPurchasesOfDeviceCount(groupId, deviceId);
+	}
+
+	public static void makePurchase(
+			long employeeId, long deviceId, int count, long purchaseTypeId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		getService().makePurchase(
+			employeeId, deviceId, count, purchaseTypeId, serviceContext);
+	}
+
+	public static void updatePurchase(
+			long purchaseId, long employeeId, long deviceId, int count,
+			long purchaseTypeId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		getService().updatePurchase(
+			purchaseId, employeeId, deviceId, count, purchaseTypeId,
+			serviceContext);
 	}
 
 	/**

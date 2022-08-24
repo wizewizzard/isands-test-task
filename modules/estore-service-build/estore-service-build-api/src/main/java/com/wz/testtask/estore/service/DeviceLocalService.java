@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
+import com.wz.testtask.estore.exception.*;
 import com.wz.testtask.estore.model.Device;
 
 import java.io.Serializable;
@@ -350,20 +351,6 @@ public interface DeviceLocalService
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
-		throws PortalException;
-
-	/**
-	 * Checks if given amount of devices is available to purchase
-	 *
-	 * @param deviceId       - device id
-	 * @param count          - number of devices
-	 * @param serviceContext
-	 * @return
-	 * @throws PortalException
-	 */
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public boolean isAvailable(
-			long deviceId, int count, ServiceContext serviceContext)
 		throws PortalException;
 
 	/**

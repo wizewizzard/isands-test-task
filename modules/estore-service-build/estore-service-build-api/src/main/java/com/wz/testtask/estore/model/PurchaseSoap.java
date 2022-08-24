@@ -41,6 +41,7 @@ public class PurchaseSoap implements Serializable {
 		soapModel.setEmployeeId(model.getEmployeeId());
 		soapModel.setDeviceId(model.getDeviceId());
 		soapModel.setPurchasedDate(model.getPurchasedDate());
+		soapModel.setCount(model.getCount());
 		soapModel.setPurchaseTypeId(model.getPurchaseTypeId());
 
 		return soapModel;
@@ -159,6 +160,14 @@ public class PurchaseSoap implements Serializable {
 		_purchasedDate = purchasedDate;
 	}
 
+	public int getCount() {
+		return _count;
+	}
+
+	public void setCount(int count) {
+		_count = count;
+	}
+
 	public long getPurchaseTypeId() {
 		return _purchaseTypeId;
 	}
@@ -175,6 +184,7 @@ public class PurchaseSoap implements Serializable {
 	private long _employeeId;
 	private long _deviceId;
 	private Date _purchasedDate;
+	private int _count;
 	private long _purchaseTypeId;
 
 }
