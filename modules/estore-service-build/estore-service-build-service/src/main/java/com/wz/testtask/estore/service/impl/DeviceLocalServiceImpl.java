@@ -175,7 +175,6 @@ public class DeviceLocalServiceImpl extends DeviceLocalServiceBaseImpl {
         return devicePersistence.countByGroupId(groupId);
     }
     
-    //TODO: validate everything
     protected void validate(Device device) throws PortalException {
         if (Validator.isNull(device)) {
             throw new IllegalReferenceException();
@@ -184,13 +183,13 @@ public class DeviceLocalServiceImpl extends DeviceLocalServiceBaseImpl {
             throw new EmptyFieldException("Name can not be empty");
         }
         if (device.getPrice() <= 0) {
-            throw new IllegalFieldValueException("Price can not be less or equal to zero");
+            throw new IllegalPriceValueException("Price can not be less or equal to zero");
         }
         if (device.getCount() < 0) {
-            throw new IllegalFieldValueException("Devices count can not be less than zero");
+            throw new IllegalDeviceCountValueException("Devices count can not be less than zero");
         }
         if (device.getCount() == 0 && device.getInStock()) {
-            throw new IllegalFieldValueException("Device must be out of stock if it's count is equal to zero");
+            throw new IllegalDeviceCountValueException("Device must be out of stock if it's count is equal to zero");
         }
     }
 }

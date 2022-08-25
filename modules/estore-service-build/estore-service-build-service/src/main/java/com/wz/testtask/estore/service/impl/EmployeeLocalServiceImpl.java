@@ -21,11 +21,12 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.Validator;
-import com.wz.testtask.estore.exception.ConsistencyViolationException;
-import com.wz.testtask.estore.exception.EmptyFieldException;
-import com.wz.testtask.estore.exception.IllegalReferenceException;
+import com.wz.testtask.estore.exception.*;
+import com.wz.testtask.estore.model.DeviceType;
 import com.wz.testtask.estore.model.Employee;
 import com.wz.testtask.estore.model.EmployeePosition;
+import com.wz.testtask.estore.service.DeviceTypeLocalServiceUtil;
+import com.wz.testtask.estore.service.EmployeeLocalServiceUtil;
 import com.wz.testtask.estore.service.EmployeePositionLocalServiceUtil;
 import com.wz.testtask.estore.service.PurchaseLocalServiceUtil;
 import com.wz.testtask.estore.service.base.EmployeeLocalServiceBaseImpl;
@@ -109,8 +110,11 @@ public class EmployeeLocalServiceImpl extends EmployeeLocalServiceBaseImpl {
     
     public Employee delete(Employee employee, ServiceContext serviceContext) throws PortalException {
         long groupId = serviceContext.getScopeGroupId();
-        //TODO: clean up consulting, and check if there are purchases issued by this employee
-        if (PurchaseLocalServiceUtil.getPurchasesForEmployeeCount(groupId, employee.getEmployeeId()) == 0) {
+        List<DeviceType> deviceTypes = DeviceTypeLocalServiceUtil.getEmployeeDeviceTypes(employee.getEmployeeId());
+        for(DeviceType deviceType : deviceTypes){
+            DeviceTypeLocalServiceUtil.deleteEmployeeDeviceType(employee.getEmployeeId(), deviceType.getDeviceTypeId());
+        }
+        if (PurchaseLocalServiceUtil.getPurchasesForEmployeeCount(groupId, employee.getEmployeeId()) == 0 ) {
             return employeePersistence.remove(employee);
         } else
             throw new ConsistencyViolationException("You are not allowed to remove an employee " +
@@ -152,22 +156,24 @@ public class EmployeeLocalServiceImpl extends EmployeeLocalServiceBaseImpl {
                 .collect(Collectors.toList());
     }
     
-    //TODO: validate everything
     protected void validate(Employee employee) throws PortalException {
         if (Validator.isNull(employee)) {
             throw new IllegalReferenceException();
         }
         if (Validator.isNull(employee.getFirstName()) || Validator.isBlank(employee.getFirstName())) {
-            throw new EmptyFieldException("First name can not be empty");
+            throw new EmptyPersonNameException("First name can not be empty");
         }
         if (Validator.isNull(employee.getLastName()) || Validator.isBlank(employee.getLastName())) {
-            throw new EmptyFieldException("Last name can not be empty");
+            throw new EmptyPersonNameException("Last name can not be empty");
+        }
+        if (Validator.isNull(employee.getPatronymic()) || Validator.isBlank(employee.getPatronymic())) {
+            throw new EmptyPersonNameException("Patronymic can not be empty");
         }
         if (Validator.isNull(employee.getBirthDate())) {
             throw new EmptyFieldException("Birth date can not be empty");
         }
         if (Date.from(Instant.now()).before(employee.getBirthDate())) {
-            throw new EmptyFieldException("Birth date can be later than today");
+            throw new InvalidBirthDateException("Birth date can be later than today");
         }
     }
 }

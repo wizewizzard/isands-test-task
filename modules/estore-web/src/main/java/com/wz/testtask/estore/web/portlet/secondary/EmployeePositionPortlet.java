@@ -9,6 +9,7 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.wz.testtask.estore.exception.EmptyFieldException;
 import com.wz.testtask.estore.service.EmployeePositionLocalServiceUtil;
 import com.wz.testtask.estore.web.constants.EmployeePortletKeys;
 import org.osgi.service.component.annotations.Component;
@@ -47,9 +48,16 @@ public class EmployeePositionPortlet extends MVCPortlet {
             EmployeePositionLocalServiceUtil.addEmployeePosition(positionName, serviceContext);
             SessionMessages.add(request, "employee-position-added");
             logger.info("Employee position was updated");
-        } catch (PortalException e) {
+        }
+        catch (EmptyFieldException exception){
+            SessionErrors.add(request, "empty-name");
+            logger.error("Given name is empty");
+            response.setRenderParameter("mvcPath", "/employee-pos/edit.jsp");
+        }
+        catch (PortalException e) {
             SessionErrors.add(request, e.getClass());
             logger.error("Employee position creation ended up with an error", e);
+            response.setRenderParameter("mvcPath", "/error.jsp");
         }
     }
     
@@ -63,9 +71,16 @@ public class EmployeePositionPortlet extends MVCPortlet {
             EmployeePositionLocalServiceUtil.updateEmployeePosition(positionId, positionName, serviceContext);
             SessionMessages.add(request, "employee-position-updated");
             logger.info("Employee position was updated");
-        } catch (PortalException e) {
+        }
+        catch (EmptyFieldException exception){
+            SessionErrors.add(request, "empty-name");
+            logger.error("Given name is empty");
+            response.setRenderParameter("mvcPath", "/employee-pos/edit.jsp");
+        }
+        catch (PortalException e) {
             SessionErrors.add(request, e.getClass());
-            logger.error("Employee position update ended up with an error", e);
+            logger.error("Employee position creation ended up with an error", e);
+            response.setRenderParameter("mvcPath", "/error.jsp");
         }
     }
 }

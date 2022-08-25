@@ -4,6 +4,7 @@
 <p>
     <b><liferay-ui:message key="device.caption"/></b>
 </p>
+<liferay-ui:error key="consistency-violation" message="failure.consistency-violation"/>
 
 <aui:button-row cssClass="crud-buttons">
 

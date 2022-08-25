@@ -10,6 +10,9 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.wz.testtask.estore.exception.ConsistencyViolationException;
+import com.wz.testtask.estore.exception.EmptyFieldException;
+import com.wz.testtask.estore.exception.EmptyPersonNameException;
+import com.wz.testtask.estore.exception.InvalidBirthDateException;
 import com.wz.testtask.estore.model.DeviceType;
 import com.wz.testtask.estore.model.Employee;
 import com.wz.testtask.estore.service.DeviceTypeLocalServiceUtil;
@@ -21,6 +24,7 @@ import org.osgi.service.component.annotations.Component;
 import javax.portlet.*;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
@@ -50,24 +54,19 @@ public class EmployeeCRUDPortlet extends MVCPortlet {
     private static Log logger = LogFactoryUtil.getLog(EmployeeCRUDPortlet.class);
     
     public void addEmployee(ActionRequest request, ActionResponse response) throws PortalException {
-        //TODO: add error handling
         ServiceContext serviceContext = ServiceContextFactory.getInstance(request);
         String firstName = ParamUtil.getString(request, "firstName");
         String lastName = ParamUtil.getString(request, "lastName");
         String patronymic = ParamUtil.getString(request, "patronymic");
         String gender = ParamUtil.getString(request, "gender");
+        Date birthDate = ParamUtil.getDate(request, "birthDate", new SimpleDateFormat("dd/MM/yyyy"));
         long positionId = ParamUtil.getLong(request, "positionId");
-        int dayParam = ParamUtil.getInteger(request, "dayParam");
-        int monthParam = ParamUtil.getInteger(request, "monthParam");
-        int yearParam = ParamUtil.getInteger(request, "yearParam");
-        //DeviceTypeLocalServiceUtil.getDeviceType()
+        
         List<Long> consultedDeviceTypeIds = Arrays
                 .stream(ParamUtil.getLongValues(request, "deviceTypes"))
                 .boxed()
                 .collect(Collectors.toList());
-    
-        GregorianCalendar calendar = new GregorianCalendar(yearParam, monthParam, dayParam);
-        Date birthDate = calendar.getTime();
+
         logger.info(String.format("addEmployee params are: " +
                         "firstName: %s, lastName: %s, patronymic: %s, gender: %s, positionId: %d, birthDate: %s. Type checks: %s",
                 firstName, lastName, patronymic, gender, positionId, birthDate, consultedDeviceTypeIds));
@@ -79,9 +78,26 @@ public class EmployeeCRUDPortlet extends MVCPortlet {
                 DeviceTypeLocalServiceUtil.addEmployeeDeviceType(employee.getEmployeeId(), deviceTypeId);
             SessionMessages.add(request, "employee-added");
             logger.info("Employee was created");
-        } catch (PortalException exception) {
+        }
+        catch (EmptyPersonNameException exception){
+            SessionErrors.add(request, "empty-person-name");
+            logger.error("Names must not be empty");
+            response.setRenderParameter("mvcPath", "/employee/edit.jsp");
+        }
+        catch (EmptyFieldException exception){
+            SessionErrors.add(request, "required-field-empty");
+            logger.error("Given birth date is not valid");
+            response.setRenderParameter("mvcPath", "/employee/edit.jsp");
+        }
+        catch (InvalidBirthDateException exception){
+            SessionErrors.add(request, "invalid-birth-date");
+            logger.error("Given birth date is not valid");
+            response.setRenderParameter("mvcPath", "/employee/edit.jsp");
+        }
+        catch (PortalException exception) {
             logger.error("Error occurred!", exception);
-            SessionErrors.add(request, "error-key");
+            SessionErrors.add(request, "portal-error");
+            response.setRenderParameter("mvcPath", "/error.jsp");
         }
     }
     
@@ -93,16 +109,13 @@ public class EmployeeCRUDPortlet extends MVCPortlet {
         String patronymic = ParamUtil.getString(request, "patronymic");
         String gender = ParamUtil.getString(request, "gender");
         long positionId = ParamUtil.getLong(request, "positionId");
-        int dayParam = ParamUtil.getInteger(request, "dayParam");
-        int monthParam = ParamUtil.getInteger(request, "monthParam");
-        int yearParam = ParamUtil.getInteger(request, "yearParam");
+        Date birthDate = ParamUtil.getDate(request, "birthDate", new SimpleDateFormat("dd/MM/yyyy"));
+        
         List<Long> consultedDeviceTypeIds = Arrays
                 .stream(ParamUtil.getLongValues(request, "deviceTypes"))
                 .boxed()
                 .collect(Collectors.toList());
-    
-        GregorianCalendar calendar = new GregorianCalendar(yearParam, monthParam, dayParam);
-        Date birthDate = calendar.getTime();
+        
         logger.info(String.format("updateEmployee params are: " +
                         "firstName: %s, lastName: %s, patronymic: %s, gender: %s, positionId: %d, birthDate: %s ",
                 firstName, lastName, patronymic, gender, positionId, birthDate));
@@ -122,9 +135,26 @@ public class EmployeeCRUDPortlet extends MVCPortlet {
             }
             SessionMessages.add(request, "employee-updated");
             logger.info("Employee was updated");
-        } catch (PortalException t) {
-            logger.error("Error occurred!", t);
-            SessionErrors.add(request, "error-key");
+        }
+        catch (EmptyPersonNameException exception){
+            SessionErrors.add(request, "empty-person-name");
+            logger.error("Names must not be empty");
+            response.setRenderParameter("mvcPath", "/employee/edit.jsp");
+        }
+        catch (EmptyFieldException exception){
+            SessionErrors.add(request, "required-field-empty");
+            logger.error("Given birth date is not valid");
+            response.setRenderParameter("mvcPath", "/employee/edit.jsp");
+        }
+        catch (InvalidBirthDateException exception){
+            SessionErrors.add(request, "invalid-birth-date");
+            logger.error("Given birth date is not valid");
+            response.setRenderParameter("mvcPath", "/employee/edit.jsp");
+        }
+        catch (PortalException exception) {
+            logger.error("Error occurred!", exception);
+            SessionErrors.add(request, "portal-error");
+            response.setRenderParameter("mvcPath", "/error.jsp");
         }
     }
     
@@ -136,11 +166,12 @@ public class EmployeeCRUDPortlet extends MVCPortlet {
             SessionMessages.add(request, "employee-deleted");
             logger.info("Employee was deleted");
         } catch (ConsistencyViolationException exception) {
-            logger.error("Trying to remove a user who has purchase types he consults about attached!");
-            SessionErrors.add(request, "consistency-violation-key");
+            logger.error("Trying to remove a user who has purchases attached to him");
+            SessionErrors.add(request, "consistency-violation");
         } catch (PortalException t) {
-            logger.error("Error occurred!", t);
+            logger.error("Error occurred when deleting employee!", t);
             SessionErrors.add(request, "error-key");
+            response.setRenderParameter("mvcPath", "/error.jsp");
         }
     }
 }

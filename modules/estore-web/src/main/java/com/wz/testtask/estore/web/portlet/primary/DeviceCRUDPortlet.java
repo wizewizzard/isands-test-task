@@ -10,6 +10,9 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.wz.testtask.estore.exception.ConsistencyViolationException;
+import com.wz.testtask.estore.exception.EmptyFieldException;
+import com.wz.testtask.estore.exception.IllegalDeviceCountValueException;
+import com.wz.testtask.estore.exception.IllegalPriceValueException;
 import com.wz.testtask.estore.service.DeviceLocalServiceUtil;
 import com.wz.testtask.estore.service.EmployeeLocalServiceUtil;
 import com.wz.testtask.estore.web.constants.DevicePortletKeys;
@@ -41,7 +44,6 @@ public class DeviceCRUDPortlet extends MVCPortlet {
     private static Log logger = LogFactoryUtil.getLog(EmployeeCRUDPortlet.class);
     
     public void addDevice(ActionRequest request, ActionResponse response) throws PortalException {
-        //TODO: check the restrictions length of description
         String name = ParamUtil.getString(request, "name");
         long price = ParamUtil.getLong(request, "price");
         int count = ParamUtil.getInteger(request, "count");
@@ -55,9 +57,26 @@ public class DeviceCRUDPortlet extends MVCPortlet {
                     count, archive, description, serviceContext);
             SessionMessages.add(request, "device-added");
             logger.info("Device was created");
-        } catch (PortalException exception) {
-            logger.error("Error occurred!", exception);
-            SessionErrors.add(request, exception.getClass().getName());
+        }
+        catch (EmptyFieldException exception){
+            SessionErrors.add(request, "required-field-empty");
+            logger.error("One or more of the fields are empty");
+            response.setRenderParameter("mvcPath", "/device/edit.jsp");
+        }
+        catch (IllegalPriceValueException exception){
+            SessionErrors.add(request, "invalid-device-price");
+            logger.error("Device's price can not be less than 0");
+            response.setRenderParameter("mvcPath", "/device/edit.jsp");
+        }
+        catch (IllegalDeviceCountValueException exception){
+            SessionErrors.add(request, "invalid-device-count");
+            logger.error("Device count can not be less than 0");
+            response.setRenderParameter("mvcPath", "/device/edit.jsp");
+        }
+        catch (PortalException exception) {
+            logger.error("Portal error occurred!", exception);
+            SessionErrors.add(request, "portal-error");
+            response.setRenderParameter("mvcPath", "/error.jsp");
         }
     }
     
@@ -76,9 +95,26 @@ public class DeviceCRUDPortlet extends MVCPortlet {
                     count, archive, description, serviceContext);
             SessionMessages.add(request, "device-updated");
             logger.info("Device was created");
-        } catch (PortalException exception) {
-            logger.error("Error occurred!", exception);
-            SessionErrors.add(request, exception.getClass().getName());
+        }
+        catch (EmptyFieldException exception){
+            SessionErrors.add(request, "required-field-empty");
+            logger.error("One or more of the fields are empty");
+            response.setRenderParameter("mvcPath", "/device/edit.jsp");
+        }
+        catch (IllegalPriceValueException exception){
+            SessionErrors.add(request, "invalid-device-price");
+            logger.error("Device's price can not be less than 0");
+            response.setRenderParameter("mvcPath", "/device/edit.jsp");
+        }
+        catch (IllegalDeviceCountValueException exception){
+            SessionErrors.add(request, "invalid-device-count");
+            logger.error("Device count can not be less than 0");
+            response.setRenderParameter("mvcPath", "/device/edit.jsp");
+        }
+        catch (PortalException exception) {
+            logger.error("Portal error occurred!", exception);
+            SessionErrors.add(request, "portal-error");
+            response.setRenderParameter("mvcPath", "/error.jsp");
         }
     }
     
@@ -90,8 +126,8 @@ public class DeviceCRUDPortlet extends MVCPortlet {
             SessionMessages.add(request, "device-deleted");
             logger.info("Employee was deleted");
         } catch (ConsistencyViolationException exception) {
-            logger.error("Trying to remove a user who has purchase types he consults about attached!");
-            SessionErrors.add(request, "consistency-violation-key");
+            logger.error("Trying to remove the devices that has purchases he consults about attached!");
+            SessionErrors.add(request, "consistency-violation");
         } catch (PortalException exception) {
             logger.error("Error occurred!", exception);
             SessionErrors.add(request, "error-key");

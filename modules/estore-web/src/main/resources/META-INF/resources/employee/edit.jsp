@@ -1,4 +1,3 @@
-<%@ page import="java.util.Date" %>
 <%@include file="../init.jsp" %>
 
 <%
@@ -22,6 +21,10 @@
     }
 %>
 
+<%
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+%>
+
 <portlet:renderURL var="viewURL">
 
     <portlet:param name="mvcPath" value="/employee/view.jsp"></portlet:param>
@@ -33,27 +36,26 @@
 
 
 <aui:form action="<%= editEmployeeURL %>" name="<portlet:namespace />fm" method="post">
-    <h3><%= employee == null ? "Add new employee" : "Edit existing employee"%>
-    </h3>
+    <h3><%= employee == null ? "Add new employee" : "Edit existing employee"%></h3>
+    <liferay-ui:error key="empty-person-name" message="failure.empty-person-name"/>
+    <liferay-ui:error key="required-field-empty" message="failure.required-field-empty"/>
+    <liferay-ui:error key="invalid-birth-date" message="failure.invalid-birth-date"/>
     <aui:fieldset>
         <aui:input name="employeeId" type="hidden" value='<%= employee == null ? "" : employee.getEmployeeId() %>'/>
 
-        <aui:input name="firstName" value='<%= employee == null ? "" : employee.getFirstName() %>'/>
+        <aui:input name="firstName" value='<%= employee == null ? "" : employee.getFirstName() %>'>
+            <aui:validator name="maxLength">100</aui:validator>
+        </aui:input>
 
-        <aui:input name="lastName" value='<%= employee == null ? "" : employee.getLastName() %>'/>
+        <aui:input name="lastName" value='<%= employee == null ? "" : employee.getLastName() %>'>
+            <aui:validator name="maxLength">100</aui:validator>
+        </aui:input>
 
-        <aui:input name="patronymic" value='<%= employee == null ? "" : employee.getPatronymic() %>'/>
+        <aui:input name="patronymic" value='<%= employee == null ? "" : employee.getPatronymic() %>'>
+            <aui:validator name="maxLength">100</aui:validator>
+        </aui:input>
 
-        <liferay-ui:input-date name="birthDate"
-                               dayParam="dayParam"
-                               monthParam="monthParam"
-                               yearParam="yearParam"
-                               lastEnabledDate="<%= today%>"
-                               dayValue="<%=startDay%>"
-                               monthValue="<%=startMonth%>"
-                               yearValue="<%=startYear%>"
-        >
-        </liferay-ui:input-date>
+        <aui:input name="birthDate" label="Birth date" value="<%= employee == null ? sdf.format(new Date()) : sdf.format(employee.getBirthDate()) %>" />
 
         <%
             for (DeviceType deviceType : DeviceTypeLocalServiceUtil.getDeviceTypes(themeDisplay.getScopeGroupId())) {

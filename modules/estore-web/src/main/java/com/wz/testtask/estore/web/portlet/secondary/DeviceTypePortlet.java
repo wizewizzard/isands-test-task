@@ -9,16 +9,15 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.wz.testtask.estore.model.DeviceType;
+import com.wz.testtask.estore.exception.EmptyFieldException;
 import com.wz.testtask.estore.service.DeviceTypeLocalServiceUtil;
-import com.wz.testtask.estore.service.EmployeePositionLocalServiceUtil;
 import com.wz.testtask.estore.web.constants.DevicePortletKeys;
-import com.wz.testtask.estore.web.constants.EmployeePortletKeys;
 import com.wz.testtask.estore.web.portlet.primary.EmployeeCRUDPortlet;
 import org.osgi.service.component.annotations.Component;
 
-import javax.portlet.*;
-import java.io.IOException;
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.Portlet;
 
 /**
  * @author aleksei
@@ -52,9 +51,15 @@ public class DeviceTypePortlet extends MVCPortlet {
             SessionMessages.add(request, "device-type-added");
             logger.info("Device type was created");
         }
+        catch (EmptyFieldException exception){
+            SessionErrors.add(request, "empty-name");
+            logger.error("Given name is empty");
+            response.setRenderParameter("mvcPath", "/device-type/edit.jsp");
+        }
         catch (PortalException e) {
-            SessionErrors.add(request, e.getClass());
+            SessionErrors.add(request, "portal-error");
             logger.error("Device type creation ended up with an error", e);
+            
         }
     }
     
@@ -70,20 +75,14 @@ public class DeviceTypePortlet extends MVCPortlet {
             SessionMessages.add(request, "device-type-updated");
             logger.info("Device type was updated");
         }
+        catch (EmptyFieldException exception){
+            SessionErrors.add(request, "empty-name");
+            logger.error("Given name is empty");
+            response.setRenderParameter("mvcPath", "/device-type/edit.jsp");
+        }
         catch (PortalException e) {
-            SessionErrors.add(request, e.getClass());
-            logger.error("Device type update ended up with an error", e);
+            SessionErrors.add(request, "portal-error");
+            logger.error("Device type creation ended up with an error", e);
         }
     }
-    
-    /*public void deleteDeviceType(ActionRequest request, ActionResponse response){
-        long deviceTypeId = ParamUtil.getLong(request, "deviceTypeId");
-        try{
-            DeviceTypeLocalServiceUtil.deleteDeviceType(deviceTypeId);
-        }
-        catch (PortalException e){
-            SessionErrors.add(request, e.getClass());
-            logger.error("Device type deletion ended up with an error", e);
-        }
-    }*/
 }

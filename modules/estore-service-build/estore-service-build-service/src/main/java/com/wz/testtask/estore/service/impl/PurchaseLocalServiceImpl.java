@@ -175,7 +175,9 @@ public class PurchaseLocalServiceImpl extends PurchaseLocalServiceBaseImpl {
     /**
      * Check if purchase can be performed. Checks whether employee is allowed to sign it, whether there is enough
      * devices in stock or it is archived.
-     * @param purchase
+     * @param purchase current purchase
+     * @param previousDeviceId device id from previous order
+     * @param previousCount count of devices from previous order
      * @throws PortalException
      */
     protected void validateUpdatedPurchase(Purchase purchase, long previousDeviceId, int previousCount)

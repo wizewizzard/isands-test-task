@@ -161,7 +161,11 @@
 	</entity>
 	<exceptions>
 		<exception>EmptyField</exception>
+		<exception>EmptyPersonName</exception>
 		<exception>IllegalFieldValue</exception>
+		<exception>IllegalPriceValue</exception>
+		<exception>IllegalDeviceCountValue</exception>
+		<exception>InvalidBirthDate</exception>
 		<exception>IllegalReference</exception>
 		<exception>ConsistencyViolation</exception>
 		<exception>DeviceIsOutOfStock</exception>

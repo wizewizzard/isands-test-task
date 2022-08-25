@@ -26,13 +26,23 @@
 
 
 <aui:form action="<%= editDeviceURL %>" name="<portlet:namespace />fm" method="post">
+    <h3><%= device == null ? "Create device" : "Edit existing device"%></h3>
+
+    <liferay-ui:error key="required-field-empty" message="failure.required-field-empty"/>
+    <liferay-ui:error key="invalid-device-price" message="failure.invalid-device-price"/>
+    <liferay-ui:error key="invalid-device-count" message="failure.invalid-device-count"/>
 
     <aui:fieldset>
-        <aui:input name="deviceId" type="hidden" value='<%= device == null ? "" : device.getDeviceId() %>'/>
+        <aui:input name="deviceId" type="hidden" value='<%= device == null ? "" : device.getDeviceId() %>'>
+        </aui:input>
 
-        <aui:input label="Device name" name="name"  value='<%= device == null ? "" : device.getName() %>'/>
+        <aui:input label="Device name" name="name"  value='<%= device == null ? "" : device.getName() %>'>
+            <aui:validator name="maxLength">150</aui:validator>
+        </aui:input>
 
-        <aui:input label="Price" name="price" min="0" value='<%= device == null ? "" : device.getPrice() %>'/>
+        <aui:input label="Price" name="price" min="0" value='<%= device == null ? "" : device.getPrice() %>'>
+            <aui:validator name="min">1</aui:validator>
+        </aui:input>
 
         <aui:select label="Device type" name="deviceTypeId"
                     value='<%= device == null ? "" : device.getDeviceTypeId() %>'>
@@ -41,12 +51,16 @@
             </c:forEach>
         </aui:select>
 
-        <aui:input label="Count in stock" type="text" min="0" name="count" value='<%= device == null ? "" : device.getCount() %>'/>
+        <aui:input label="Count in stock" type="text" min="0" name="count" value='<%= device == null ? "" : device.getCount() %>'>
+            <aui:validator name="min">0</aui:validator>
+        </aui:input>
 
         <aui:input label="Archive" type="checkbox" name="archive" value='<%=device != null && device.getArchive() %>'/>
 
         <aui:input label="Description" type="textarea" name="description"
-                   value='<%= device == null ? "" : device.getDescription() %>'/>
+                   value='<%= device == null ? "" : device.getDescription() %>'>
+            <aui:validator name="maxLength">5000</aui:validator>
+        </aui:input>
 
     </aui:fieldset>
     <aui:button-row>

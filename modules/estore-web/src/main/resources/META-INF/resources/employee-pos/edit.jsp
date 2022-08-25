@@ -23,6 +23,7 @@
 
 <aui:form action="<%= editPositionURL %>" name="<portlet:namespace />fm" method="post">
     <h3><%= employeePosition == null ? "Create employee position" : "Edit employee position"%></h3>
+    <liferay-ui:error key="empty-name" message="failure.empty-name"/>
     <aui:fieldset>
         <aui:input name="positionId"
                    type="hidden"
@@ -31,7 +32,9 @@
         <aui:input label="Position name"
                    name="name"
                    value='<%= employeePosition == null ? "" : employeePosition.getName() %>'
-        />
+        >
+            <aui:validator name="maxLength">100</aui:validator>
+        </aui:input>
     </aui:fieldset>
 
     <aui:button-row>

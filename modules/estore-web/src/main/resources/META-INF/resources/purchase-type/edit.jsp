@@ -23,6 +23,7 @@
 
 <aui:form action="<%= editPurchaseTypeURL %>" name="<portlet:namespace />fm" method="post">
     <h3><%= purchaseType == null ? "Create purchase type" : "Edit purchase type"%></h3>
+    <liferay-ui:error key="empty-name" message="failure.empty-name"/>
     <aui:fieldset>
         <aui:input name="purchaseTypeId"
                    type="hidden"
@@ -31,7 +32,9 @@
         <aui:input
                 name="name"
                 value='<%= purchaseType == null ? "" : purchaseType.getName() %>'
-        />
+        >
+            <aui:validator name="maxLength">100</aui:validator>
+        </aui:input>
     </aui:fieldset>
 
     <aui:button-row>

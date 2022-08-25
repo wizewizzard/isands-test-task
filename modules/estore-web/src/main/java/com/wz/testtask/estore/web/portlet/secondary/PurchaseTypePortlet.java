@@ -9,6 +9,7 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.wz.testtask.estore.exception.EmptyFieldException;
 import com.wz.testtask.estore.service.PurchaseTypeLocalServiceUtil;
 import com.wz.testtask.estore.web.constants.PurchasePortletKeys;
 import org.osgi.service.component.annotations.Component;
@@ -48,9 +49,16 @@ public class PurchaseTypePortlet extends MVCPortlet {
             PurchaseTypeLocalServiceUtil.addPurchaseType(purchaseTypeName, serviceContext);
             SessionMessages.add(request, "purchase-type-added");
             logger.info("Purchase type was created");
-        } catch (Exception e) {
-            SessionErrors.add(request, e.getClass());
+        }
+        catch (EmptyFieldException exception){
+            SessionErrors.add(request, "empty-name");
+            logger.error("Given name is empty");
+            response.setRenderParameter("mvcPath", "/purchase-type/edit.jsp");
+        }
+        catch (Exception e) {
+            SessionErrors.add(request, "portal-error");
             logger.error("Purchase type creation ended up with an error", e);
+            response.setRenderParameter("mvcPath", "/error.jsp");
         }
     }
     
@@ -65,9 +73,16 @@ public class PurchaseTypePortlet extends MVCPortlet {
             PurchaseTypeLocalServiceUtil.updatePurchaseType(purchaseTypeId, purchaseTypeName, serviceContext);
             SessionMessages.add(request, "purchase-type-updated");
             logger.info("Purchase type was updated");
-        } catch (Exception e) {
-            SessionErrors.add(request, e.getClass());
-            logger.error("Purchase type update ended up with an error", e);
+        }
+        catch (EmptyFieldException exception){
+            SessionErrors.add(request, "empty-name");
+            logger.error("Given name is empty");
+            response.setRenderParameter("mvcPath", "/purchase-type/edit.jsp");
+        }
+        catch (Exception e) {
+            SessionErrors.add(request, "portal-error");
+            logger.error("Purchase type creation ended up with an error", e);
+            response.setRenderParameter("mvcPath", "/error.jsp");
         }
     }
 }

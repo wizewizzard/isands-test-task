@@ -1,10 +1,9 @@
-<%@ page import="java.util.EnumSet" %>
-<%@ page import="java.text.SimpleDateFormat" %>
 <%@ include file="../init.jsp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <p>
     <b><liferay-ui:message key="employee.caption"/></b>
 </p>
+<liferay-ui:error key="consistency-violation" message="failure.consistency-violation"/>
 
 <aui:button-row cssClass="crud-buttons">
 
