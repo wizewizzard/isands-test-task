@@ -1,12 +1,20 @@
 package com.wz.testtask.estore.bestemployee.portlet;
 
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.util.ParamUtil;
 import com.wz.testtask.estore.bestemployee.constants.BestEmployeePortletKeys;
+import com.wz.testtask.estore.model.EmployeeWithSummary;
+import com.wz.testtask.estore.service.EmployeeWithSummaryLocalServiceUtil;
 import org.osgi.service.component.annotations.Component;
 
-import javax.portlet.Portlet;
+import javax.portlet.*;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * @author aleksei
@@ -29,4 +37,7 @@ import javax.portlet.Portlet;
 public class BestEmployeePortlet extends MVCPortlet {
     private static final Log logger = LogFactoryUtil.getLog(BestEmployeePortlet.class);
     
+	public void getBestEmployees(ActionRequest request, ActionResponse response) throws PortalException {
+	
+	}
 }
