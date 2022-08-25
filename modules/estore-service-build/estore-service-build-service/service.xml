@@ -159,6 +159,18 @@
 			<finder-column name="deviceId" />
 		</finder>
 	</entity>
+
+	<entity name="EmployeeWithSummary" persistence="false" local-service="true" remote-service="true">
+		<column name="employeeId" primary="true" type="long" />
+		<column name="employeeFullName" type="String" />
+		<column name="deviceCount" type="int" />
+		<column name="soldDevicesOn" type="long" />
+
+		<finder name="employeeId" return-type="Collection">
+			<finder-column name="employeeId" />
+		</finder>
+	</entity>
+
 	<exceptions>
 		<exception>EmptyField</exception>
 		<exception>EmptyPersonName</exception>
