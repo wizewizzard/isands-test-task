@@ -16,5 +16,6 @@
     <module>rest-api</module>
     <module>estore-csv-portlet</module>
     <module>purchase</module>
+    <module>best-employee</module>
   </modules>
 </project>
