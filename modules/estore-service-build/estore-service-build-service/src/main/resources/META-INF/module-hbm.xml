@@ -6,6 +6,7 @@
 	<import class="com.wz.testtask.estore.model.DeviceType" />
 	<import class="com.wz.testtask.estore.model.Employee" />
 	<import class="com.wz.testtask.estore.model.EmployeePosition" />
+	<import class="com.wz.testtask.estore.model.EmployeeWithSummary" />
 	<import class="com.wz.testtask.estore.model.Purchase" />
 	<import class="com.wz.testtask.estore.model.PurchaseType" />
 	<class dynamic-update="true" name="com.wz.testtask.estore.model.impl.DeviceImpl" table="ESTORE_Device">
@@ -58,6 +59,15 @@
 		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class dynamic-update="true" name="com.wz.testtask.estore.model.impl.EmployeeWithSummaryImpl" table="ESTORE_EmployeeWithSummary">
+		<id access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="employeeId" type="long">
+			<generator class="assigned" />
+		</id>
+		<version access="com.liferay.portal.dao.orm.hibernate.PrivatePropertyAccessor" name="mvccVersion" type="long" />
+		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="employeeFullName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="deviceCount" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="soldDevicesOn" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class dynamic-update="true" name="com.wz.testtask.estore.model.impl.PurchaseImpl" table="ESTORE_Purchase">
 		<id access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="purchaseId" type="long">

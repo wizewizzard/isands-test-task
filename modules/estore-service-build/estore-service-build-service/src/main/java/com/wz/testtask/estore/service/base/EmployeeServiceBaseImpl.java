@@ -31,6 +31,7 @@ import com.wz.testtask.estore.service.persistence.DevicePersistence;
 import com.wz.testtask.estore.service.persistence.DeviceTypePersistence;
 import com.wz.testtask.estore.service.persistence.EmployeePersistence;
 import com.wz.testtask.estore.service.persistence.EmployeePositionPersistence;
+import com.wz.testtask.estore.service.persistence.EmployeeWithSummaryFinder;
 import com.wz.testtask.estore.service.persistence.PurchasePersistence;
 import com.wz.testtask.estore.service.persistence.PurchaseTypePersistence;
 
@@ -153,6 +154,9 @@ public abstract class EmployeeServiceBaseImpl
 
 	@Reference
 	protected EmployeePositionPersistence employeePositionPersistence;
+
+	@Reference
+	protected EmployeeWithSummaryFinder employeeWithSummaryFinder;
 
 	@Reference
 	protected PurchasePersistence purchasePersistence;

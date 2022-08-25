@@ -1,16 +1,89 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <custom-sql>
-    <!--<sql id="com.wz.testtask.estore.service.persistence.EmployeeFinder.getEmployeesJoinedWithPosition">
+    <sql id="com.wz.testtask.estore.service.persistence.EmployeeWithSummaryFinder.findBestEmployeesByDevicesSoldSummary">
         <![CDATA[
-            SELECT GB_Entry.*
-            FROM ESTORE_EMPLOYEE
+            SELECT e.employeeId as employeeId, concat(e.firstName, ' ', e.lastName) as employeeFullName,
+             COALESCE(SUM(pr.count), 0) as soldDevicesCount, COALESCE(SUM(d.price * pr.count), 0) as soldDevicesOn
+            FROM ESTORE_EMPLOYEE e
             LEFT JOIN
-                ESTORE_EmployeePosition ON ESTORE_EMPLOYEE.positionId = ESTORE_EmployeePosition.positionId
-            LEFT JOIN
-                ESTORE_EmployeePosition ON ESTORE_EMPLOYEE.positionId = ESTORE_EmployeePosition.positionId
+                ESTORE_PURCHASE pr on e.employeeId=pr.employeeId
+            LEFT JOIN ESTORE_DEVICE d on pr.deviceId=d.deviceId
             WHERE
-                (ESTORE_EMPLOYEE.groupId = ?)
+                (e.groupId = ?) AND
+                (e.positionId = ?)
+            GROUP BY e.employeeId, employeeFullName
+            ORDER BY soldDevicesOn DESC
         ]]>
-    </sql>-->
+    </sql>
+
+    <sql id="com.wz.testtask.estore.service.persistence.EmployeeWithSummaryFinder.findBestEmployeesByDevicesSoldCount">
+        <![CDATA[
+            SELECT e.employeeId as employeeId, concat(e.firstName, ' ', e.lastName) as employeeFullName,
+             COALESCE(SUM(pr.count), 0) as soldDevicesCount, COALESCE(SUM(d.price * pr.count), 0) as soldDevicesOn
+            FROM ESTORE_EMPLOYEE e
+            LEFT JOIN
+                ESTORE_PURCHASE pr on e.employeeId=pr.employeeId
+            LEFT JOIN ESTORE_DEVICE d on pr.deviceId=d.deviceId
+            WHERE
+                (e.groupId = ?) AND
+                (e.positionId = ?)
+            GROUP BY e.employeeId, employeeFullName
+            ORDER BY soldDevicesCount DESC
+        ]]>
+    </sql>
+
+    <sql id="com.wz.testtask.estore.service.persistence.EmployeeWithSummaryFinder.findBestEmployeesByDevicesSoldCountInPeriod">
+        <![CDATA[
+            SELECT e.employeeId as employeeId, concat(e.firstName, ' ', e.lastName) as employeeFullName,
+             COALESCE(SUM(pr.count), 0) as soldDevicesCount, COALESCE(SUM(d.price * pr.count), 0) as soldDevicesOn
+            FROM ESTORE_EMPLOYEE e
+            LEFT JOIN
+                ESTORE_PURCHASE pr on e.employeeId=pr.employeeId
+            INNER JOIN ESTORE_DEVICE d on pr.deviceId=d.deviceId
+            WHERE
+                (e.groupId = ?) AND
+                (d.deviceTypeId = ?) AND
+                (pr.purchasedDate BETWEEN ? AND ?)
+            GROUP BY e.employeeId, employeeFullName
+            ORDER BY soldDevicesCount DESC
+        ]]>
+    </sql>
+
+    <sql id="com.wz.testtask.estore.service.persistence.EmployeeWithSummaryFinder.findBestEmployeesByDevicesSoldCountInPeriod">
+        <![CDATA[
+            SELECT e.employeeId as employeeId, concat(e.firstName, ' ', e.lastName) as employeeFullName,
+             COALESCE(SUM(pr.count), 0) as soldDevicesCount, COALESCE(SUM(d.price * pr.count), 0) as soldDevicesOn
+            FROM ESTORE_EMPLOYEE e
+            LEFT JOIN
+                ESTORE_PURCHASE pr on e.employeeId=pr.employeeId
+            INNER JOIN ESTORE_DEVICE d on pr.deviceId=d.deviceId
+            WHERE
+                (e.groupId = ?) AND
+                (d.deviceTypeId = ?) AND
+                (pr.purchasedDate BETWEEN ? AND ?)
+            GROUP BY e.employeeId, employeeFullName
+            ORDER BY soldDevicesCount DESC
+        ]]>
+    </sql>
+
+    <sql id="com.wz.testtask.estore.service.persistence.StoreStatistics.getAmountOfMoneyPaidWithCard">
+        <![CDATA[
+            SELECT COALESCE(SUM(d.price * pr.count), 0)
+            FROM ESTORE_PURCHASE pr
+            INNER JOIN ESTORE_DEVICE d on pr.deviceId=d.deviceId
+            INNER JOIN ESTORE_PurchaseType pt on pr.purchaseTypeId=pt.purchaseTypeId
+            WHERE LOWER(pt.name)='card'
+        ]]>
+    </sql>
+
+    <sql id="com.wz.testtask.estore.service.persistence.StoreStatistics.getCostOfArchivedTvAndSmartphones">
+        <![CDATA[
+            SELECT COALESCE(SUM(d.price * d.count), 0)
+            FROM ESTORE_DEVICE d
+            INNER JOIN ESTORE_DeviceType dt on dt.deviceTypeId=d.deviceTypeId
+            WHERE d.archive=true AND
+            LOWER(dt.name) in ('smartphone', 'tv')
+        ]]>
+    </sql>
 </custom-sql>
