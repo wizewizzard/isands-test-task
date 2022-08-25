@@ -67,7 +67,7 @@
         ]]>
     </sql>
 
-    <sql id="com.wz.testtask.estore.service.persistence.StoreStatistics.getAmountOfMoneyPaidWithCard">
+    <sql id="com.wz.testtask.estore.service.persistence.StatisticsHolderFinder.getAmountOfMoneyPaidWithCard">
         <![CDATA[
             SELECT COALESCE(SUM(d.price * pr.count), 0) as result
             FROM ESTORE_PURCHASE pr
@@ -78,7 +78,7 @@
         ]]>
     </sql>
 
-    <sql id="com.wz.testtask.estore.service.persistence.StoreStatistics.getCostOfArchivedTvAndSmartphones">
+    <sql id="com.wz.testtask.estore.service.persistence.StatisticsHolderFinder.getCostOfArchivedTvAndSmartphones">
         <![CDATA[
             SELECT COALESCE(SUM(d.price * d.count), 0) as result
             FROM ESTORE_DEVICE d

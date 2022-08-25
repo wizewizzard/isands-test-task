@@ -14,7 +14,6 @@
 
 package com.wz.testtask.estore.service.persistence;
 
-import com.liferay.portal.kernel.exception.PortalException;
 import org.osgi.annotation.versioning.ProviderType;
 
 /**
@@ -25,9 +24,11 @@ import org.osgi.annotation.versioning.ProviderType;
 public interface StatisticsHolderFinder {
 
 	public com.wz.testtask.estore.model.StatisticsHolder
-		getAmountOfMoneyPaidWithCard(long groupId) throws PortalException;
+			getAmountOfMoneyPaidWithCard(long groupId)
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 	public com.wz.testtask.estore.model.StatisticsHolder
-		getCostOfArchivedTvAndSmartphones(long groupId) throws PortalException;
+			getCostOfArchivedTvAndSmartphones(long groupId)
+		throws com.liferay.portal.kernel.exception.PortalException;
 
 }

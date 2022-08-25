@@ -171,7 +171,7 @@
 		</finder>
 	</entity>
 
-	<entity name="StatisticsHolder" persistence="false" remote-service="false" local-service="false">
+	<entity name="StatisticsHolder" persistence="false" remote-service="false" local-service="true">
 		<column name="statName" type="String" primary="true" />
 		<column name="result" type="long" />
 

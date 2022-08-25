@@ -1,19 +1,18 @@
 package com.wz.testtask.estore.service.persistence.impl;
 
 import com.liferay.portal.dao.orm.custom.sql.CustomSQL;
-import com.liferay.portal.kernel.dao.orm.*;
+import com.liferay.portal.kernel.dao.orm.QueryPos;
+import com.liferay.portal.kernel.dao.orm.SQLQuery;
+import com.liferay.portal.kernel.dao.orm.Session;
+import com.liferay.portal.kernel.dao.orm.Type;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.wz.testtask.estore.model.EmployeeWithSummary;
 import com.wz.testtask.estore.model.StatisticsHolder;
 import com.wz.testtask.estore.model.impl.StatisticsHolderImpl;
 import com.wz.testtask.estore.service.persistence.StatisticsHolderFinder;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Component(service = StatisticsHolderFinder.class)
 public class StatisticsHolderFinderImpl extends StatisticsHolderFinderBaseImpl
@@ -42,21 +41,21 @@ public class StatisticsHolderFinderImpl extends StatisticsHolderFinderBaseImpl
         Session session = null;
         try {
             session = openSession();
-        
+            
             String sql = _customSQL.get(
                     getClass(),
                     mode.equals("paidWithCard") ? GET_AMOUNT_PAID_WITH_CARD : GET_COST_OF_ARCHIVED_TV_AND_SMARTPHONES);
-        
+            
             SQLQuery q = session.createSQLQuery(sql);
             q.addScalar("result", Type.LONG);
-        
+            
             QueryPos qPos = QueryPos.getInstance(q);
             qPos.add(groupId);
-        
-            Object[] result = (Object[]) q.uniqueResult();
+            
+            long result = (long) q.uniqueResult();
             StatisticsHolder statisticsHolder = new StatisticsHolderImpl();
-            statisticsHolder.setStatName("payWithCard");
-            statisticsHolder.setResult((long)result[0]);
+            statisticsHolder.setStatName(mode);
+            statisticsHolder.setResult(result);
             return statisticsHolder;
         } catch (Exception e) {
             logger.error("Exception fired when querying best employees by count of devices", e);

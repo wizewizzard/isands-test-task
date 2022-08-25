@@ -21,10 +21,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.wz.testtask.estore.exception.*;
-import com.wz.testtask.estore.model.Device;
-import com.wz.testtask.estore.model.DeviceType;
-import com.wz.testtask.estore.model.Purchase;
-import com.wz.testtask.estore.model.PurchaseType;
+import com.wz.testtask.estore.model.*;
 import com.wz.testtask.estore.service.DeviceLocalServiceUtil;
 import com.wz.testtask.estore.service.DeviceTypeLocalServiceUtil;
 import com.wz.testtask.estore.service.PurchaseTypeLocalServiceUtil;
@@ -108,6 +105,7 @@ public class PurchaseLocalServiceImpl extends PurchaseLocalServiceBaseImpl {
             DeviceLocalServiceUtil.updateDevice(device);
         }
     }
+    
     
     public List<Purchase> getPurchases(long groupId) {
         
