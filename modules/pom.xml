@@ -17,5 +17,6 @@
     <module>estore-csv-portlet</module>
     <module>purchase</module>
     <module>best-employee</module>
+    <module>statistics</module>
   </modules>
 </project>
