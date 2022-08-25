@@ -171,6 +171,12 @@
 		</finder>
 	</entity>
 
+	<entity name="StatisticsHolder" persistence="false" remote-service="false" local-service="false">
+		<column name="statName" type="String" primary="true" />
+		<column name="result" type="long" />
+
+	</entity>
+
 	<exceptions>
 		<exception>EmptyField</exception>
 		<exception>EmptyPersonName</exception>

@@ -69,21 +69,23 @@
 
     <sql id="com.wz.testtask.estore.service.persistence.StoreStatistics.getAmountOfMoneyPaidWithCard">
         <![CDATA[
-            SELECT COALESCE(SUM(d.price * pr.count), 0)
+            SELECT COALESCE(SUM(d.price * pr.count), 0) as result
             FROM ESTORE_PURCHASE pr
             INNER JOIN ESTORE_DEVICE d on pr.deviceId=d.deviceId
             INNER JOIN ESTORE_PurchaseType pt on pr.purchaseTypeId=pt.purchaseTypeId
-            WHERE LOWER(pt.name)='card'
+            WHERE LOWER(pt.name)='card' AND
+            pr.groupId=?
         ]]>
     </sql>
 
     <sql id="com.wz.testtask.estore.service.persistence.StoreStatistics.getCostOfArchivedTvAndSmartphones">
         <![CDATA[
-            SELECT COALESCE(SUM(d.price * d.count), 0)
+            SELECT COALESCE(SUM(d.price * d.count), 0) as result
             FROM ESTORE_DEVICE d
             INNER JOIN ESTORE_DeviceType dt on dt.deviceTypeId=d.deviceTypeId
             WHERE d.archive=true AND
-            LOWER(dt.name) in ('smartphone', 'tv')
+            LOWER(dt.name) in ('smartphone', 'tv') AND
+            d.groupId=?
         ]]>
     </sql>
 </custom-sql>

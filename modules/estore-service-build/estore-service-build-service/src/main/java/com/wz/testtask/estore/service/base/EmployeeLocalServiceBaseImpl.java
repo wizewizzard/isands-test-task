@@ -48,6 +48,7 @@ import com.wz.testtask.estore.service.persistence.EmployeePositionPersistence;
 import com.wz.testtask.estore.service.persistence.EmployeeWithSummaryFinder;
 import com.wz.testtask.estore.service.persistence.PurchasePersistence;
 import com.wz.testtask.estore.service.persistence.PurchaseTypePersistence;
+import com.wz.testtask.estore.service.persistence.StatisticsHolderFinder;
 
 import java.io.Serializable;
 
@@ -660,6 +661,9 @@ public abstract class EmployeeLocalServiceBaseImpl
 
 	@Reference
 	protected PurchaseTypePersistence purchaseTypePersistence;
+
+	@Reference
+	protected StatisticsHolderFinder statisticsHolderFinder;
 
 	@Reference
 	protected com.liferay.counter.kernel.service.CounterLocalService

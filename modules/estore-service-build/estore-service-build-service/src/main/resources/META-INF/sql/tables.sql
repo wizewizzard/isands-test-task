@@ -52,6 +52,14 @@ create table ESTORE_EmployeePosition (
 	name VARCHAR(100) null
 );
 
+create table ESTORE_EmployeeWithSummary (
+	mvccVersion LONG default 0 not null,
+	employeeId LONG not null primary key,
+	employeeFullName VARCHAR(75) null,
+	deviceCount INTEGER,
+	soldDevicesOn LONG
+);
+
 create table ESTORE_Purchase (
 	mvccVersion LONG default 0 not null,
 	uuid_ VARCHAR(75) null,
@@ -72,4 +80,10 @@ create table ESTORE_PurchaseType (
 	groupId LONG,
 	companyId LONG,
 	name VARCHAR(100) null
+);
+
+create table ESTORE_StatisticsHolder (
+	mvccVersion LONG default 0 not null,
+	statName VARCHAR(75) not null primary key,
+	result LONG
 );
