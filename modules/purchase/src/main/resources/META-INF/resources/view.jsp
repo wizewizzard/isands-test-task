@@ -6,11 +6,11 @@
 
 <aui:button-row cssClass="crud-buttons">
 
-    <portlet:renderURL var="createPurchaseURL">
-        <portlet:param name="mvcPath" value="/create.jsp"/>
+    <portlet:renderURL var="editPurchaseURL">
+        <portlet:param name="mvcPath" value="/edit.jsp"/>
     </portlet:renderURL>
 
-    <aui:button onClick="<%=createPurchaseURL.toString()%>" value="Make purchase"></aui:button>
+    <aui:button onClick="<%=editPurchaseURL.toString()%>" value="Make purchase"></aui:button>
 
 </aui:button-row>
 
