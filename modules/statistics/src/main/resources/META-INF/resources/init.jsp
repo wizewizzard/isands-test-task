@@ -7,6 +7,10 @@ taglib uri="http://liferay.com/tld/portlet" prefix="liferay-portlet" %><%@
 taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %><%@
 taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
+<%@ page import="com.liferay.portal.kernel.exception.PortalException" %>
+<%@ page import="com.liferay.portal.kernel.servlet.SessionErrors" %>
+<%@ page import="com.wz.testtask.estore.service.StatisticsHolderLocalServiceUtil" %>
+
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />

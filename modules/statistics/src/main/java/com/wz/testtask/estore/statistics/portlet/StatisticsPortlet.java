@@ -27,4 +27,5 @@ import org.osgi.service.component.annotations.Component;
 	service = Portlet.class
 )
 public class StatisticsPortlet extends MVCPortlet {
+
 }
