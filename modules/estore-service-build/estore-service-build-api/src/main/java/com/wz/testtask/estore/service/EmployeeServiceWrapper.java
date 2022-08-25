@@ -30,6 +30,21 @@ public class EmployeeServiceWrapper
 		_employeeService = employeeService;
 	}
 
+	@Override
+	public com.wz.testtask.estore.model.Employee getEmployeeById(
+			long employeeId)
+		throws com.wz.testtask.estore.exception.NoSuchEmployeeException {
+
+		return _employeeService.getEmployeeById(employeeId);
+	}
+
+	@Override
+	public java.util.List<com.wz.testtask.estore.model.Employee> getEmployees(
+		long groupId) {
+
+		return _employeeService.getEmployees(groupId);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *

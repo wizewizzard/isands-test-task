@@ -14,6 +14,10 @@
 
 package com.wz.testtask.estore.service;
 
+import com.wz.testtask.estore.model.Employee;
+
+import java.util.List;
+
 /**
  * Provides the remote service utility for Employee. This utility wraps
  * <code>com.wz.testtask.estore.service.impl.EmployeeServiceImpl</code> and is an
@@ -33,13 +37,22 @@ public class EmployeeServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.wz.testtask.estore.service.impl.EmployeeServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static Employee getEmployeeById(long employeeId)
+		throws com.wz.testtask.estore.exception.NoSuchEmployeeException {
+
+		return getService().getEmployeeById(employeeId);
+	}
+
+	public static List<Employee> getEmployees(long groupId) {
+		return getService().getEmployees(groupId);
+	}
 
 	/**
 	 * Returns the OSGi service identifier.
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static java.lang.String getOSGiServiceIdentifier() {
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 

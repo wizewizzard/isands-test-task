@@ -30,6 +30,13 @@ public class DeviceServiceWrapper
 		_deviceService = deviceService;
 	}
 
+	@Override
+	public java.util.List<com.wz.testtask.estore.model.Device> getDevices(
+		long groupId) {
+
+		return _deviceService.getDevices(groupId);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *

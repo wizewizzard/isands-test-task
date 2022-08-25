@@ -14,6 +14,10 @@
 
 package com.wz.testtask.estore.service;
 
+import com.wz.testtask.estore.model.Device;
+
+import java.util.List;
+
 /**
  * Provides the remote service utility for Device. This utility wraps
  * <code>com.wz.testtask.estore.service.impl.DeviceServiceImpl</code> and is an
@@ -33,13 +37,16 @@ public class DeviceServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.wz.testtask.estore.service.impl.DeviceServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static List<Device> getDevices(long groupId) {
+		return getService().getDevices(groupId);
+	}
 
 	/**
 	 * Returns the OSGi service identifier.
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static java.lang.String getOSGiServiceIdentifier() {
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 

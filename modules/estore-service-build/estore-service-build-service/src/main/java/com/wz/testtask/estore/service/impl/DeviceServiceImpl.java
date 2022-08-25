@@ -16,9 +16,12 @@ package com.wz.testtask.estore.service.impl;
 
 import com.liferay.portal.aop.AopService;
 
+import com.wz.testtask.estore.model.Device;
 import com.wz.testtask.estore.service.base.DeviceServiceBaseImpl;
 
 import org.osgi.service.component.annotations.Component;
+
+import java.util.List;
 
 /**
  * @author wz
@@ -31,4 +34,7 @@ import org.osgi.service.component.annotations.Component;
 	service = AopService.class
 )
 public class DeviceServiceImpl extends DeviceServiceBaseImpl {
+	public List<Device> getDevices(long groupId){
+		return deviceLocalService.getDevices(groupId);
+	}
 }

@@ -16,9 +16,15 @@ package com.wz.testtask.estore.service.impl;
 
 import com.liferay.portal.aop.AopService;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.wz.testtask.estore.exception.NoSuchEmployeeException;
+import com.wz.testtask.estore.model.Device;
+import com.wz.testtask.estore.model.Employee;
 import com.wz.testtask.estore.service.base.EmployeeServiceBaseImpl;
 
 import org.osgi.service.component.annotations.Component;
+
+import java.util.List;
 
 /**
  * @author wz
@@ -31,4 +37,18 @@ import org.osgi.service.component.annotations.Component;
 	service = AopService.class
 )
 public class EmployeeServiceImpl extends EmployeeServiceBaseImpl {
+	
+	public Employee getEmployeeById(long employeeId) throws NoSuchEmployeeException{
+		try{
+			return employeeLocalService.getEmployee(employeeId);
+		}
+		catch (PortalException exception){
+			throw new NoSuchEmployeeException();
+		}
+	}
+	
+	public List<Employee> getEmployees(long groupId){
+		return employeeLocalService.getEmployees(groupId);
+	}
+
 }

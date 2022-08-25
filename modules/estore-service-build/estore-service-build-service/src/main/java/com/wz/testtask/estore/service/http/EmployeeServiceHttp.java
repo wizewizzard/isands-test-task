@@ -14,13 +14,22 @@
 
 package com.wz.testtask.estore.service.http;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.security.auth.HttpPrincipal;
+import com.liferay.portal.kernel.service.http.TunnelUtil;
+import com.liferay.portal.kernel.util.MethodHandler;
+import com.liferay.portal.kernel.util.MethodKey;
+
+import com.wz.testtask.estore.service.EmployeeServiceUtil;
+
 /**
  * Provides the HTTP utility for the
- * <code>com.wz.testtask.estore.service.EmployeeServiceUtil</code> service
+ * <code>EmployeeServiceUtil</code> service
  * utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it requires an additional
- * <code>com.liferay.portal.kernel.security.auth.HttpPrincipal</code> parameter.
+ * <code>HttpPrincipal</code> parameter.
  *
  * <p>
  * The benefits of using the HTTP utility is that it is fast and allows for
@@ -42,4 +51,86 @@ package com.wz.testtask.estore.service.http;
  * @generated
  */
 public class EmployeeServiceHttp {
+
+	public static com.wz.testtask.estore.model.Employee getEmployeeById(
+			HttpPrincipal httpPrincipal, long employeeId)
+		throws com.wz.testtask.estore.exception.NoSuchEmployeeException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				EmployeeServiceUtil.class, "getEmployeeById",
+				_getEmployeeByIdParameterTypes0);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, employeeId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				if (exception instanceof
+						com.wz.testtask.estore.exception.
+							NoSuchEmployeeException) {
+
+					throw (com.wz.testtask.estore.exception.
+						NoSuchEmployeeException)exception;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.wz.testtask.estore.model.Employee)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static java.util.List<com.wz.testtask.estore.model.Employee>
+		getEmployees(HttpPrincipal httpPrincipal, long groupId) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				EmployeeServiceUtil.class, "getEmployees",
+				_getEmployeesParameterTypes1);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, groupId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (java.util.List<com.wz.testtask.estore.model.Employee>)
+				returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(EmployeeServiceHttp.class);
+
+	private static final Class<?>[] _getEmployeeByIdParameterTypes0 =
+		new Class[] {long.class};
+	private static final Class<?>[] _getEmployeesParameterTypes1 = new Class[] {
+		long.class
+	};
+
 }

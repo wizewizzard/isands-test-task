@@ -14,9 +14,16 @@
 
 package com.wz.testtask.estore.service.http;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import com.wz.testtask.estore.service.DeviceServiceUtil;
+
+import java.rmi.RemoteException;
+
 /**
  * Provides the SOAP utility for the
- * <code>com.wz.testtask.estore.service.DeviceServiceUtil</code> service
+ * <code>DeviceServiceUtil</code> service
  * utility. The static methods of this class call the same methods of the
  * service utility. However, the signatures are different because it is
  * difficult for SOAP to support certain types.
@@ -56,4 +63,25 @@ package com.wz.testtask.estore.service.http;
  */
 @Deprecated
 public class DeviceServiceSoap {
+
+	public static com.wz.testtask.estore.model.DeviceSoap[] getDevices(
+			long groupId)
+		throws RemoteException {
+
+		try {
+			java.util.List<com.wz.testtask.estore.model.Device> returnValue =
+				DeviceServiceUtil.getDevices(groupId);
+
+			return com.wz.testtask.estore.model.DeviceSoap.toSoapModels(
+				returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(DeviceServiceSoap.class);
+
 }

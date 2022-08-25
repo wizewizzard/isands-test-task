@@ -14,9 +14,16 @@
 
 package com.wz.testtask.estore.service.http;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import com.wz.testtask.estore.service.EmployeeServiceUtil;
+
+import java.rmi.RemoteException;
+
 /**
  * Provides the SOAP utility for the
- * <code>com.wz.testtask.estore.service.EmployeeServiceUtil</code> service
+ * <code>EmployeeServiceUtil</code> service
  * utility. The static methods of this class call the same methods of the
  * service utility. However, the signatures are different because it is
  * difficult for SOAP to support certain types.
@@ -56,4 +63,43 @@ package com.wz.testtask.estore.service.http;
  */
 @Deprecated
 public class EmployeeServiceSoap {
+
+	public static com.wz.testtask.estore.model.EmployeeSoap getEmployeeById(
+			long employeeId)
+		throws RemoteException {
+
+		try {
+			com.wz.testtask.estore.model.Employee returnValue =
+				EmployeeServiceUtil.getEmployeeById(employeeId);
+
+			return com.wz.testtask.estore.model.EmployeeSoap.toSoapModel(
+				returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.wz.testtask.estore.model.EmployeeSoap[] getEmployees(
+			long groupId)
+		throws RemoteException {
+
+		try {
+			java.util.List<com.wz.testtask.estore.model.Employee> returnValue =
+				EmployeeServiceUtil.getEmployees(groupId);
+
+			return com.wz.testtask.estore.model.EmployeeSoap.toSoapModels(
+				returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(EmployeeServiceSoap.class);
+
 }
