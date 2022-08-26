@@ -1,7 +1,7 @@
 
 # Liferay portal test task
 
-##Demo 
+## Demo 
 
 **A video demo**
 
@@ -46,6 +46,10 @@ Assuming Blade CLI installed
 
 The command will take some time if you don't have a bundle already downloaded. 
 It will download and install Liferay 7.3.5 GA6 bundle into the project directory.
+
+To load modules into the Liferay bundle
+
+`mvn clean verify`
 
 Now portal is ready to be started.
 
