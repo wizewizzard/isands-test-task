@@ -19,8 +19,7 @@
 
 </aui:button-row>
 
-<liferay-ui:search-container emptyResultsMessage="no-data.caption"
-                             total="<%=PurchaseLocalServiceUtil.getPurchasesCount(themeDisplay.getScopeGroupId())%>">
+<liferay-ui:search-container emptyResultsMessage="no-data.caption">
     <liferay-ui:search-container-results>
         <%
 
@@ -32,7 +31,7 @@
             List<Purchase> purchases = PurchaseLocalServiceUtil.getPurchases(scopeGroupId,
                     searchContainer.getStart(),
                     searchContainer.getEnd(),
-                    OrderByComparatorFactoryUtil.create("ESTORE_Purchase", "purchasedDate", !desc)
+                    OrderByComparatorFactoryUtil.create("ESTORE_Purchase", "purchasedDate", desc)
             );
 
             pageContext.setAttribute("results", purchases);

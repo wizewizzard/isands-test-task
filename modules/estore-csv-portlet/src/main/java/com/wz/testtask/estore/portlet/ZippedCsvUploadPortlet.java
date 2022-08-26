@@ -41,7 +41,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 @Component(
         immediate = true,
         property = {
-                "com.liferay.portlet.display-category=category.sample",
+                "com.liferay.portlet.display-category=testtask",
                 "com.liferay.portlet.header-portlet-css=/css/main.css",
                 "com.liferay.portlet.instanceable=true",
                 "javax.portlet.display-name=ZippedCsvUpload",
