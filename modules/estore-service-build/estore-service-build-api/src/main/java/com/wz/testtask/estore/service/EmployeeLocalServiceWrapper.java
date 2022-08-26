@@ -310,6 +310,14 @@ public class EmployeeLocalServiceWrapper
 	}
 
 	@Override
+	public com.wz.testtask.estore.model.Employee fetchByFullName(
+		long groupId, String firstName, String lastName, String patronymic) {
+
+		return _employeeLocalService.fetchByFullName(
+			groupId, firstName, lastName, patronymic);
+	}
+
+	@Override
 	public com.wz.testtask.estore.model.Employee fetchEmployee(
 		long employeeId) {
 

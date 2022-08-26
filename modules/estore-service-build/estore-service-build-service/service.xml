@@ -88,6 +88,14 @@
 		<finder name="GroupId" return-type="Collection">
 			<finder-column name="groupId" />
 		</finder>
+
+		<finder name="ByFullName" return-type="Employee" unique="true">
+			<finder-column name="groupId" />
+			<finder-column name="firstName" />
+			<finder-column name="lastName" />
+			<finder-column name="patronymic" />
+		</finder>
+
 		<finder name="GroupIdPositionId" return-type="Collection">
 			<finder-column name="groupId" />
 			<finder-column name="positionId" />
@@ -112,7 +120,7 @@
 			<finder-column name="groupId" />
 		</finder>
 
-		<finder name="Name" return-type="Collection">
+		<finder name="Name" return-type="Device" unique="true">
 			<finder-column name="groupId" />
 			<finder-column name="name" />
 		</finder>
@@ -184,6 +192,7 @@
 		<exception>IllegalPriceValue</exception>
 		<exception>IllegalDeviceCountValue</exception>
 		<exception>InvalidBirthDate</exception>
+		<exception>InvalidPurchaseDate</exception>
 		<exception>IllegalReference</exception>
 		<exception>ConsistencyViolation</exception>
 		<exception>DeviceIsOutOfStock</exception>

@@ -32,6 +32,18 @@ public class PurchaseLocalServiceWrapper
 		_purchaseLocalService = purchaseLocalService;
 	}
 
+	@Override
+	public com.wz.testtask.estore.model.Purchase addPurchase(
+			long employeeId, long deviceId, int count,
+			java.util.Date purchaseDate, long purchaseTypeId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _purchaseLocalService.addPurchase(
+			employeeId, deviceId, count, purchaseDate, purchaseTypeId,
+			serviceContext);
+	}
+
 	/**
 	 * Adds the purchase to the database. Also notifies the appropriate model listeners.
 	 *

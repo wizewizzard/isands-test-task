@@ -44,6 +44,16 @@ public class PurchaseLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.wz.testtask.estore.service.impl.PurchaseLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static Purchase addPurchase(
+			long employeeId, long deviceId, int count,
+			java.util.Date purchaseDate, long purchaseTypeId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addPurchase(
+			employeeId, deviceId, count, purchaseDate, purchaseTypeId,
+			serviceContext);
+	}
 
 	/**
 	 * Adds the purchase to the database. Also notifies the appropriate model listeners.

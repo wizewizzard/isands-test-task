@@ -69,9 +69,11 @@ public class ZippedCsvUploadPortlet extends MVCPortlet {
             Arrays.asList(
                     new DeviceTypeCsvTableReader(),
                     new EmployeePositionCsvTableReader(),
-                    new PurchaseTypeCsvReader(),
+                    new PurchaseTypeCsvTableReader(),
                     new DeviceCsvTableReader(),
-                    new EmployeeCsvTableReader());
+                    new EmployeeCsvTableReader(),
+                    new PurchaseCsvTableReader()
+                    );
     
     /* @Inject
     private List<CsvTableReader> tableReaders;*/
@@ -179,7 +181,24 @@ public class ZippedCsvUploadPortlet extends MVCPortlet {
         long repositoryId = themeDisplay.getScopeGroupId();
         Folder folder = getFolder(themeDisplay);
         List<FileEntry> fileEntries = DLAppServiceUtil.getFileEntries(repositoryId, folder.getFolderId());
-        for (FileEntry fileEntry : fileEntries) {
+        
+        //table readers are ordered from secondary tables that must be populated first to primary ones, which depend on secondary
+        for(CsvTableReader tableReader : tableReaders){
+            for (FileEntry fileEntry : fileEntries){
+                if(tableReader.isSuitable(fileEntry.getFileName())){
+                    try(BufferedReader br = new BufferedReader(
+                            new InputStreamReader(fileEntry.getContentStream(), UTF_8))){
+                        tableReader.readCsvFile(serviceContext, br);
+                    }
+                    catch (IOException exception) {
+                        logger.error("Error reading file", exception);
+                        throw new FileReadException("Error reading file", exception);
+                    }
+                }
+            }
+        }
+        
+        /*for (FileEntry fileEntry : fileEntries) {
             try (BufferedReader br = new BufferedReader(
                     new InputStreamReader(fileEntry.getContentStream(), UTF_8))) {
                 CsvTableReader reader = tableReaders.stream()
@@ -194,7 +213,7 @@ public class ZippedCsvUploadPortlet extends MVCPortlet {
                 logger.error("Error reading file", exception);
                 throw new FileReadException("Error reading file", exception);
             }
-        }
+        }*/
     }
     
     protected void cleanUp(ThemeDisplay themeDisplay) {

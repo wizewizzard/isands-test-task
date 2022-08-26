@@ -5,7 +5,10 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.wz.testtask.estore.exception.DataFormatException;
+import com.wz.testtask.estore.model.DeviceType;
+import com.wz.testtask.estore.model.Employee;
 import com.wz.testtask.estore.model.EmployeePosition;
+import com.wz.testtask.estore.service.DeviceTypeLocalServiceUtil;
 import com.wz.testtask.estore.service.EmployeeLocalServiceUtil;
 import com.wz.testtask.estore.service.EmployeePositionLocalServiceUtil;
 
@@ -30,8 +33,8 @@ public class EmployeeCsvTableReader implements CsvTableReader {
         while ((line = reader.readLine()) != null) {
             try {
                 String[] values = line.split(",");
-                if (values.length != 6) {
-                    logger.error("Invalid params count in csv string");
+                if (values.length != 6 && values.length != 7) {
+                    logger.error("Invalid params count in csv string. Excected 7 or 6, but given " + values.length);
                     throw new DataFormatException("Invalid params count in csv file string");
                 }
                 String firstName = values[0];
@@ -41,12 +44,25 @@ public class EmployeeCsvTableReader implements CsvTableReader {
                 Date birthDate = dateFormat.parse(values[3]);
                 String gender = values[4];
                 String positionName = values[5];
-                EmployeePosition employeePosition = EmployeePositionLocalServiceUtil.getEmployeePositionByName(serviceContext.getScopeGroupId(), positionName);
+                
+                
+                EmployeePosition employeePosition =
+                        EmployeePositionLocalServiceUtil.getEmployeePositionByName(serviceContext.getScopeGroupId(), positionName);
                 if(employeePosition == null){
                     logger.error("Employee position with given name does not exist");
                     throw new DataFormatException("Employee position with given name does not exist");
                 }
-                EmployeeLocalServiceUtil.addEmployee(firstName, lastName, patronymic, birthDate, gender, employeePosition.getPositionId(), serviceContext);
+                
+                Employee employee =
+                        EmployeeLocalServiceUtil.addEmployee(firstName, lastName, patronymic, birthDate, gender, employeePosition.getPositionId(), serviceContext);
+                if(values.length == 7){
+                    String[] consultsAbout = values[6].split("/");
+                    for(String deviceTypeName : consultsAbout){
+                        DeviceType deviceType = DeviceTypeLocalServiceUtil.getDeviceTypeByName(serviceContext.getScopeGroupId(), deviceTypeName);
+                        DeviceTypeLocalServiceUtil.addEmployeeDeviceType(employee.getEmployeeId(), deviceType.getDeviceTypeId());
+                    }
+                }
+                
             } catch (NumberFormatException | ParseException exception) {
                 logger.error("Invalid param formatting");
                 throw new DataFormatException("Error when parsing param values in the csv file");

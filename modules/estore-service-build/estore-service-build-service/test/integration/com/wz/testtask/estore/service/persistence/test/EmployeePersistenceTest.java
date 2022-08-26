@@ -209,6 +209,16 @@ public class EmployeePersistenceTest {
 	}
 
 	@Test
+	public void testCountByByFullName() throws Exception {
+		_persistence.countByByFullName(RandomTestUtil.nextLong(), "", "", "");
+
+		_persistence.countByByFullName(0L, "null", "null", "null");
+
+		_persistence.countByByFullName(
+			0L, (String)null, (String)null, (String)null);
+	}
+
+	@Test
 	public void testCountByGroupIdPositionId() throws Exception {
 		_persistence.countByGroupIdPositionId(
 			RandomTestUtil.nextLong(), RandomTestUtil.nextLong());
@@ -514,6 +524,27 @@ public class EmployeePersistenceTest {
 			ReflectionTestUtil.<Long>invoke(
 				employee, "getColumnOriginalValue",
 				new Class<?>[] {String.class}, "groupId"));
+
+		Assert.assertEquals(
+			Long.valueOf(employee.getGroupId()),
+			ReflectionTestUtil.<Long>invoke(
+				employee, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
+		Assert.assertEquals(
+			employee.getFirstName(),
+			ReflectionTestUtil.invoke(
+				employee, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "firstName"));
+		Assert.assertEquals(
+			employee.getLastName(),
+			ReflectionTestUtil.invoke(
+				employee, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "lastName"));
+		Assert.assertEquals(
+			employee.getPatronymic(),
+			ReflectionTestUtil.invoke(
+				employee, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "patronymic"));
 	}
 
 	protected Employee addEmployee() throws Exception {

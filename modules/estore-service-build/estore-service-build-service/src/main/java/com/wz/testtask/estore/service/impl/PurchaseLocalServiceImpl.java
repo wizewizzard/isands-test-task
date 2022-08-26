@@ -21,7 +21,10 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.wz.testtask.estore.exception.*;
-import com.wz.testtask.estore.model.*;
+import com.wz.testtask.estore.model.Device;
+import com.wz.testtask.estore.model.DeviceType;
+import com.wz.testtask.estore.model.Purchase;
+import com.wz.testtask.estore.model.PurchaseType;
 import com.wz.testtask.estore.service.DeviceLocalServiceUtil;
 import com.wz.testtask.estore.service.DeviceTypeLocalServiceUtil;
 import com.wz.testtask.estore.service.PurchaseTypeLocalServiceUtil;
@@ -45,7 +48,7 @@ public class PurchaseLocalServiceImpl extends PurchaseLocalServiceBaseImpl {
                              long purchaseTypeId, ServiceContext serviceContext) throws PortalException {
         logger.info(String.format("Making purchase by employee: %d device: %d count: %d purchase type: %d",
                 employeeId, deviceId, count, purchaseTypeId));
-
+        
         long purchaseId = counterLocalService.increment();
         Purchase purchase = purchaseLocalService.createPurchase(purchaseId);
         purchase.setGroupId(serviceContext.getScopeGroupId());
@@ -68,7 +71,7 @@ public class PurchaseLocalServiceImpl extends PurchaseLocalServiceBaseImpl {
     }
     
     public void updatePurchase(long purchaseId, long employeeId, long deviceId, int count,
-                               long purchaseTypeId, ServiceContext serviceContext) throws PortalException{
+                               long purchaseTypeId, ServiceContext serviceContext) throws PortalException {
         logger.info(String.format("Updating purchase: %d for employee: %d device: %d count: %d purchase type: %d",
                 purchaseId, employeeId, deviceId, count, purchaseTypeId));
         
@@ -80,23 +83,22 @@ public class PurchaseLocalServiceImpl extends PurchaseLocalServiceBaseImpl {
         purchase.setDeviceId(deviceId);
         purchase.setCount(count);
         validateUpdatedPurchase(purchase, previousDeviceId, previousCount);
-    
+        
         logger.info("Validation passed. Updating purchase");
         
         purchasePersistence.update(purchase);
         
-        if(previousDeviceId == purchase.getDeviceId()){
+        if (previousDeviceId == purchase.getDeviceId()) {
             int delta = purchase.getCount() - previousCount;
             Device device = DeviceLocalServiceUtil.getDevice(purchase.getDeviceId());
             device.setCount(device.getCount() - delta);
             device.setInStock(device.getCount() > 0);
             DeviceLocalServiceUtil.updateDevice(device);
-        }
-        else{
+        } else {
             Device previousDevice = DeviceLocalServiceUtil.getDevice(previousDeviceId);
             previousDevice.setCount(previousDevice.getCount() + previousCount);
             previousDevice.setInStock(previousDevice.getCount() > 0);
-    
+            
             Device device = DeviceLocalServiceUtil.getDevice(purchase.getDeviceId());
             device.setCount(device.getCount() - purchase.getCount());
             device.setInStock(device.getCount() > 0);
@@ -104,6 +106,23 @@ public class PurchaseLocalServiceImpl extends PurchaseLocalServiceBaseImpl {
             DeviceLocalServiceUtil.updateDevice(previousDevice);
             DeviceLocalServiceUtil.updateDevice(device);
         }
+    }
+    
+    public Purchase addPurchase(long employeeId, long deviceId, int count, Date purchaseDate,
+                                long purchaseTypeId, ServiceContext serviceContext) throws PortalException {
+        long purchaseId = counterLocalService.increment();
+        Purchase purchase = purchaseLocalService.createPurchase(purchaseId);
+        purchase.setGroupId(serviceContext.getScopeGroupId());
+        purchase.setCompanyId(serviceContext.getCompanyId());
+        purchase.setEmployeeId(employeeId);
+        purchase.setPurchaseTypeId(purchaseTypeId);
+        purchase.setDeviceId(deviceId);
+        purchase.setPurchasedDate(purchaseDate);
+        purchase.setCount(count);
+        
+        validate(purchase);
+        
+        return purchasePersistence.update(purchase);
     }
     
     
@@ -114,7 +133,7 @@ public class PurchaseLocalServiceImpl extends PurchaseLocalServiceBaseImpl {
     
     public List<Purchase> getPurchases(long groupId, int start, int end,
                                        OrderByComparator<Purchase> obc) {
-        
+        logger.info("Getting purchases sorted " + groupId + " " + start + " " + end + " " + obc);
         return purchasePersistence.findByGroupId(groupId, start, end, obc);
     }
     
@@ -145,13 +164,34 @@ public class PurchaseLocalServiceImpl extends PurchaseLocalServiceBaseImpl {
     }
     
     /**
-     * Check if purchase can be performed. Checks whether employee is allowed to sign it, whether there is enough
-     * devices in stock or it is archived.
+     * Basic validation of field values
+     *
      * @param purchase
      * @throws PortalException
      */
-    protected void validateNewPurchase(Purchase purchase) throws PortalException{
+    protected void validate(Purchase purchase) throws PortalException {
+        
+        if (purchase.getPurchasedDate().after(new Date())) {
+            throw new InvalidPurchaseDateException("Date can not be after today's date");
+        }
+        
+        if (purchase.getCount() <= 0) {
+            logger.error("Amount is less than 0");
+            throw new WrongAmountOfDevicesException("Count can not be less or equal to 0");
+        }
+    }
+    
+    /**
+     * Check if purchase can be performed. Checks whether employee is allowed to sign it, whether there is enough
+     * devices in stock or it is archived.
+     *
+     * @param purchase
+     * @throws PortalException
+     */
+    protected void validateNewPurchase(Purchase purchase) throws PortalException {
         logger.info("Validating purchase...");
+        validate(purchase);
+        
         Device device = DeviceLocalServiceUtil.getDevice(purchase.getDeviceId());
         List<DeviceType> deviceTypesEmployeeConsult = DeviceTypeLocalServiceUtil.getEmployeeDeviceTypes(purchase.getEmployeeId());
         PurchaseType purchaseType = PurchaseTypeLocalServiceUtil.getPurchaseType(purchase.getPurchaseTypeId());
@@ -159,13 +199,10 @@ public class PurchaseLocalServiceImpl extends PurchaseLocalServiceBaseImpl {
         if (deviceTypesEmployeeConsult.stream().noneMatch(d -> d.getDeviceTypeId() == device.getDeviceTypeId())) {
             throw new EmployeeIsNotResponsibleException("Employee can not sign this purchase");
         }
-    
-        if(purchase.getCount() <= 0 )
-            throw new WrongAmountOfDevicesException("Count can not be less or equal to 0");
         
         if (device.isArchive())
             throw new DeviceIsArchivedException("Device is archived");
-
+        
         if (!device.getInStock() || device.getCount() < purchase.getCount())
             throw new DeviceIsOutOfStockException("Not enough devices in stock");
     }
@@ -173,18 +210,20 @@ public class PurchaseLocalServiceImpl extends PurchaseLocalServiceBaseImpl {
     /**
      * Check if purchase can be performed. Checks whether employee is allowed to sign it, whether there is enough
      * devices in stock or it is archived.
-     * @param purchase current purchase
+     *
+     * @param purchase         current purchase
      * @param previousDeviceId device id from previous order
-     * @param previousCount count of devices from previous order
+     * @param previousCount    count of devices from previous order
      * @throws PortalException
      */
     protected void validateUpdatedPurchase(Purchase purchase, long previousDeviceId, int previousCount)
-            throws PortalException{
+            throws PortalException {
+        validate(purchase);
         
         Device device = DeviceLocalServiceUtil.getDevice(purchase.getDeviceId());
         List<DeviceType> deviceTypesEmployeeConsult = DeviceTypeLocalServiceUtil.getEmployeeDeviceTypes(purchase.getEmployeeId());
         PurchaseType purchaseType = PurchaseTypeLocalServiceUtil.getPurchaseType(purchase.getPurchaseTypeId());
-    
+        
         logger.info(String.format("Validating purchase for update devices are current: %d, count: %d" +
                         ", previous: %d, previous count: %d",
                 purchase.getDeviceId(), device.getCount(), previousDeviceId, previousCount));
@@ -194,34 +233,24 @@ public class PurchaseLocalServiceImpl extends PurchaseLocalServiceBaseImpl {
             throw new EmployeeIsNotResponsibleException("Employee can not sign this purchase");
         }
         
-        if(purchase.getCount() <= 0 ){
-            logger.error("Amount is less than 0");
-            throw new WrongAmountOfDevicesException("Count can not be less or equal to 0");
-        }
-        
-        
-        if (device.isArchive()){
+        if (device.isArchive()) {
             logger.error("Device is archived");
             throw new DeviceIsArchivedException("Device is archived");
         }
         
-        
-        if(previousDeviceId == purchase.getDeviceId()){
-            if(device.getCount() + previousCount - purchase.getCount() < 0){
+        if (previousDeviceId == purchase.getDeviceId()) {
+            if (device.getCount() + previousCount - purchase.getCount() < 0) {
                 logger.error(String.format("Can't buy same item. Given amount is greater (%d) " +
-                        "than there is in stock %d", purchase.getCount(), device.getCount() + previousCount ));
+                        "than there is in stock %d", purchase.getCount(), device.getCount() + previousCount));
                 throw new DeviceIsOutOfStockException("Not enough devices in stock");
             }
-        }
-        else{
-            if(device.getCount() - purchase.getCount() < 0){
+        } else {
+            if (device.getCount() - purchase.getCount() < 0) {
                 logger.error(String.format("Can't buy another item. Given amount is greater (%d) " +
-                        "than there is in stock %d", purchase.getCount(), device.getCount() ));
+                        "than there is in stock %d", purchase.getCount(), device.getCount()));
                 throw new DeviceIsOutOfStockException("Not enough devices in stock");
             }
         }
         
-            
-            
     }
 }

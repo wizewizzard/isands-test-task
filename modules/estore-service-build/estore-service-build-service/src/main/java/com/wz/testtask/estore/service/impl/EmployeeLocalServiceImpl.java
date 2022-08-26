@@ -156,6 +156,10 @@ public class EmployeeLocalServiceImpl extends EmployeeLocalServiceBaseImpl {
                 .collect(Collectors.toList());
     }
     
+    public Employee fetchByFullName(long groupId, String firstName, String lastName, String patronymic){
+        return employeePersistence.fetchByByFullName(groupId, firstName, lastName, patronymic);
+    }
+    
     protected void validate(Employee employee) throws PortalException {
         if (Validator.isNull(employee)) {
             throw new IllegalReferenceException();

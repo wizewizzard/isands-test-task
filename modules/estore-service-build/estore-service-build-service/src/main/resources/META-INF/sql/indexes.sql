@@ -1,5 +1,5 @@
 create index IX_58268D6A on ESTORE_Device (groupId, deviceTypeId);
-create index IX_A30C190A on ESTORE_Device (groupId, name[$COLUMN_LENGTH:150$]);
+create unique index IX_A30C190A on ESTORE_Device (groupId, name[$COLUMN_LENGTH:150$]);
 create index IX_D8C80633 on ESTORE_Device (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_84F27D75 on ESTORE_Device (uuid_[$COLUMN_LENGTH:75$], groupId);
 
@@ -8,6 +8,7 @@ create index IX_E071340D on ESTORE_DeviceType (uuid_[$COLUMN_LENGTH:75$], compan
 create unique index IX_CCE159CF on ESTORE_DeviceType (uuid_[$COLUMN_LENGTH:75$], groupId);
 
 create index IX_4BDC440B on ESTORE_Employee (groupId, positionId);
+create unique index IX_E05E4E6F on ESTORE_Employee (lastName[$COLUMN_LENGTH:100$], firstName[$COLUMN_LENGTH:100$], patronymic[$COLUMN_LENGTH:100$]);
 create index IX_671715CB on ESTORE_Employee (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_7A70930D on ESTORE_Employee (uuid_[$COLUMN_LENGTH:75$], groupId);
 

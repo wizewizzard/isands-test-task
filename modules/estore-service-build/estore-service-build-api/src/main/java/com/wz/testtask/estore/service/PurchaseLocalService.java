@@ -32,11 +32,11 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
 import com.wz.testtask.estore.exception.*;
-import com.wz.testtask.estore.model.*;
 import com.wz.testtask.estore.model.Purchase;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.List;
 
 import org.osgi.annotation.versioning.ProviderType;
@@ -64,6 +64,10 @@ public interface PurchaseLocalService
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>com.wz.testtask.estore.service.impl.PurchaseLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the purchase local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link PurchaseLocalServiceUtil} if injection and service tracking are not available.
 	 */
+	public Purchase addPurchase(
+			long employeeId, long deviceId, int count, Date purchaseDate,
+			long purchaseTypeId, ServiceContext serviceContext)
+		throws PortalException;
 
 	/**
 	 * Adds the purchase to the database. Also notifies the appropriate model listeners.

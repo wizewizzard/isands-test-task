@@ -264,6 +264,10 @@ public class DeviceLocalServiceUtil {
 		return getService().fetchDevice(deviceId);
 	}
 
+	public static Device fetchDeviceByName(long groupId, String name) {
+		return getService().fetchDeviceByName(groupId, name);
+	}
+
 	/**
 	 * Returns the device matching the UUID and group.
 	 *

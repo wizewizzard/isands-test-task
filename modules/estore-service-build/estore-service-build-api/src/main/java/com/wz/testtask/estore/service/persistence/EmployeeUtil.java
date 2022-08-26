@@ -693,6 +693,91 @@ public class EmployeeUtil {
 	}
 
 	/**
+	 * Returns the employee where groupId = &#63; and firstName = &#63; and lastName = &#63; and patronymic = &#63; or throws a <code>NoSuchEmployeeException</code> if it could not be found.
+	 *
+	 * @param groupId the group ID
+	 * @param firstName the first name
+	 * @param lastName the last name
+	 * @param patronymic the patronymic
+	 * @return the matching employee
+	 * @throws NoSuchEmployeeException if a matching employee could not be found
+	 */
+	public static Employee findByByFullName(
+			long groupId, String firstName, String lastName, String patronymic)
+		throws com.wz.testtask.estore.exception.NoSuchEmployeeException {
+
+		return getPersistence().findByByFullName(
+			groupId, firstName, lastName, patronymic);
+	}
+
+	/**
+	 * Returns the employee where groupId = &#63; and firstName = &#63; and lastName = &#63; and patronymic = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param groupId the group ID
+	 * @param firstName the first name
+	 * @param lastName the last name
+	 * @param patronymic the patronymic
+	 * @return the matching employee, or <code>null</code> if a matching employee could not be found
+	 */
+	public static Employee fetchByByFullName(
+		long groupId, String firstName, String lastName, String patronymic) {
+
+		return getPersistence().fetchByByFullName(
+			groupId, firstName, lastName, patronymic);
+	}
+
+	/**
+	 * Returns the employee where groupId = &#63; and firstName = &#63; and lastName = &#63; and patronymic = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param groupId the group ID
+	 * @param firstName the first name
+	 * @param lastName the last name
+	 * @param patronymic the patronymic
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching employee, or <code>null</code> if a matching employee could not be found
+	 */
+	public static Employee fetchByByFullName(
+		long groupId, String firstName, String lastName, String patronymic,
+		boolean useFinderCache) {
+
+		return getPersistence().fetchByByFullName(
+			groupId, firstName, lastName, patronymic, useFinderCache);
+	}
+
+	/**
+	 * Removes the employee where groupId = &#63; and firstName = &#63; and lastName = &#63; and patronymic = &#63; from the database.
+	 *
+	 * @param groupId the group ID
+	 * @param firstName the first name
+	 * @param lastName the last name
+	 * @param patronymic the patronymic
+	 * @return the employee that was removed
+	 */
+	public static Employee removeByByFullName(
+			long groupId, String firstName, String lastName, String patronymic)
+		throws com.wz.testtask.estore.exception.NoSuchEmployeeException {
+
+		return getPersistence().removeByByFullName(
+			groupId, firstName, lastName, patronymic);
+	}
+
+	/**
+	 * Returns the number of employees where groupId = &#63; and firstName = &#63; and lastName = &#63; and patronymic = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param firstName the first name
+	 * @param lastName the last name
+	 * @param patronymic the patronymic
+	 * @return the number of matching employees
+	 */
+	public static int countByByFullName(
+		long groupId, String firstName, String lastName, String patronymic) {
+
+		return getPersistence().countByByFullName(
+			groupId, firstName, lastName, patronymic);
+	}
+
+	/**
 	 * Returns all the employees where groupId = &#63; and positionId = &#63;.
 	 *
 	 * @param groupId the group ID

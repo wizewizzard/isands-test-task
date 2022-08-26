@@ -175,6 +175,10 @@ public class DeviceLocalServiceImpl extends DeviceLocalServiceBaseImpl {
         return devicePersistence.countByGroupId(groupId);
     }
     
+    public Device fetchDeviceByName(long groupId, String name){
+        return devicePersistence.fetchByName(groupId, name);
+    }
+    
     protected void validate(Device device) throws PortalException {
         if (Validator.isNull(device)) {
             throw new IllegalReferenceException();

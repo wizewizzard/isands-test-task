@@ -285,6 +285,13 @@ public class EmployeeLocalServiceUtil {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
+	public static Employee fetchByFullName(
+		long groupId, String firstName, String lastName, String patronymic) {
+
+		return getService().fetchByFullName(
+			groupId, firstName, lastName, patronymic);
+	}
+
 	public static Employee fetchEmployee(long employeeId) {
 		return getService().fetchEmployee(employeeId);
 	}

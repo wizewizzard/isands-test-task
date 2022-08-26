@@ -236,6 +236,10 @@ public interface EmployeeLocalService
 		DynamicQuery dynamicQuery, Projection projection);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Employee fetchByFullName(
+		long groupId, String firstName, String lastName, String patronymic);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Employee fetchEmployee(long employeeId);
 
 	/**

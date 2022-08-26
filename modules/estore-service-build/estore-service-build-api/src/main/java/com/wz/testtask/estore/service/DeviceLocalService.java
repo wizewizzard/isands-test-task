@@ -239,6 +239,9 @@ public interface DeviceLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Device fetchDevice(long deviceId);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Device fetchDeviceByName(long groupId, String name);
+
 	/**
 	 * Returns the device matching the UUID and group.
 	 *

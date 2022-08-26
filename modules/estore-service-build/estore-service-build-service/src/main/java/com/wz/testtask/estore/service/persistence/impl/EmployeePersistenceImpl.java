@@ -1947,6 +1947,362 @@ public class EmployeePersistenceImpl
 	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 =
 		"employee.groupId = ?";
 
+	private FinderPath _finderPathFetchByByFullName;
+	private FinderPath _finderPathCountByByFullName;
+
+	/**
+	 * Returns the employee where groupId = &#63; and firstName = &#63; and lastName = &#63; and patronymic = &#63; or throws a <code>NoSuchEmployeeException</code> if it could not be found.
+	 *
+	 * @param groupId the group ID
+	 * @param firstName the first name
+	 * @param lastName the last name
+	 * @param patronymic the patronymic
+	 * @return the matching employee
+	 * @throws NoSuchEmployeeException if a matching employee could not be found
+	 */
+	@Override
+	public Employee findByByFullName(
+			long groupId, String firstName, String lastName, String patronymic)
+		throws NoSuchEmployeeException {
+
+		Employee employee = fetchByByFullName(
+			groupId, firstName, lastName, patronymic);
+
+		if (employee == null) {
+			StringBundler sb = new StringBundler(10);
+
+			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			sb.append("groupId=");
+			sb.append(groupId);
+
+			sb.append(", firstName=");
+			sb.append(firstName);
+
+			sb.append(", lastName=");
+			sb.append(lastName);
+
+			sb.append(", patronymic=");
+			sb.append(patronymic);
+
+			sb.append("}");
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(sb.toString());
+			}
+
+			throw new NoSuchEmployeeException(sb.toString());
+		}
+
+		return employee;
+	}
+
+	/**
+	 * Returns the employee where groupId = &#63; and firstName = &#63; and lastName = &#63; and patronymic = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param groupId the group ID
+	 * @param firstName the first name
+	 * @param lastName the last name
+	 * @param patronymic the patronymic
+	 * @return the matching employee, or <code>null</code> if a matching employee could not be found
+	 */
+	@Override
+	public Employee fetchByByFullName(
+		long groupId, String firstName, String lastName, String patronymic) {
+
+		return fetchByByFullName(
+			groupId, firstName, lastName, patronymic, true);
+	}
+
+	/**
+	 * Returns the employee where groupId = &#63; and firstName = &#63; and lastName = &#63; and patronymic = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param groupId the group ID
+	 * @param firstName the first name
+	 * @param lastName the last name
+	 * @param patronymic the patronymic
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching employee, or <code>null</code> if a matching employee could not be found
+	 */
+	@Override
+	public Employee fetchByByFullName(
+		long groupId, String firstName, String lastName, String patronymic,
+		boolean useFinderCache) {
+
+		firstName = Objects.toString(firstName, "");
+		lastName = Objects.toString(lastName, "");
+		patronymic = Objects.toString(patronymic, "");
+
+		Object[] finderArgs = null;
+
+		if (useFinderCache) {
+			finderArgs = new Object[] {
+				groupId, firstName, lastName, patronymic
+			};
+		}
+
+		Object result = null;
+
+		if (useFinderCache) {
+			result = finderCache.getResult(
+				_finderPathFetchByByFullName, finderArgs, this);
+		}
+
+		if (result instanceof Employee) {
+			Employee employee = (Employee)result;
+
+			if ((groupId != employee.getGroupId()) ||
+				!Objects.equals(firstName, employee.getFirstName()) ||
+				!Objects.equals(lastName, employee.getLastName()) ||
+				!Objects.equals(patronymic, employee.getPatronymic())) {
+
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler sb = new StringBundler(6);
+
+			sb.append(_SQL_SELECT_EMPLOYEE_WHERE);
+
+			sb.append(_FINDER_COLUMN_BYFULLNAME_GROUPID_2);
+
+			boolean bindFirstName = false;
+
+			if (firstName.isEmpty()) {
+				sb.append(_FINDER_COLUMN_BYFULLNAME_FIRSTNAME_3);
+			}
+			else {
+				bindFirstName = true;
+
+				sb.append(_FINDER_COLUMN_BYFULLNAME_FIRSTNAME_2);
+			}
+
+			boolean bindLastName = false;
+
+			if (lastName.isEmpty()) {
+				sb.append(_FINDER_COLUMN_BYFULLNAME_LASTNAME_3);
+			}
+			else {
+				bindLastName = true;
+
+				sb.append(_FINDER_COLUMN_BYFULLNAME_LASTNAME_2);
+			}
+
+			boolean bindPatronymic = false;
+
+			if (patronymic.isEmpty()) {
+				sb.append(_FINDER_COLUMN_BYFULLNAME_PATRONYMIC_3);
+			}
+			else {
+				bindPatronymic = true;
+
+				sb.append(_FINDER_COLUMN_BYFULLNAME_PATRONYMIC_2);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(groupId);
+
+				if (bindFirstName) {
+					queryPos.add(firstName);
+				}
+
+				if (bindLastName) {
+					queryPos.add(lastName);
+				}
+
+				if (bindPatronymic) {
+					queryPos.add(patronymic);
+				}
+
+				List<Employee> list = query.list();
+
+				if (list.isEmpty()) {
+					if (useFinderCache) {
+						finderCache.putResult(
+							_finderPathFetchByByFullName, finderArgs, list);
+					}
+				}
+				else {
+					Employee employee = list.get(0);
+
+					result = employee;
+
+					cacheResult(employee);
+				}
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Employee)result;
+		}
+	}
+
+	/**
+	 * Removes the employee where groupId = &#63; and firstName = &#63; and lastName = &#63; and patronymic = &#63; from the database.
+	 *
+	 * @param groupId the group ID
+	 * @param firstName the first name
+	 * @param lastName the last name
+	 * @param patronymic the patronymic
+	 * @return the employee that was removed
+	 */
+	@Override
+	public Employee removeByByFullName(
+			long groupId, String firstName, String lastName, String patronymic)
+		throws NoSuchEmployeeException {
+
+		Employee employee = findByByFullName(
+			groupId, firstName, lastName, patronymic);
+
+		return remove(employee);
+	}
+
+	/**
+	 * Returns the number of employees where groupId = &#63; and firstName = &#63; and lastName = &#63; and patronymic = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param firstName the first name
+	 * @param lastName the last name
+	 * @param patronymic the patronymic
+	 * @return the number of matching employees
+	 */
+	@Override
+	public int countByByFullName(
+		long groupId, String firstName, String lastName, String patronymic) {
+
+		firstName = Objects.toString(firstName, "");
+		lastName = Objects.toString(lastName, "");
+		patronymic = Objects.toString(patronymic, "");
+
+		FinderPath finderPath = _finderPathCountByByFullName;
+
+		Object[] finderArgs = new Object[] {
+			groupId, firstName, lastName, patronymic
+		};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(5);
+
+			sb.append(_SQL_COUNT_EMPLOYEE_WHERE);
+
+			sb.append(_FINDER_COLUMN_BYFULLNAME_GROUPID_2);
+
+			boolean bindFirstName = false;
+
+			if (firstName.isEmpty()) {
+				sb.append(_FINDER_COLUMN_BYFULLNAME_FIRSTNAME_3);
+			}
+			else {
+				bindFirstName = true;
+
+				sb.append(_FINDER_COLUMN_BYFULLNAME_FIRSTNAME_2);
+			}
+
+			boolean bindLastName = false;
+
+			if (lastName.isEmpty()) {
+				sb.append(_FINDER_COLUMN_BYFULLNAME_LASTNAME_3);
+			}
+			else {
+				bindLastName = true;
+
+				sb.append(_FINDER_COLUMN_BYFULLNAME_LASTNAME_2);
+			}
+
+			boolean bindPatronymic = false;
+
+			if (patronymic.isEmpty()) {
+				sb.append(_FINDER_COLUMN_BYFULLNAME_PATRONYMIC_3);
+			}
+			else {
+				bindPatronymic = true;
+
+				sb.append(_FINDER_COLUMN_BYFULLNAME_PATRONYMIC_2);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(groupId);
+
+				if (bindFirstName) {
+					queryPos.add(firstName);
+				}
+
+				if (bindLastName) {
+					queryPos.add(lastName);
+				}
+
+				if (bindPatronymic) {
+					queryPos.add(patronymic);
+				}
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_BYFULLNAME_GROUPID_2 =
+		"employee.groupId = ? AND ";
+
+	private static final String _FINDER_COLUMN_BYFULLNAME_FIRSTNAME_2 =
+		"employee.firstName = ? AND ";
+
+	private static final String _FINDER_COLUMN_BYFULLNAME_FIRSTNAME_3 =
+		"(employee.firstName IS NULL OR employee.firstName = '') AND ";
+
+	private static final String _FINDER_COLUMN_BYFULLNAME_LASTNAME_2 =
+		"employee.lastName = ? AND ";
+
+	private static final String _FINDER_COLUMN_BYFULLNAME_LASTNAME_3 =
+		"(employee.lastName IS NULL OR employee.lastName = '') AND ";
+
+	private static final String _FINDER_COLUMN_BYFULLNAME_PATRONYMIC_2 =
+		"employee.patronymic = ?";
+
+	private static final String _FINDER_COLUMN_BYFULLNAME_PATRONYMIC_3 =
+		"(employee.patronymic IS NULL OR employee.patronymic = '')";
+
 	private FinderPath _finderPathWithPaginationFindByGroupIdPositionId;
 	private FinderPath _finderPathWithoutPaginationFindByGroupIdPositionId;
 	private FinderPath _finderPathCountByGroupIdPositionId;
@@ -2513,6 +2869,14 @@ public class EmployeePersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByUUID_G,
 			new Object[] {employee.getUuid(), employee.getGroupId()}, employee);
+
+		finderCache.putResult(
+			_finderPathFetchByByFullName,
+			new Object[] {
+				employee.getGroupId(), employee.getFirstName(),
+				employee.getLastName(), employee.getPatronymic()
+			},
+			employee);
 	}
 
 	private int _valueObjectFinderCacheListThreshold;
@@ -2597,6 +2961,16 @@ public class EmployeePersistenceImpl
 			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByUUID_G, args, employeeModelImpl, false);
+
+		args = new Object[] {
+			employeeModelImpl.getGroupId(), employeeModelImpl.getFirstName(),
+			employeeModelImpl.getLastName(), employeeModelImpl.getPatronymic()
+		};
+
+		finderCache.putResult(
+			_finderPathCountByByFullName, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByByFullName, args, employeeModelImpl, false);
 	}
 
 	/**
@@ -3418,6 +3792,24 @@ public class EmployeePersistenceImpl
 		_finderPathCountByGroupId = _createFinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
 			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			false);
+
+		_finderPathFetchByByFullName = _createFinderPath(
+			FINDER_CLASS_NAME_ENTITY, "fetchByByFullName",
+			new String[] {
+				Long.class.getName(), String.class.getName(),
+				String.class.getName(), String.class.getName()
+			},
+			new String[] {"groupId", "firstName", "lastName", "patronymic"},
+			true);
+
+		_finderPathCountByByFullName = _createFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByByFullName",
+			new String[] {
+				Long.class.getName(), String.class.getName(),
+				String.class.getName(), String.class.getName()
+			},
+			new String[] {"groupId", "firstName", "lastName", "patronymic"},
 			false);
 
 		_finderPathWithPaginationFindByGroupIdPositionId = _createFinderPath(

@@ -531,149 +531,45 @@ public interface DevicePersistence extends BasePersistence<Device> {
 	public int countByGroupId(long groupId);
 
 	/**
-	 * Returns all the devices where groupId = &#63; and name = &#63;.
+	 * Returns the device where groupId = &#63; and name = &#63; or throws a <code>NoSuchDeviceException</code> if it could not be found.
 	 *
 	 * @param groupId the group ID
 	 * @param name the name
-	 * @return the matching devices
+	 * @return the matching device
+	 * @throws NoSuchDeviceException if a matching device could not be found
 	 */
-	public java.util.List<Device> findByName(long groupId, String name);
+	public Device findByName(long groupId, String name)
+		throws NoSuchDeviceException;
 
 	/**
-	 * Returns a range of all the devices where groupId = &#63; and name = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>DeviceModelImpl</code>.
-	 * </p>
+	 * Returns the device where groupId = &#63; and name = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
 	 * @param groupId the group ID
 	 * @param name the name
-	 * @param start the lower bound of the range of devices
-	 * @param end the upper bound of the range of devices (not inclusive)
-	 * @return the range of matching devices
+	 * @return the matching device, or <code>null</code> if a matching device could not be found
 	 */
-	public java.util.List<Device> findByName(
-		long groupId, String name, int start, int end);
+	public Device fetchByName(long groupId, String name);
 
 	/**
-	 * Returns an ordered range of all the devices where groupId = &#63; and name = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>DeviceModelImpl</code>.
-	 * </p>
+	 * Returns the device where groupId = &#63; and name = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
 	 * @param groupId the group ID
 	 * @param name the name
-	 * @param start the lower bound of the range of devices
-	 * @param end the upper bound of the range of devices (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching devices
-	 */
-	public java.util.List<Device> findByName(
-		long groupId, String name, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<Device>
-			orderByComparator);
-
-	/**
-	 * Returns an ordered range of all the devices where groupId = &#63; and name = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>DeviceModelImpl</code>.
-	 * </p>
-	 *
-	 * @param groupId the group ID
-	 * @param name the name
-	 * @param start the lower bound of the range of devices
-	 * @param end the upper bound of the range of devices (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param useFinderCache whether to use the finder cache
-	 * @return the ordered range of matching devices
+	 * @return the matching device, or <code>null</code> if a matching device could not be found
 	 */
-	public java.util.List<Device> findByName(
-		long groupId, String name, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<Device>
-			orderByComparator,
-		boolean useFinderCache);
+	public Device fetchByName(
+		long groupId, String name, boolean useFinderCache);
 
 	/**
-	 * Returns the first device in the ordered set where groupId = &#63; and name = &#63;.
+	 * Removes the device where groupId = &#63; and name = &#63; from the database.
 	 *
 	 * @param groupId the group ID
 	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching device
-	 * @throws NoSuchDeviceException if a matching device could not be found
+	 * @return the device that was removed
 	 */
-	public Device findByName_First(
-			long groupId, String name,
-			com.liferay.portal.kernel.util.OrderByComparator<Device>
-				orderByComparator)
+	public Device removeByName(long groupId, String name)
 		throws NoSuchDeviceException;
-
-	/**
-	 * Returns the first device in the ordered set where groupId = &#63; and name = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching device, or <code>null</code> if a matching device could not be found
-	 */
-	public Device fetchByName_First(
-		long groupId, String name,
-		com.liferay.portal.kernel.util.OrderByComparator<Device>
-			orderByComparator);
-
-	/**
-	 * Returns the last device in the ordered set where groupId = &#63; and name = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching device
-	 * @throws NoSuchDeviceException if a matching device could not be found
-	 */
-	public Device findByName_Last(
-			long groupId, String name,
-			com.liferay.portal.kernel.util.OrderByComparator<Device>
-				orderByComparator)
-		throws NoSuchDeviceException;
-
-	/**
-	 * Returns the last device in the ordered set where groupId = &#63; and name = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching device, or <code>null</code> if a matching device could not be found
-	 */
-	public Device fetchByName_Last(
-		long groupId, String name,
-		com.liferay.portal.kernel.util.OrderByComparator<Device>
-			orderByComparator);
-
-	/**
-	 * Returns the devices before and after the current device in the ordered set where groupId = &#63; and name = &#63;.
-	 *
-	 * @param deviceId the primary key of the current device
-	 * @param groupId the group ID
-	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next device
-	 * @throws NoSuchDeviceException if a device with the primary key could not be found
-	 */
-	public Device[] findByName_PrevAndNext(
-			long deviceId, long groupId, String name,
-			com.liferay.portal.kernel.util.OrderByComparator<Device>
-				orderByComparator)
-		throws NoSuchDeviceException;
-
-	/**
-	 * Removes all the devices where groupId = &#63; and name = &#63; from the database.
-	 *
-	 * @param groupId the group ID
-	 * @param name the name
-	 */
-	public void removeByName(long groupId, String name);
 
 	/**
 	 * Returns the number of devices where groupId = &#63; and name = &#63;.

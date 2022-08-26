@@ -10,7 +10,7 @@ import com.wz.testtask.estore.service.PurchaseTypeLocalServiceUtil;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public class PurchaseTypeCsvReader implements CsvTableReader {
+public class PurchaseTypeCsvTableReader implements CsvTableReader {
     private static final Log logger = LogFactoryUtil.getLog(EmployeeCsvTableReader.class);
     
     @Override

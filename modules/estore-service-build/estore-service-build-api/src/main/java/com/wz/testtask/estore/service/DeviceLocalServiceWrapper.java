@@ -278,6 +278,13 @@ public class DeviceLocalServiceWrapper
 		return _deviceLocalService.fetchDevice(deviceId);
 	}
 
+	@Override
+	public com.wz.testtask.estore.model.Device fetchDeviceByName(
+		long groupId, String name) {
+
+		return _deviceLocalService.fetchDeviceByName(groupId, name);
+	}
+
 	/**
 	 * Returns the device matching the UUID and group.
 	 *
