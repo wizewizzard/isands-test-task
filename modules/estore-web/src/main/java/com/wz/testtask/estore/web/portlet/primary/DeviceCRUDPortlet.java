@@ -14,7 +14,6 @@ import com.wz.testtask.estore.exception.EmptyFieldException;
 import com.wz.testtask.estore.exception.IllegalDeviceCountValueException;
 import com.wz.testtask.estore.exception.IllegalPriceValueException;
 import com.wz.testtask.estore.service.DeviceLocalServiceUtil;
-import com.wz.testtask.estore.service.EmployeeLocalServiceUtil;
 import com.wz.testtask.estore.web.constants.DevicePortletKeys;
 import org.osgi.service.component.annotations.Component;
 
@@ -57,23 +56,19 @@ public class DeviceCRUDPortlet extends MVCPortlet {
                     count, archive, description, serviceContext);
             SessionMessages.add(request, "device-added");
             logger.info("Device was created");
-        }
-        catch (EmptyFieldException exception){
+        } catch (EmptyFieldException exception) {
             SessionErrors.add(request, "required-field-empty");
             logger.error("One or more of the fields are empty");
             response.setRenderParameter("mvcPath", "/device/edit.jsp");
-        }
-        catch (IllegalPriceValueException exception){
+        } catch (IllegalPriceValueException exception) {
             SessionErrors.add(request, "invalid-device-price");
             logger.error("Device's price can not be less than 0");
             response.setRenderParameter("mvcPath", "/device/edit.jsp");
-        }
-        catch (IllegalDeviceCountValueException exception){
+        } catch (IllegalDeviceCountValueException exception) {
             SessionErrors.add(request, "invalid-device-count");
             logger.error("Device count can not be less than 0");
             response.setRenderParameter("mvcPath", "/device/edit.jsp");
-        }
-        catch (PortalException exception) {
+        } catch (PortalException exception) {
             logger.error("Portal error occurred!", exception);
             SessionErrors.add(request, "portal-error");
             response.setRenderParameter("mvcPath", "/error.jsp");
@@ -95,23 +90,19 @@ public class DeviceCRUDPortlet extends MVCPortlet {
                     count, archive, description, serviceContext);
             SessionMessages.add(request, "device-updated");
             logger.info("Device was created");
-        }
-        catch (EmptyFieldException exception){
+        } catch (EmptyFieldException exception) {
             SessionErrors.add(request, "required-field-empty");
             logger.error("One or more of the fields are empty");
             response.setRenderParameter("mvcPath", "/device/edit.jsp");
-        }
-        catch (IllegalPriceValueException exception){
+        } catch (IllegalPriceValueException exception) {
             SessionErrors.add(request, "invalid-device-price");
             logger.error("Device's price can not be less than 0");
             response.setRenderParameter("mvcPath", "/device/edit.jsp");
-        }
-        catch (IllegalDeviceCountValueException exception){
+        } catch (IllegalDeviceCountValueException exception) {
             SessionErrors.add(request, "invalid-device-count");
             logger.error("Device count can not be less than 0");
             response.setRenderParameter("mvcPath", "/device/edit.jsp");
-        }
-        catch (PortalException exception) {
+        } catch (PortalException exception) {
             logger.error("Portal error occurred!", exception);
             SessionErrors.add(request, "portal-error");
             response.setRenderParameter("mvcPath", "/error.jsp");
@@ -121,8 +112,8 @@ public class DeviceCRUDPortlet extends MVCPortlet {
     public void deleteDevice(ActionRequest request, ActionResponse response) {
         try {
             ServiceContext serviceContext = ServiceContextFactory.getInstance(request);
-            long deviceId = ParamUtil.getLong(request, "employeeId");
-            EmployeeLocalServiceUtil.deleteById(deviceId, serviceContext);
+            long deviceId = ParamUtil.getLong(request, "deviceId");
+            DeviceLocalServiceUtil.deleteById(deviceId, serviceContext);
             SessionMessages.add(request, "device-deleted");
             logger.info("Employee was deleted");
         } catch (ConsistencyViolationException exception) {
