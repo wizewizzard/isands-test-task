@@ -1,3 +1,8 @@
+<%@ page import="com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil" %>
+<%@ page import="com.liferay.portal.kernel.util.OrderByComparator" %>
+<%@ page import="com.liferay.portal.kernel.model.User" %>
+<%@ page import="com.wz.testtask.estore.purchase.comparator.PurchaseDateComparator" %>
+<%@ page import="com.liferay.portal.kernel.util.ParamUtil" %>
 <%@ include file="/init.jsp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <p>
@@ -16,10 +21,24 @@
 
 <liferay-ui:search-container emptyResultsMessage="no-data.caption"
                              total="<%=PurchaseLocalServiceUtil.getPurchasesCount(themeDisplay.getScopeGroupId())%>">
-    <liferay-ui:search-container-results
-            results="<%=PurchaseLocalServiceUtil.getPurchases(scopeGroupId,
+    <liferay-ui:search-container-results>
+        <%
+
+            String sortByType = ParamUtil.getString(request, "orderByType");
+            boolean desc = true;
+            if(sortByType != null)
+                desc = sortByType.equals("desc");
+
+            List<Purchase> purchases = PurchaseLocalServiceUtil.getPurchases(scopeGroupId,
                     searchContainer.getStart(),
-                    searchContainer.getEnd())%>"/>
+                    searchContainer.getEnd(),
+                    OrderByComparatorFactoryUtil.create("ESTORE_Purchase", "purchasedDate", !desc)
+            );
+
+            pageContext.setAttribute("results", purchases);
+            pageContext.setAttribute("total", purchases.size());
+        %>
+    </liferay-ui:search-container-results>
 
     <liferay-ui:search-container-row
             className="com.wz.testtask.estore.model.Purchase" modelVar="purchase">
@@ -60,6 +79,7 @@
 
         <liferay-ui:search-container-column-text
                 name="date"
+                orderable="true"
                 value="<%= sdf.format(purchase.getPurchasedDate()) %>"
         />
 
